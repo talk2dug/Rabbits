@@ -1,858 +1,1443 @@
-let modal1 = `<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#history"  class="nav-link">History</a></li>
-            <li><a href="#tasks"  class="nav-link">Tasks</a></li>
-            <li><a href="#notes"  class="nav-link">Notes</a></li>
-            <li><a href="#litters"  class="nav-link">Litters</a></li>
-        </ul>
-       <div class="tab-content">
-            
-            <div id="history" class="tab-pane fade in active" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-             <h4>History <span class="badge text-bg-secondary"></span></h4>
 
-                <div class="list-group">
-                    <li class="list-group-item " >
-                        <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Bought PB from Rabbits R Us</h5>
-                        <small>5/12/25</small>
-                        </div>
-                        <p class="mb-1">Brought her home got her iinto her cage and fed her</p>
-                        
-                    </li>
-                    <li class="list-group-item " >
-                        <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Just weighed her</h5>
-                        <small class="text-body-secondary">5/25/25</small>
-                        </div>
-                        <p class="mb-1">She just weighed in at 6 lb. She is 3 months old and ready to breed</p>
-                        
-                    </li>
-                    
-                    <li class="list-group-item " >
-                        <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Task Completed </h5>
-                        <small class="text-body-secondary">6/1/25</small>
-                        </div>
-                        <p class="mb-1">Bred with Fred</p>
-                        <p class="mb-1">She was receptive to Fred, they did their thing and she is back in her cage</p>
-                        
-                    </li>
-                    <li class="list-group-item " >
-                        <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Task Completed </h5>
-                        <small class="text-body-secondary">6/15/25</small>
-                        </div>
-                        <p class="mb-1">Palpated PB</p>
-                        
-                    </li>
-                    <li class="list-group-item " >
-                        <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Task Completed </h5>
-                        <small class="text-body-secondary">6/28/25</small>
-                        </div>
-                        <p class="mb-1">Added Nesting Box</p>
-                        
-                    </li>
-                </div>
-            </div>
-
-            <div id="tasks" class="tab-pane fade" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-            <h4>Tasks <span class="badge text-bg-secondary"></span></h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Task</th>
-                    <th scope="col">Due Date</th>
-                    
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Breed</td>
-                    <td>10/10/25</td>
-                    
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Palate</td>
-                    <td>10/25/25</td>
-                   
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Move to nesting box</td>
-                    <td>11/25/25</td>
-                    
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="contact-tab" tabindex="0" >
-                <h4>Notes <span class="badge text-bg-secondary"></span></h4>
-                <div class="list-group">
-                    <li class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Low eating</h5>
-                        <small>9/2/25</small>
-                        </div>
-                        <p class="mb-1">She wasnt eating all her food. Gave her more vitamins and she seems to be dooing better</p>
-                    </li>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="litters" role="tabpanel" aria-labelledby="contact-tab" tabindex="0" >
-                <h4>Litters <span class="badge text-bg-secondary"></span></h4>
-                
-                    <div class="col-md-10 col-md-offset-3">
-                    <div id="accordion">
-                        <div class="panel list-group">
-                        <!-- panel class must be in -->
-                        <li href="#web_dev" data-parent="#accordion" data-toggle="collapse" class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                                    <h4>001</h4>
-                                    <span class=" rounded-pill">14</span>
-                                </div>
-                            
-                            
-                        </li>
-                        
-                        <div class="collapse" id="web_dev">
-                            
-                            <table class="table">
-                            <thead>
-                                <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">3</th>
-                                <td>John</td>
-                                <td>Doe</td>
-                                <td>@social</td>
-                                </tr>
-                            </tbody>
-                            </table>
-                                                        
-                        </div>
-
-                        <a href="#desktop" data-parent="#accordion" data-toggle="collapse" class="list-group-item" >
-                            <h4>Desktop App.</h4>
-                        </a>
-                        <div class="collapse" id="desktop">
-                            <ul class="list-group-item-text">
-                            <li>C#</li>
-                            <li>Java</li>
-                            <li>Python</li>
-                            </ul>
-                        </div>
-
-
-                        <a href="#mobile" data-parent="#accordion" data-toggle="collapse" class="list-group-item">
-                            <h4>Mobile App.</h4>
-                        </a>
-                        <div class="collapse" id="mobile">
-                            <ul class="list-group-item-text">
-                            <li>Android</li>
-                            <li>IOS</li>
-                            <li>Windows</li>
-                            <li>Linux</li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal" id="clodeModal">Close</button>
-        <button type="button" class="btn btn-primary btn-sm">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>`
-
-let html = `
-
-<div class="container">
-
-    <div class="row">
-        <div class="col">
-            <div class="card" style="width: 10rem;">
-                <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                <div class="card-body list-group-flush">
-                    <h5 class="card-title">Peanut Butter</h5>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">10/10/25</li>
-                        <li class="list-group-item">Sex: F</li>
-                        <li class="list-group-item">Mother: CupCake</li>
-                        <li class="list-group-item">Father: Kid Maker</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 10rem;">
-                <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                <div class="card-body list-group-flush">
-                    <h5 class="card-title">Peanut Butter</h5>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">10/10/25</li>
-                        <li class="list-group-item">Sex: F</li>
-                        <li class="list-group-item">Mother: CupCake</li>
-                        <li class="list-group-item">Father: Kid Maker</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 10rem;">
-                <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                <div class="card-body list-group-flush">
-                    <h5 class="card-title">Peanut Butter</h5>
-                    <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                    info
-                    </button>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">10/10/25</li>
-                        <li class="list-group-item">Sex: F</li>
-                        <li class="list-group-item">Mother: CupCake</li>
-                        <li class="list-group-item">Father: Kid Maker</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-`
-
-let carasoel = `
-  <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-
-    <div class="carousel-inner">
-    
-            <div class="carousel-item active">
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col">
-                        <div class="card rabbitCardGirl" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardGirl" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardGirl" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                </div>
-            </div>    
-            </div>
-            <div class="carousel-item">
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col">
-                        <div class="card rabbitCardGirl" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardGirl" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardGirl" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                </div>        
-            </div>
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>`
-let carasoel2 = `
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-  <div id="carouselExampleIndicators2" class="carousel slide" data-interval="false">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators2" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators2" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators2" data-slide-to="2"></li>
-    </ol>
-
-    <div class="carousel-inner">
-    
-        <div class="carousel-item active">
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col">
-                        <div class="card rabbitCardBoy" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardBoy" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardBoy" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                </div>
-            </div>    
-        </div>
-        <div class="carousel-item">
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col">
-                        <div class="card rabbitCardBoy" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardBoy" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="col">
-                        <div class="card rabbitCardBoy" style="width: 10rem;">
-                            <img src="images/bunny1.jpg" class="card-img-top" alt="..."/>
-                            <div class="card-body list-group-flush">
-                                <h5 class="card-title">Peanut Butter</h5>
-                                <button type="button" class="btn btn-primary btn-sm" id="myBtn">
-                                info
-                                </button>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">10/10/25</li>
-                                </ul>
-                            </div>
-                        </div>                    
-                    </div>
-                </div>
-            </div>    
-        </div>
-
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>`
-let html2 = `
-<div class="list-group list-group-numbered">
-  <li class="list-group-item">A list item <span class="badge text-bg-primary rounded-pill">14</span></li>
-  <li class="list-group-item">A list item <span class="badge text-bg-primary rounded-pill">14</span></li>
-  <li class="list-group-item">A list item <span class="badge text-bg-primary rounded-pill">14</span></li>
-</div>
-<div class="container text-center">
-  <div class="row">
-    <div class="col">
-      Column
-    </div>
-    <div class="col">
-      Column
-    </div>
-    <div class="col">
-      Column
-    </div>
-  </div>
-</div>
-<div class="container text-center">
-  <div class="row">
-    <div class="col-7">
-      `+  carasoel  +`
-    </div>
-    <div class="col">
-      <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>John</td>
-      <td>Doe</td>
-      <td>@social</td>
-    </tr>
-  </tbody>
-</table>
-    </div>
-    <div class="col">
-      
-    </div>
-  </div>
-</div>
-
-<br/>
-<div class="container text-center">
-  <div class="row">
-    <div class="col-7">
-      `+  carasoel2  +`
-    </div>
-    <div class="col">
-      <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>John</td>
-      <td>Doe</td>
-      <td>@social</td>
-    </tr>
-  </tbody>
-</table>
-    </div>
-    <div class="col">
-      
-    </div>
-  </div>
-
-
-</div>
-
-
-
-
-
-
-
-`+modal1
 let pstyle = 'border: 1px solid #efefef; padding: 5px'
 
-let w2uiHTML = `<div id="layout" style="width: 900px; height: 1024px;"></div>`
+let w2uiHTML = `<div id="layout" style="width: auto; height: 1024px;"></div>`
+let does = []
+let bucks = []
+let litters = []
+let buckList = []
+let doeList = []
+let gridKits
+     let selectedRabbit =""
+     let selectedRabbitID = ""
 
-
+     function getTaskItems(){
+        w2ui['taskgrid'].clear();
+        $.getJSON('/database/getTasks/'+ selectedRabbit, function(data) {
+            console.log(data)
+            for (i = 0; i < data.length; i++) {
+            
+               
+                w2ui.taskgrid.add([{
+                    Title : data[i].Title,
+                    Date_Completed :  moment(data[i].Date_Completed).format('MM-DD-YYYY'),
+                    Note : data[i].Note,
+                    Completed : data[i].Completed,
+                    Due : moment(data[i].Due).format('MM-DD-YYYY'),
+                    Rabbit : data[i].Rabbit,
+                    recid: i,                                
+                     
+                }, 
+            ])
+            }
+    
+        })
+        w2ui.grid.refresh('taskgrid')
+    
+    
+    
+    
+    }
 let tabsHTML = `<div id="tabs" style="width: 100%; height:0px">
                 </div>
             <div id="tab1" class='tab' style="width: 100%; height:100%">
                 tab1
             </div>   
             <div id="tab2" class='tab' style="padding: 10px 0px">
-                tab2
+                <div id='tasksGrid'></div>
             </div> 
             <div id="tab3" class='tab' style="padding: 10px 0px">
             <div id="litterInfo" style="width: 100%; height: 50px;"></div>
                <div id="grid" style="width: 100%; height: 350px;"></div>
                <br>
-                <div style="float: left">
-                    <label style="position: relative; top: 3px; left: 10px">
-                        <input type="checkbox" id="singleOrMulti" style="position: relative; top: 1px; left: -2px;" onclick="setMulti(this)">
-                        Multi Field Search
-                    </label>
-                </div>
-                <div style="float: left; margin-left: 30px; margin-top: 1px;">
-                    Operator:
-                    <select class="w2ui-input" onchange="setOperator(this.value)">
-                        <option value="is">is</option>
-                        <option value="begins">begins</option>
-                        <option value="contains" selected>contains</option>
-                        <option value="ends">ends</option>
-                    </select>
-                </div>
-                <div style="clear:both; height: 10px;"></div>
+                <div id='kidNotes'></div>
             </div> 
             <div id="tab4" class='tab' style="padding: 10px 0px">
-                tab4
+                <div class="row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <h5 class="card-title">Tasks Today</h5>
+                        <div class="card" id='tasksMainGridToday'>
+                            
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <h5 class="card-title">Nothing</h5>
+                        <div class="card" id='s'>
+                            
+                        </div>
+
+                    </div>
+                </div>
+        <div class="row">
+        <div class="col-sm-6">
+        <h5 class="card-title">Tasks</h5>
+            <div class="card" id='tasksMainGrid'>
+            
+            </div>
+        </div>
+</div>
             </div>
             `
 var config = {
-    toolBar:{    
+    toolBar: {
         name: 'toolBar',
-        items: [
-            { type: 'button', id: 'item1', text: 'New Rabbit', icon: 'w2ui-icon-colors' },
-            { type: 'break' },
-            { type: 'button', id: 'item2', text: 'New Litter', icon: 'w2ui-icon-colors' },
-            { type: 'break' },
+        items: [{
+                type: 'button',
+                id: 'item1',
+                text: 'New Rabbit',
+                icon: 'w2ui-icon-colors'
+            },
+            {
+                type: 'break'
+            },
+            {
+                type: 'button',
+                id: 'item2',
+                text: 'New Litter',
+                icon: 'w2ui-icon-colors'
+            },
+            {
+                type: 'break'
+            },
         ],
         onClick(event) {
-            console.log('Target: '+ event.target, event)
-            if(event.target == "item1"){
+            //.log('Target: '+ event.target, event)
+            if (event.target == "item1") {
                 openPopup()
+            }
+            if (event.target == "item2") {
+                openPopup2()
             }
         }
     },
     layout: {
         name: 'layout',
-        panels: [
-            { type: 'top', size: 50, content: `<div id="toolbarTop"></div>`},
-            { type: 'left', size: 150, style: pstyle, content: `<div id="sideBarPic"></div><div id="sideBar"></div>`},
-            { type: 'main', style: pstyle, content: '<div id="rabbitlayout" style="width: 100%; height: 1024px;"></div>' }
+        panels: [{
+                type: 'top',
+                size: 50,
+                content: `<div id="toolbarTop"></div>`
+            },
+            {
+                type: 'left',
+                size: 150,
+                style: pstyle,
+                content: `<div id="sideBarPic"></div><div id="sideBar"></div>`
+            },
+            {
+                type: 'main',
+                style: pstyle,
+                content: `<div id="rabbitlayout" style="width: 100%; height: 1024px;"></div>`
+            }
+        ]
+    },
+    litterLayout: {
+        name: 'litterLayout',
+        panels: [{
+                type: 'top',
+                size: '35%',
+                content: `<div id="litterForm"></div>`
+            },
+            {
+                type: 'main',
+                style: pstyle,
+                content: '<div id="mainForm2" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>'
+            }
         ]
     },
     rabbitlayout: {
         name: 'rabbitlayout',
-        panels: [
-            { type: 'top', size: 50, content: `<div id="rabbitTitle"></div>`},
-            { type: 'left', size:150, style: pstyle, html: 'left' },
-            { type: 'main', style: pstyle, html: '' }
+        panels: [{
+                type: 'top',
+                size: 50,
+                content: `<div id="rabbitTitle"></div>`
+            },
+            {
+                type: 'left',
+                size: 125,
+                style: pstyle,
+                html: 'left'
+            },
+            {
+                type: 'main',
+                style: pstyle,
+                html: ''
+            }
         ]
     },
     rabbitInfolayout: {
         name: 'rabbitInfolayout',
-        panels: [
-            { type: 'top', size: 200, content: `<div id="rabbitInfoTop" style="width: 100%; height: 100%"></div>`},
-            
-            { type: 'main', style: pstyle, content: '<div id="rabbitInfoMain" style="width: 100%; height: 100%;"></div>' }
+        panels: [{
+                type: 'top',
+                size: 200,
+                content: `<div id="rabbitInfoTop" style="width: 100%; height: 100%"></div>`
+            },
+
+            {
+                type: 'main',
+                style: pstyle,
+                content: '<div id="rabbitInfoMain" style="width: 100%; height: 100%;"></div>'
+            }
         ]
     },
-    sidebar:{ 
+    sidebar: {
         name: 'sidebar',
+        levelPadding: 1,
         nodes: [
-            { id: 'does', text: 'Does', expanded: true, group: true,
-                nodes: [
-                    { id: 'peanutButter', text: 'Peanut Butter', icon: 'fa fa-star'},
-                    { id: 'butterCup', text: 'Butter Cup', icon: 'fa fa-star'},
-                    { id: 'butterChip', text: 'Butter Chip', icon: 'fa fa-star'}
-                ]
+            {
+                id: 'Main',
+                text: 'Main',
+                datatype: 'main',
+                icon: 'fa fa-star-o',
+            },{
+                id: 'Does',
+                text: 'Does',
+                expanded: true,
+                group: true,
+                nodes: []
             },
-            { id: 'Bucks', text: 'Bucks', expanded: true, group: true,
-                nodes: [
-                    { id: 'masterSGNT', text: 'Master SGNT', icon: 'fa fa-star'},
-                    { id: 'drillSGNT', text: 'Drill SGNT', icon: 'fa fa-star'}
-                ]
+            {
+                id: 'Bucks',
+                text: 'Bucks',
+                expanded: true,
+                group: true,
+                nodes: []
             },
-            { id: 'Babbies', text: 'Babbies', expanded: true, group: true,
-                nodes:[
-                    { id: 'growing', text: 'Growing', datatype: 'babbies', icon: 'fa fa-star-o', count: 14},
-                    { id: 'nesting', text: 'Nesting', datatype: 'babbies', icon: 'fa fa-star-o', count: 12 },
-                    
-
+            {
+                id: 'Babbies',
+                text: 'Babbies',
+                expanded: true,
+                group: true,
+                nodes: [{
+                        id: 'Growing',
+                        text: 'Growing',
+                        datatype: 'babbies',
+                        icon: 'fa fa-star-o',
+                     
+                    },
+                    {
+                        id: 'nesting',
+                        text: 'Nesting',
+                        datatype: 'babbies',
+                        icon: 'fa fa-star-o',
+                      
+                    },
                 ]
             }
         ]
     },
-    rabbitsidebar:{ 
+    rabbitsidebar: {
         name: 'rabbitsidebar',
-
-            nodes: [
-                { id: 'Info', text: 'Info', icon: 'fa fa-star-o',datatype: 'info' },
-                { id: 'Litters', text: 'Litters', icon: 'fa fa-star', count: 3,
-                        nodes: [
-                        { id: 'litter001-d', text: '001', datatype: 'litter', icon: 'fa fa-star-o', count: 6},
-                        { id: 'litter002-d', text: '002', datatype: 'litter', icon: 'fa fa-star-o', count: 5 },
-                        { id: 'litter003-d', text: '003', datatype: 'litter', icon: 'fa fa-star-o', count: 6}
-                    ]},
-                { id: 'Tasks', text: 'Tasks', icon: 'fa fa-star-o',datatype: 'tasks' }
-            ]                   
-                
-            
-        
+        nodes: [{
+                id: 'Info',
+                text: 'Info',
+                icon: 'fa fa-star-o',
+                datatype: 'info'
+            },
+            {
+                id: 'Litters',
+                text: 'Litters',
+                icon: 'fa fa-star',
+                datatype: 'litters',
+                nodes: []
+            },
+            {
+                id: 'Tasks',
+                text: 'Tasks',
+                icon: 'fa fa-star-o',
+                datatype: 'tasks',
+            }
+        ]
     },
-    tabs:{    
+    tabs: {
         name: 'tabs',
         active: 'tab1',
-        tabs: [
-            { id: 'tab1', text: 'Tab 1' },
-            { id: 'tab2', text: 'Tab 2' },
-            { id: 'tab3', text: 'Tab 3' },
-            { id: 'tab4', text: 'Tab 4' }
+        tabs: [{
+                id: 'tab1',
+                text: 'Tab 1'
+            },
+            {
+                id: 'tab2',
+                text: 'Tab 2'
+            },
+            {
+                id: 'tab3',
+                text: 'Tab 3'
+            },
+            {
+                id: 'tab4',
+                text: 'Tab 4'
+            }
         ],
         onClick(event) {
             $('.tab').hide();
             $('#' + event.target).show();
         }
     },
-    litterGrid:{
+    tasksMainGridToday: {
+        name: 'taskmaingridtoday',
+        show: {
+            toolbar: true,
+            footer: true,
+            toolbarSave: true
+        },
+       
+        columns: [{
+            field: 'recid',
+            caption: '#',
+            size: '10px',
+            hidden: true
+        },
+        {
+            field: 'Completed',
+            caption: 'Completed',
+            size: '60px',
+            editable: {
+                type: 'checkbox'
+            }
+        },{
+            field: 'Title', 
+            caption: 'Title', 
+            size: '100px', 
+            style: 'text-align: center',
+            editable: { type: 'text', style: 'text-align: center' }
+            },
+
+
+            
+            {
+                field: 'Rabbit',
+                caption: 'Rabbit',
+                size: '100px',
+                
+            },
+            {
+                field: 'Note',
+                caption: 'Note',
+                size: '200px',
+                editable: {
+                    type: 'text'
+                }
+            },
+           
+            
+        ],
+        onClick: function(event) {
+          
+                
+        },
+        toolbar: {
+            items: [
+                {
+                    type: 'button',
+                    id: 'add',
+                    text: 'Add Task'
+                }
+            ],
+            onClick(event) {
+                if (event.target == 'add') {
+                    w2popup.open({
+                        title: 'New Task Form',
+                        width: 600,
+                        height: 400,
+                        showMax: true,
+                        body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+                        actions: {
+                            Ok(event) {
+                                // do something
+                                w2popup.close()
+                                w2ui.form.destroy()
+                            }
+                        }
+                    })
+                    let noteForm = $('#mainForm').w2form(config.taskform)
+                }
+            }
+        },
+
+    },
+    tasksMainGrid: {
+        name: 'taskmaingrid',
+        show: {
+            toolbar: true,
+            footer: true,
+            toolbarSave: true
+        },
+       
+        columns: [{
+            field: 'recid',
+            caption: '#',
+            size: '10px',
+            hidden: true
+        },{
+            field: 'Title', 
+            caption: 'Title', 
+            size: '100px', 
+            style: 'text-align: center',
+            editable: { type: 'text', style: 'text-align: center' }
+            },
+            
+            {
+                field: 'Due',
+                caption: 'Due',
+                size: '80px',
+                editable: {
+                    type: 'date'
+                }
+            },
+            {
+                field: 'Completed',
+                caption: 'Completed',
+                size: '60px',
+                editable: {
+                    type: 'checkbox'
+                }
+            },
+            
+            {
+                field: 'Rabbit',
+                caption: 'Rabbit',
+                size: '110px',
+                
+            },
+            {
+                field: 'Note',
+                caption: 'Note',
+                size: '200px',
+                editable: {
+                    type: 'text'
+                }
+            },
+           
+            
+        ],
+        onClick: function(event) {
+          
+                
+        },
+        toolbar: {
+            items: [
+                {
+                    type: 'button',
+                    id: 'add',
+                    text: 'Add Task'
+                }
+            ],
+            onClick(event) {
+                if (event.target == 'add') {
+                    w2popup.open({
+                        title: 'New Task Form',
+                        width: 600,
+                        height: 400,
+                        showMax: true,
+                        body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+                        actions: {
+                            Ok(event) {
+                                // do something
+                                w2popup.close()
+                                w2ui.form.destroy()
+                            }
+                        }
+                    })
+                    let noteForm = $('#mainForm').w2form(config.taskform)
+                }
+            }
+        },
+
+    },
+    tasksGrid: {
+        name: 'taskgrid',
+        show: {
+            toolbar: true,
+            footer: true,
+            toolbarSave: true
+        },
+       
+        columns: [{
+            field: 'recid',
+            caption: '#',
+            size: '10px',
+            hidden: true
+        },{
+            field: 'Title', 
+            caption: 'Title', 
+            size: '100px', 
+            style: 'text-align: center',
+            editable: { type: 'text', style: 'text-align: center' }
+            },
+            
+            {
+                field: 'Due',
+                caption: 'Due',
+                size: '80px',
+                editable: {
+                    type: 'date'
+                }
+            },
+            {
+                field: 'Date_Completed',
+                caption: 'Date_Completed',
+                size: '80px',
+                editable: {
+                    type: 'date',
+                    
+                }
+            },
+            {
+                field: 'Completed',
+                caption: 'Completed',
+                size: '60px',
+                editable: {
+                    type: 'checkbox'
+                }
+            },
+            
+            {
+                field: 'Rabbit',
+                caption: 'Rabbit',
+                size: '110px',
+                
+            },
+            {
+                field: 'Note',
+                caption: 'Note',
+                size: '200px',
+                editable: {
+                    type: 'text'
+                }
+            },
+           
+            
+        ],
+        onClick: function(event) {
+          
+                
+        },
+        toolbar: {
+            items: [
+                {
+                    type: 'button',
+                    id: 'add',
+                    text: 'Add Task'
+                }
+            ],
+            onClick(event) {
+                if (event.target == 'add') {
+                    w2popup.open({
+                        title: 'New Task Form',
+                        width: 600,
+                        height: 400,
+                        showMax: true,
+                        body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+                        actions: {
+                            Ok(event) {
+                                // do something
+                                w2popup.close()
+                                w2ui.form.destroy()
+                            }
+                        }
+                    })
+                    let noteForm = $('#mainForm').w2form(config.taskform)
+                }
+            }
+        },
+
+    },
+    grid: {
         name: 'grid',
-        box: '#grid',
-        columns: [
-            { field: 'recid', caption: '#', size: '10px'  },
-            { field: 'kitID', caption: 'ID', size: '30px'},
-            { field: 'sex', caption: 'Sex', size: '40px' },
-            { field: 'BirthWeight', caption: 'Birth Weight',  size: '80px' },
-            { field: 'seconddate', caption: '2nd Weight Date', size: '100px' },
-            { field: 'SecondWeight', caption: '2nd Weight',  size: '80px' },
-            { field: 'finaldate', caption: 'Final Weight Date', size: '100px' },
-            { field: 'finalWeight', caption: 'Final Weight',  size: '80px' },
-        ]
+        show: {
+            toolbar: true,
+            footer: true,
+            toolbarSave: true
+        },
+        columnGroups: [
+            { caption: 'General Information', span: 4 },
+            { caption: 'Weights',span: 5 },
+        ],
+        columns: [{
+            field: 'Growing', 
+            caption: 'Growing', 
+            size: '60px', 
+            style: 'text-align: center',
+            editable: { type: 'checkbox', style: 'text-align: center' }
+            },
+            {
+                field: 'recid',
+                caption: '#',
+                size: '10px',
+                hidden: true
+            },
+            {
+                field: 'KidID',
+                caption: 'kid ID',
+                size: '50px',
+                editable: {
+                    type: 'text'
+                }
+            },
+            {
+                field: 'Sex',
+                caption: 'Sex',
+                size: '40px',
+                editable: {
+                    type: 'select',
+                    items: ['Doe', 'Buck']
+                }
+            },
+            {
+                field: 'BirthWeight',
+                caption: 'Birth',
+                size: '60px',
+                editable: {
+                    type: 'Number'
+                }
+            },
+            {
+                field: 'FinalWeight',
+                caption: 'Final',
+                size: '50px',
+                editable: {
+                    type: 'Number'
+                }
+            },
+            {
+                field: 'FinalDate',
+                caption: 'Final Date',
+                size: '80px',
+                editable: {
+                    type: 'Date'
+                }
+            },
+            
+            {
+                field: 'itemID',
+                caption: 'itemID',
+                size: '80px',
+                editable: {
+                    type: 'False'
+                },
+                hidden: true
+            },
+            {
+                field: 'rabbitID',
+                caption: 'rabbitID',
+                size: '80px',
+                editable: {
+                    type: 'False'
+                },
+                hidden: true
+            },
+            {
+                field: 'addNote',
+                text: 'Actions',
+                size: '100px',
+                render: function (record, index, col_index) {
+                    // Return the HTML for a button
+                    return `<button class="w2ui-btn" onclick="newNote('` + record.itemID + `','`+ record.rabbitID+`', 'Kid')">Add Note</button>`;
+                }
+            },
+            {
+                field: 'addWeight',
+                text: 'Actions',
+                size: '100px',
+                render: function (record, index, col_index) {
+                    // Return the HTML for a button
+                    return `<button class="w2ui-btn" onclick="addWeight('` + record.itemID + `','`+ record.rabbitID+`', 'Kid')">Add Weight</button>`;
+                }
+            }
+        ],
+        onClick: function(event) {
+            let kidNoteCards = ""
+            let weightCardsArray = ""
+            console.log(event.recid);
+            var record = w2ui['grid'].get(event.recid);
+                console.log(record.rabbitID);
+                $.getJSON(`/database/getLitterKidNotes/`+ record.itemID+`/`+ record.rabbitID, function(data) {
+                    console.log(data)
+                        if(data.Notes.length>0){
+                            data.Notes = data.Notes.reverse()
+                            for(n=0;n<data.Notes.length;n++){
+                                
+                                let noteDate = moment(data.Notes[n].Date).format('MM/DD/YY')
+                                kidNoteCards+=`<div class="col"><div class="card noteCard" style="width: 30rem;">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">`+noteDate+`</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary">` + data.Notes[n].Title  + `</h6>
+                                    <h6 class="card-text">` + data.Notes[n].Note + `</h6>
+                                </div>
+                                </div>
+                                </div>`
+    
+                                
+                            }
+                       
+                        
+                        console.log(kidNoteCards)
+                            $('#kidNotes').html(`<h5 class="card-title">Kid: `+data.KidID+`</h5>
+                            <div class="container text-center">
+                                <div class="row row-cols-2">
+                                <div class="col">
+                                    <div class="card" style="width: 15rem;" id='kidWeightCards'>
+                                    <h5 class="card-title">Weights</h5>
+                                        <ul class="list-group list-group-flush" id='weightsLIs'>
+                                            
+                                        </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                    `+ kidNoteCards +`
+                                    </div>
+                                   
+                                </div>
+                                </div>
+                            
+                            `)
+                           
+                        }   
+                        else{$('#kidNotes').html(`<h5 class="card-title">Kid: `+data.KidID+`</h5>
+                            <div class="container text-center">
+                                <div class="row row-cols-2">
+                                <div class="col">
+                                    <div class="card" style="width: 15rem;" id='kidWeightCards'>
+                                    <h5 class="card-title">Weights</h5>
+                                        <ul class="list-group list-group-flush" id='weightsLIs'>
+                                            
+                                        </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                    
+                                    </div>
+                                   
+                                </div>
+                                </div>
+                            
+                            `)}   
+                            if(data.CurrentWeight.length>0){
+                                data.CurrentWeight = data.CurrentWeight.reverse()
+                                for(n=0;n<data.CurrentWeight.length;n++){
+                                   $('#weightsLIs').append(`
+                                    <h6 class="list-group-item">
+                                    Date: `+moment(data.CurrentWeight[n].Date).format('MM/DD') +` <br> Weight: `+ data.CurrentWeight[n].Weight+
+                                    `</h6>`)
+  
+                                    
+                                   
+
+                                }
+                        }
+                        else{
+
+                            $('#weightsLIs').html("")
+                        }
+                       
+
+                
+            })
+                
+        },
+        toolbar: {
+            items: [
+                {
+                    type: 'button',
+                    id: 'showChanges',
+                    text: 'Show Changes'
+                }
+            ],
+            onClick(event) {
+                if (event.target == 'add') {
+                    let recid = gridKits.records.length + 1
+                    this.owner.add({
+                        recid
+                    });
+                    this.owner.scrollIntoView(recid);
+                    this.owner.editField(recid, 1)
+                }
+                if (event.target == 'showChanges') {
+                    //let changes = $(JSON.stringify(grid.getChanges()))
+                    let changes = w2ui.grid.getChanges()
+                    let rowChanges
+                    for(i=0;i<changes.length;i++){
+                        var record = w2ui.grid.get(changes[i].recid);
+                        console.log(record);
+                        let row = changes[i]
+                        $.ajax({
+                            type: 'POST',
+                            data: JSON.stringify(record),
+                            contentType: "application/json",
+                            url: '/database/updateRabbitKids/',
+                            success: function(e) {
+                                
+        
+                            }
+                        }); 
+                        const keys = Object.keys(row);
+                        let changesFull = []
+                        rowChanges = {litterID: record.itemID, rabbitID: record.rabbitID }
+                        keys.forEach(key => {
+                            const value = row[key];
+                            rowChanges[key] = value
+                            console.log(`Key: ${key}, Value: ${value}, ItemID: ${record.itemID}`);
+                        });
+                        changesFull.push(rowChanges) 
+                    }
+                    console.log(changesFull)
+                          
+                }
+            }
+        },
+
     },
-    growingGRid:{name: 'grid1',
-        show: { header: true },
-        columns: [
-            { field: 'recid', text: 'ID', size: '50px', sortable: true, attr: 'align=center' },
-            { field: 'mother', text: 'MNother', size: '30%', sortable: true },
-            { field: 'father', text: 'Father', size: '30%', sortable: true },
-            { field: 'dateAdded', text: 'Date Added', size: '40%' },
-            { field: 'Weight', text: 'Weight', size: '120px' }
+    litterGrid: {
+        name: 'litterGrid',
+        show: {
+            toolbar: true,
+            footer: true,
+            toolbarSave: true
+        },
+        columns: [{ field: 'Growing', 
+            field: 'Growing', 
+            size: '60px', 
+            style: 'text-align: center',
+            editable: { type: 'checkbox', style: 'text-align: center' }
+            },
+            {
+                field: 'KidID',
+                caption: 'kid ID',
+                size: '30px',
+                editable: {
+                    type: 'text'
+                }
+            },
+            {
+                field: 'Sex',
+                caption: 'Sex',
+                size: '40px',
+                editable: {
+                    type: 'select',
+                    items: ['Doe', 'Buck']
+                }
+            },
+            {
+                field: 'BirthWeight',
+                caption: 'Birth Weight',
+                size: '80px',
+                editable: {
+                    type: 'Number'
+                }
+            },
+            {
+                field: 'SecondDate',
+                caption: '2nd Weight Date',
+                size: '100px',
+                editable: {
+                    type: 'Date'
+                }
+            },
+            {
+                field: 'SecondWeight',
+                caption: '2nd Weight',
+                size: '80px',
+                editable: {
+                    type: 'Number'
+                }
+            },
+            {
+                field: 'FinalDate',
+                caption: 'Final Weight Date',
+                size: '100px',
+                editable: {
+                    type: 'Date'
+                }
+            },
+            {
+                field: 'FinalWeight',
+                caption: 'Final Weight',
+                size: '80px',
+                editable: {
+                    type: 'Number'
+                }
+            },
+            {
+                field: 'actions',
+                text: 'Actions',
+                size: '100px',
+                render: function (record, index, col_index) {
+                    // Return the HTML for a button
+                    return '<button class="w2ui-btn" onclick="newNote(' + record.id + ')">Click</button>';
+                }
+            }
         ],
-        records: [
-            { recid: 1, mother: 'John', father: 'Doe', Weight: 6, dateAdded: '4/3/2012' },
-            { recid: 2, mother: 'Stuart', father: 'Motzart', Weight: 6, dateAdded: '4/3/2012' },
-            { recid: 3, mother: 'Jin', father: 'Franson', Weight: 8, dateAdded: '4/3/2012' },
-            { recid: 4, mother: 'Susan', father: 'Ottie', Weight: 7, dateAdded: '4/3/2012' },
-            { recid: 5, mother: 'Kelly', father: 'Silver', Weight: 5, dateAdded: '4/3/2012' },
-            { recid: 6, mother: 'Francis', father: 'Gatos', Weight: 7, dateAdded: '4/3/2012' }
-        ],
-        onClick(event) {
-            let record = this.get(event.detail.recid)
-            grid2.clear()
-            grid2.add([
-                { recid: 0, name: 'ID:', value: record.recid },
-                { recid: 1, name: 'First Name:', value: record.mother },
-                { recid: 2, name: 'Last Name:', value: record.father },
-                { recid: 3, name: 'Email:', value: record.Weight },
-                { recid: 4, name: 'Date:', value: record.dateAdded }
-            ])
-        }},
-    growingGridDetails:{
-        name: 'growingGridDetails',
-        show: { header: false, columnHeaders: false },
-        columns: [
-            { field: 'name', text: 'Name', size: '50px', attr: "align=right" },
-            { field: 'value', text: 'Value', size: '100%' }
-        ],
-        records:[
-            { recid: 0, name: 'ID:', value: 123 },
-            { recid: 1, name: 'First Name:', value: 'Fred' },
-            { recid: 2, name: 'Last Name:', value: 'John' },
-            { recid: 0, name: 'Mom:', value: 'jilia' },
-            { recid: 1, name: 'father:', value: 'Fred2' },
+        toolbar: {
+            items: [{
+                    id: 'add',
+                    type: 'button',
+                    text: 'Add Record',
+                    icon: 'w2ui-icon-plus'
+                },
+                {
+                    type: 'break'
+                },
+                {
+                    type: 'button',
+                    id: 'showChanges',
+                    text: 'Show Changes'
+                }
+            ],
+            onClick(event) {
+                if (event.target == 'add') {
+                    let recid = gridKits.records.length + 1
+                    this.owner.add({
+                        recid
+                    });
+                    this.owner.scrollIntoView(recid);
+                    this.owner.editField(recid, 1)
+                }
+                if (event.target == 'showChanges') {
+                    showChanged()
+                }
+            }
+        },
 
-        ]
+    },
+    // growingGRid: {
+    //     name: 'grid1',
+    //     show: {
+    //         header: true
+    //     },
+    //     columns: [{
+    //             field: 'recid',
+    //             text: 'ID',
+    //             size: '50px',
+    //             sortable: true,
+    //             attr: 'align=center'
+    //         },
+    //         {
+    //             field: 'mother',
+    //             text: 'Mother',
+    //             size: '30%',
+    //             sortable: true
+    //         },
+    //         {
+    //             field: 'father',
+    //             text: 'Father',
+    //             size: '30%',
+    //             sortable: true
+    //         },
+    //         {
+    //             field: 'dateAdded',
+    //             text: 'Date Added',
+    //             size: '40%'
+    //         },
+    //         {
+    //             field: 'Weight',
+    //             text: 'Weight',
+    //             size: '120px'
+    //         }
+    //     ],
+    //     records: [{
+    //             recid: 1,
+    //             mother: 'John',
+    //             father: 'Doe',
+    //             Weight: 6,
+    //             dateAdded: '4/3/2012'
+    //         },
+    //         {
+    //             recid: 2,
+    //             mother: 'Stuart',
+    //             father: 'Motzart',
+    //             Weight: 6,
+    //             dateAdded: '4/3/2012'
+    //         },
+    //         {
+    //             recid: 3,
+    //             mother: 'Jin',
+    //             father: 'Franson',
+    //             Weight: 8,
+    //             dateAdded: '4/3/2012'
+    //         },
+    //         {
+    //             recid: 4,
+    //             mother: 'Susan',
+    //             father: 'Ottie',
+    //             Weight: 7,
+    //             dateAdded: '4/3/2012'
+    //         },
+    //         {
+    //             recid: 5,
+    //             mother: 'Kelly',
+    //             father: 'Silver',
+    //             Weight: 5,
+    //             dateAdded: '4/3/2012'
+    //         },
+    //         {
+    //             recid: 6,
+    //             mother: 'Francis',
+    //             father: 'Gatos',
+    //             Weight: 7,
+    //             dateAdded: '4/3/2012'
+    //         }
+    //     ],
+    //     onClick(event) {
+    //         let record = this.get(event.detail.recid)
+    //         grid2.clear()
+    //         grid2.add([{
+    //                 recid: 0,
+    //                 name: 'ID:',
+    //                 value: record.recid
+    //             },
+    //             {
+    //                 recid: 1,
+    //                 name: 'First Name:',
+    //                 value: record.mother
+    //             },
+    //             {
+    //                 recid: 2,
+    //                 name: 'Last Name:',
+    //                 value: record.father
+    //             },
+    //             {
+    //                 recid: 3,
+    //                 name: 'Email:',
+    //                 value: record.Weight
+    //             },
+    //             {
+    //                 recid: 4,
+    //                 name: 'Date:',
+    //                 value: record.dateAdded
+    //             }
+    //         ])
+    //     }
+    // },
+    kidGrowingGridInfo: {
+        name: 'kidGrowingGridInfo',
+        show: {
+            toolbar: true,
+            footer: true,
+            toolbarSave: true
+        },
+        columnGroups: [
+            
+            { caption: 'Kids', span: 2 },
+            { caption: 'Weights',span: 7 },
+            { caption: '', span: 1 },
+            { caption: 'Litter', span: 5 },
+        ],
+        columns: [
+            {
+                field: 'KidID',
+                caption: 'ID',
+                size: '30px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },
+            {
+                field: 'Sex',
+                caption: 'Sex',
+                size: '40px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },
+            {
+                field: 'BirthWeight',
+                caption: 'Birth',
+                size: '50px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },
+            {
+                field: 'SecondWeight',
+                caption: '2nd',
+                size: '40px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },            {
+                field: 'SecondDate',
+                caption: 'Date',
+                size: '55px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },
+
+            {
+                field: 'FinalWeight',
+                caption: 'Final',
+                size: '40px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },            {
+                field: 'FinalDate',
+                caption: 'Date',
+                size: '55px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },
+
+            {
+                field: 'CurrentWeight',
+                caption: 'Current',
+                size: '60px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },        
+            {
+                field: 'WeightDate',
+                caption: ' Date',
+                size: '55px',
+                style: "background-color: rgb(224, 241, 147)"
+
+            },
+            {
+                field: 'Processed',
+                caption: 'Processes',
+                size: '55px',
+                
+                editable: { type: 'checkbox', style: 'text-align: center' }
+
+            },
+            {
+                field: 'Litter',
+                caption: 'Litter',
+                size: '50px',
+                style: "background-color: #C2F5B4"
+            },
+            {
+                field: 'Born',
+                caption: 'Born',
+                size: '55px',
+                style: "background-color: #C2F5B4",
+
+            },
+            {
+                field: 'Bred',
+                caption: 'Bred',
+                size: '55px',
+                style: "background-color: #C2F5B4"
+
+            },
+            {
+                field: 'Father',
+                caption: 'Father',
+                size: '80px',
+                style: "background-color: #C2F5B4"
+
+            },
+            {
+                field: 'Mother',
+                caption: 'Mother',
+                size: '80px',
+                style: "background-color: #C2F5B4"
+
+            },        
+        ],
 
 
     },
-    form: {
-        name: 'form',
+    taskform: {
+        name: 'taskform',
         style: 'border: 1px solid #efefef',
-        fields: [
-            { field: 'recid', type: 'text', html: { label: 'ID', attr: 'size="10" readonly' } },
-            { field: 'fname', type: 'text', required: true, html: { label: 'First Name', attr: 'size="40" maxlength="40"' } },
-            { field: 'lname', type: 'text', required: true, html: { label: 'Last Name', attr: 'size="40" maxlength="40"' } },
-            { field: 'email', type: 'email', html: { label: 'Email', attr: 'size="30"' } },
-            { field: 'sdate', type: 'date', html: { label: 'Date', attr: 'size="10"' } }
+        record: {
+            Completed: false,
+            
+        },
+        fields: [{ 
+            field: 'Title', 
+            type: 'text',
+           
+        },
+            { 
+            field: 'Note', type: 'textarea',
+            html: { label: 'Text Area', attr: 'style="width: 400px; height: 60px; resize: none"' }
+        },
+        { 
+            field: 'Due', 
+            type: 'date',
+           
+            
+        },
+        { 
+            field: 'Date_Completed', 
+            type: 'date',
+            
+            
+        },
+        { 
+            field: 'Completed', 
+            type: 'checkbox',
+
+            
+        },
+        
+       
         ],
         actions: {
             Reset() {
                 this.clear()
             },
             Save() {
+                console.log(this.record)
+                let Doc = {}
+                Doc.Title = this.record.Title
+                Doc.Date_Completed = this.record.Date_Completed
+                Doc.Note = this.record.Note
+                Doc.Completed = this.record.Completed
+                Doc.Due = this.record.Due
+                Doc.Rabbit = selectedRabbit
+                Doc = JSON.stringify(Doc)
+                console.log(Doc)
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: Doc,
+                    url: '/database/newtask',
+                    success: function(e) {
+                        w2ui.taskform.clear()
+                        w2popup.close();
+                        getTaskItems()
+                        w2ui.tabs.click('tab2')
+                    }
+                });
+                
+               
+            }
+        }
+    },
+    weightform:{
+        name: 'weightform',
+        style: 'border: 1px solid #efefef',
+        fields: [{ 
+            field: 'Weight', 
+            type: 'number',
+           
+        },{ 
+            field: 'Date', 
+            type: 'date',
+            disabled: true
+           
+        },{ 
+            field: 'Rabbit', 
+            type: 'text',
+            disabled: true
+           
+        },{ 
+            field: 'Litter', 
+            type: 'text',
+            disabled: true
+           
+        }],
+        actions: {
+            Reset() {
+                this.clear()
+            },
+            Save() {
+                console.log(this.record)
+                let Doc = {}
+                Doc.Weight = this.record.Weight
+                Doc.Date = this.record.Date
+                Doc.Rabbit = this.record.Rabbit
+                Doc.Litter = this.record.Litter
+                Doc = JSON.stringify(Doc)
+                console.log(Doc)
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: Doc,
+                    url: '/database/newweight/',
+                    success: function(e) {
+                        w2ui.form.clear()
+
+                    }
+                });
+               
+            }
+        }
+    },
+    noteform: {
+        name: 'noteform',
+        style: 'border: 1px solid #efefef',
+        fields: [{ 
+            field: 'Title', 
+            type: 'text',
+           
+        },
+            { 
+            field: 'Note', type: 'textarea',
+            html: { label: 'Text Area', attr: 'style="width: 400px; height: 60px; resize: none"' }
+        },
+        { 
+            field: 'Rabbit', 
+            type: 'text',
+            disabled: true,
+            
+        },
+        { 
+            field: 'Date', 
+            type: 'date',
+            disabled: true,
+            
+        },
+        { 
+            field: 'ID', 
+            type: 'string',
+            disabled: true,
+            
+        },
+        
+        { 
+            field: 'KidID', 
+            type: 'string',
+            disabled: true,
+            
+        },
+        { 
+            field: 'litterID', 
+            type: 'string',
+            disabled: true,
+            
+        },
+        { 
+            field: 'Type', 
+            type: 'string',
+            disabled: true,
+            
+        },
+        ],
+        actions: {
+            Reset() {
+                this.clear()
+            },
+            Save() {
+                console.log(this.record)
+                let Doc = {}
+                Doc.Title = this.record.Title
+                Doc.Date = this.record.Date
+                Doc.Note = this.record.Note
+                Doc.Rabbit = this.record.Rabbit
+                Doc.ID = this.record.ID
+                Doc.LitterID = this.record.litterID
+                Doc.KidID = this.record.KidID
+                Doc.Type = this.record.Type
+                Doc = JSON.stringify(Doc)
+                console.log(Doc)
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: Doc,
+                    url: '/database/newnote/'+this.record.Type,
+                    success: function(e) {
+                        w2ui.form.clear()
+
+                    }
+                });
+               
+            }
+        }
+    },
+    form: {
+        name: 'form',
+        style: 'border: 1px solid #efefef',
+        fields: [{
+                field: 'recid',
+                type: 'text',
+                html: {
+                    label: 'ID',
+                    attr: 'size="10" readonly'
+                }
+            },
+            {
+                field: 'Name',
+                type: 'text',
+                required: true,
+                html: {
+                    label: 'Name',
+                    attr: 'size="40" maxlength="40"'
+                }
+            },
+            {
+                field: 'Breed',
+                type: 'text',
+                required: true,
+                html: {
+                    label: 'Breed',
+                    attr: 'size="40" maxlength="40"'
+                }
+            },
+            {
+                field: 'Father',
+                type: 'select',
+                required: false,
+                html: {
+                    label: 'Father',
+                    text: ' <-- choose Dad'
+                },
+                options: {
+                    items: buckList
+                }
+            },
+            {
+                field: 'Mother',
+                type: 'select',
+                required: false,
+                html: {
+                    label: 'Father',
+                    text: ' <-- choose Dad'
+                },
+                options: {
+                    items: doeList
+                }
+            },
+            {
+                field: 'Date_Born',
+                type: 'date',
+                html: {
+                    label: 'Date_Born',
+                    attr: 'size="10"'
+                }
+            },
+            {
+                field: 'Sex',
+                type: 'select',
+                required: false,
+                html: {
+                    label: 'Sex',
+                    text: ' <-- choose sex'
+                },
+                options: {
+                    items: ['Doe', 'Buck']
+                }
+            },
+        ],
+        actions: {
+            Reset() {
+                this.clear()
+            },
+            Save() {
+                //console.log(this.record)
+                // doc.Name= requested.Name;
+                // doc.Breed= requested.Breed;
+                // doc.Father= requested.Father;
+                // doc.Mother= requested.Mother;
+                // doc.Date_Born= requested.Date_Born;
+                // doc.Sex= requested.Sex;
+                $.ajax({
+                    type: 'POST',
+                    data: this.record,
+                    url: '/database/newRabbit/',
+                    success: function(e) {
+                        w2ui.form.clear()
+
+                    }
+                });
                 let errors = this.validate()
                 if (errors.length > 0) return
                 if (this.recid == 0) {
-                    grid.add(w2utils.extend({ recid: grid.records.length + 1 }, this.record))
+                    grid.add(w2utils.extend({
+                        recid: grid.records.length + 1
+                    }, this.record))
                     grid.selectNone()
                     this.clear()
                 } else {
@@ -862,419 +1447,656 @@ var config = {
                 }
             }
         }
-    }
-    }
-$(function() {
-    $('#mainDIV').html(w2uiHTML)
-    $("#myBtn").click(function(){
-        $("#myModal").modal();
-    });
-    $("#clodeModal").click(function(){
-        $("#myModal").modal('hide');
-    });
-    $(".nav-tabs a").click(function(){
-        $(this).tab('show');
-    });
-// Activate Carousel
-$("#myCacarouselExampleIndicatorsousel").carousel();
+    },
+    litterform: {
+        name: 'litterform',
+        style: 'border: 1px solid #efefef',
+        fields: [{
+                field: 'recid',
+                type: 'text',
+                html: {
+                    label: 'ID',
+                    attr: 'size="10" readonly'
+                }
+            },
+            {
+                field: 'LitterID',
+                type: 'text',
+                required: true,
+                html: {
+                    label: 'Litter ID',
+                    attr: 'size="40" maxlength="40"'
+                }
+            },
+            {
+                field: 'Father',
+                type: 'select',
+                required: false,
+                html: {
+                    label: 'Father',
+                    text: ' <-- choose Dad'
+                },
+                options: {
+                    items: buckList
+                }
+            },
+            {
+                field: 'Mother',
+                type: 'select',
+                required: false,
+                html: {
+                    label: 'Father',
+                    text: ' <-- choose Dad'
+                },
+                options: {
+                    items: doeList
+                }
+            },
+            {
+                field: 'Born',
+                type: 'date',
+                html: {
+                    label: 'Date_Born',
+                    attr: 'size="10"'
+                }
+            },
+            {
+                field: 'Bred',
+                type: 'date',
+                html: {
+                    label: 'Date_Bred',
+                    attr: 'size="10"'
+                }
+            },
 
-// Enable Carousel Indicators
-$(".item").click(function(){
-  $("#carouselExampleIndicators").carousel(1);
-});
-
-// Enable Carousel Controls
-$(".left").click(function(){
-  $("#carouselExampleIndicators").carousel("prev");
-});
-
-$(".item2").click(function(){
-    $("#carouselExampleIndicators").carousel(1);
-  });
-  
-  // Enable Carousel Controls
-  $(".left2").click(function(){
-    $("#carouselExampleIndicators").carousel("prev");
-  });
-
-  $('#layout').w2layout(config.layout)
-  $('#toolbarTop').w2toolbar(config.toolBar)
-
-  $('#rabbitlayout').w2layout(config.rabbitlayout)
-  
-
-  let sidebar = $('#sideBar').w2sidebar(config.sidebar);
-  let rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
-  
-
-
- // w2ui.layout.content('main', tabsHTML)
-
- 
-   
-
-
-   
-    $('#tabs').w2tabs(config.tabs);
-    $('.tab').hide();
-  $('#tab1').show();
-  
-  sidebar.on('*', function (event) {
-    if(event.type == "click"){
-       
-        
-        
-        if(event.node.id=="growing"){
-            
-            w2ui.rabbitlayout.destroy()
-            w2ui.grid.destroy();
-            $('#rabbitlayout').html(`
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <div class="card" style="width: 10rem;">
-                              <div class="card-header">
-                                <h4 class="card-title">001</h4>
-                            </div>
-                              
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>                            
-                              
-                                </div>                        
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 10rem;">
-                              <div class="card-header">
-                                <h4 class="card-title">001</h4>
-                            </div>
-                              
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>                            
-                              
-                                </div>                        
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 10rem;">
-                              <div class="card-header">
-                                <h4 class="card-title">001</h4>
-                            </div>
-                              
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>                            
-                              
-                                </div>                        
-                        </div>                        
-                        <div class="col">
-                            <div class="card" style="width: 10rem;">
-                              <div class="card-header">
-                                <h4 class="card-title">004</h4>
-                            </div>
-                              
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Born:</li>
-                                <li class="list-group-item flex-fill">10/25/25</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Weight:</li>
-                                <li class="list-group-item flex-fill">6</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Mom</li>
-                                <li class="list-group-item flex-fill">PeanutButter</li>
-                                
-                                </ul>
-                                <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item flex-fill">Father:</li>
-                                <li class="list-group-item flex-fill">Sir Mic</li>
-                                
-                                </ul>                            
-                              
-                                </div>                        
-                        </div>                        
-                        
-                        </div>
-                    <div class="row">
-                        <div class="col">
-                <div class="card" style="width: 10rem;">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>                        </div>
-                        <div class="col">
-                <div class="card" style="width: 10rem;">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>                        </div>
-                        <div class="col">
-                <div class="card" style="width: 10rem;">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                <div class="card" style="width: 10rem;">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>                        </div>
-                        <div class="col">
-                <div class="card" style="width: 10rem;">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>                        </div>
-                        <div class="col">
-                <div class="card" style="width: 10rem;">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>                        </div>
-                    </div>                    
-
-                </div>
-
-                
-                
-                
-                
-                
-                `)
-                $("#growingGridDetails").w2grid(config.growingGridDetails);
-                w2ui['growingGridDetails'].refresh();
-                
-
-        }
-        if(event.node.id!="growing"){
-           try {
-            w2ui.grid.destroy();
-           } catch (error) {
-            
-           }
-            $('#rabbitlayout').w2layout(config.rabbitlayout)
-            w2ui.rabbitlayout.content('main', tabsHTML);
-            $("#grid").w2grid(config.litterGrid);
-            $('#tabs').w2tabs(config.tabs);
-            $('.tab').hide();
-          $('#tab1').show();
-          
-          w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
-          $('#rabbitTitle').html(`<h4>` + event.node.text +  `</h4>`)
-          $('#sideBarPic').html(`<img src="images/bunny1.jpg"   width="100" height="100" style="float:right" alt="..."/>`);
-           
-        }
-    }
-    console.log(event)
-
-    
-  })
-  rabbitsidebar.on('*', function (event) {
-    console.log(event)
-    w2ui.grid.refresh('grid')
-    try {
-        let recNum = 0;
-        if(event.object.datatype == 'litter'){
-            console.log(event.target);
-            $('#litterInfo').html(`<h3>Born: 10/10/25  Sire: Master SGNT</h3>`)
-            w2ui['grid'].clear();
-            for(i=0; i<5; i++){
-            recNum = recNum + 1
-                        w2ui['grid'].add([
-                        	{recid: recNum,kitID: 9+i ,sex:'D',BirthWeight:9, seconddate:'11/01/25', SecondWeight:12, finaldate: '11/14/25', finalWeight:18},
-                        ])
-                    }
-                    
-            w2ui.tabs.click('tab3')
-            w2ui.grid.refresh('grid')
-            
-        }
-        if(event.object.datatype == 'info'){
-            console.log(event.target);
-            w2ui['grid'].clear();
-            $('#tab1').w2layout(config.rabbitInfolayout);
-            w2ui.sidebar.refresh('rabbitsidebar')
-            $('#rabbitInfoTop').html(` 
-                <ul class="list-group">
-                    <li class="list-group-item">Born: 10/10/25</li>
-                    <li class="list-group-item">Sex: Doe</li>
-                    <li class="list-group-item">Mother: Bunny Hill</li>
-                    <li class="list-group-item">Father: Little Man</li>
-                    </ul>
-             `)   
-                
-             $('#rabbitInfoMain').html(`<div class="card" style="width: 30rem;">
-                                            <div class="card-body">
-                                                <h5 class="card-title">10/25/25</h5>
-                                                <h6 class="card-subtitle mb-2 text-body-secondary">Feeding issues</h6>
-                                                <p class="card-text">I havenoticed she isnt eating as much as usual. I am going to try
-                                                and give her some fresh veggies to see if its the food she isnt enjoying.</p>
-                                                
-                                            </div>
-                                            </div> `
-                                    )
-            w2ui.tabs.click('tab1')
-            w2ui.grid.refresh('grid')
-            
-        }
-        if(event.object.datatype == 'tasks'){
-            console.log(event.target);
-            w2ui['grid'].clear();
-            
-            w2ui.tabs.click('tab2')
-            w2ui.grid.refresh('grid')
-            
-        }
-    } catch (error) {
-        
-    }
-   
-})
-
-window.openPopup = function() {
-    try {
-        w2ui.form.destroy()
-    } catch (error) {
-        
-    }
-    
-    w2popup.open({
-        title: 'New Rabbit Form',
-        width: 900,
-        height: 600,
-        showMax: true,
-        body: '<div id="main" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+        ],
         actions: {
-            Ok(event) {
-            // do something
-            w2popup.close()
-            w2ui.form.destroy()
+            Reset() {
+                this.clear()
+            }
+
         }
-    }
-    })
-    $('#main').w2form(config.form)
+    },
 }
+let sidebar;
+let rabbitsidebar
+async function getRabbits(){
+    await $.getJSON('/database/getRabbits', function(data) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].Sex == "Doe") {
+                let doe = {
+                    name: data[i].Name,
+                    info: data[i]
+                }
+                //console.log(doe)
+                does.push(doe)
+                doeList.push(data[i].Name)
+                sidebar.insert('Does', null, [
+                    {id: data[i]._id,text: data[i].Name,icon: 'fa fa-star'}
+                ])
+            }
+            if (data[i].Sex === "Buck") {
+                let buck = {
+                    name: data[i].Name,
+                    info: data[i]
+                }
+                //console.log(buck)
+                bucks.push(buck)
+                buckList.push(data[i].Name)
+                sidebar.insert('Bucks', null, [
+                    {id: data[i]._id,text: data[i].Name,icon: 'fa fa-star'}
+                ])
+            }
+        }
+
+    })
+
+
+
+
+}
+
+async function getLitter(litterID){
+    await $.getJSON('/database/getLitter/'+litterID, function(data) {
+        //console.log(data)
+
+    })
+}
+async function getTasksMain(){
+    await $.getJSON('/database/getTasksDue/', function(data) {
+        console.log(data)
+        let recNum = 0
+        for(i=0;i<data.length;i++){
+            var CurrentDate = moment();
+            console.log()
+            if(moment(data[i].Due).isSameOrBefore(CurrentDate, 'day') == true){
+            recNum = recNum + 1
+                        w2ui['taskmaingridtoday'].add([{
+                            recid: i,
+                            Title: data[i].Title,
+                            Note: data[i].Note,
+                            Rabbit: data[i].Rabbit,
+                            Due:moment(data[i].Due).format('MM-DD-YYYY'),
+                           
+                             
+                        }]) 
+                    }
+        }
+
+    })
+
+
+
+}
+let mainHTML = `<div class="row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <h5 class="card-title">Tasks Today</h5>
+                        <div class="card" id='tasksMainGridToday'>
+                            
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <h5 class="card-title">Nothing</h5>
+                        <div class="card" id='s'>
+                            
+                        </div>
+
+                    </div>
+                </div>
+        <div class="row">
+        <div class="col-sm-6">
+        <h5 class="card-title">Tasks</h5>
+            <div class="card" id='tasksMainGrid'>
+            
+            </div>
+        </div>
+</div>`
+let tasksMainGrid
+let tasksMainGridToday
+async function startMainPage(){
+    $('#mainDIV').html(w2uiHTML)
+    $('#layout').w2layout(config.layout)
+    $('#toolbarTop').w2toolbar(config.toolBar)
+    $('#rabbitlayout').w2layout(config.rabbitlayout)
+     sidebar = $('#sideBar').w2sidebar(config.sidebar);
+     rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
+    $('#tabs').w2tabs(config.tabs);
+    //$('.tab').hide();
+    
+    $('#tab4').show();
+    w2ui.rabbitlayout.content('main', mainHTML);
+    tasksMainGrid = $("#tasksMainGrid").w2grid(config.tasksMainGrid);
+    tasksMainGridToday = $("#tasksMainGridToday").w2grid(config.tasksMainGridToday);
+
+
+}
+$(function() {
+    startMainPage()
+
+    getRabbits()
+
+     let rabbit
+     ;
+
+    sidebar.on('*', function(event) {
+        if (event.type == "click") {
+            console.log(event.node.id)
+           
+            if (event.node.id == "Main"){
+                try {
+                    tasksMainGrid.destroy();
+                    tasksMainGridToday.destroy();
+                    //w2ui.grid.destroy();
+                    //w2ui.taskgrid.destroy();
+                    //w2ui.rabbitlayout.destroy()
+                    rabbitsidebar.destroy()
+                    
+                } catch (error) {
+                    console.log(error)
+                }
+               
+                //w2ui.rabbitlayout.content('main', mainHTML);
+                $("#tasksMainGrid").w2grid(config.tasksMainGrid);
+                $("#tasksMainGridToday").w2grid(config.tasksMainGridToday);
+                getTasksMain()
+                w2ui.tabs.click('tab4')
+
+            }
+            else if (event.node.id == "Growing") { 
+                try {
+                    w2ui.kidGrowingGridInfo.destroy();
+                    w2ui.grid.destroy();
+                    w2ui.taskgrid.destroy();
+                    w2ui.rabbitlayout.destroy()
+                    w2ui.rabbitInfolayout.destroy()
+                    
+                } catch (error) {
+
+                }
+                
+
+                $('#rabbitlayout').w2layout(config.rabbitlayout)
+                w2ui.rabbitlayout.content('main', tabsHTML);
+                w2ui.rabbitlayout.destroy('left')
+                $('#rabbitlayout').html(`<div id="kidGrowingGridInfo"></div>`)
+                $("#kidGrowingGridInfo").w2grid(config.kidGrowingGridInfo);
+
+                $.getJSON('/database/getGrowing/', function(data) {  
+                    console.log(data)
+                     let currentWeight
+                     let currentWeightDate
+                     let recid = 0
+                    for(i=0; i<data.length;i++){
+                        let childrenItems = [];
+                        
+                        //w2ui['kidGrowingGridInfo'+i].refresh();
+                       
+                        for(k=0;k<data[i].Kids.length;k++){
+                            try {
+                                const lastItem = data[i].Kids[k].CurrentWeight[data[i].Kids[k].CurrentWeight.length - 1];
+                                currentWeight = lastItem.Weight
+                                currentWeightDate = moment(lastItem.Date).format('M/DD/YY')
+                                
+                            } catch (error) {
+                                currentWeight = data[i].Kids[k].FinalWeight
+                                currentWeightDate =  moment(data[i].Kids[k].FinalDate).format('M/DD/YY')
+                            }
+                            
+                            
+                            w2ui['kidGrowingGridInfo'].add([{ recid: recid, Litter: data[i].LitterID, Born: moment(data[i].Born).format('M/DD/YY'),
+                                Bred: moment(data[i].Bred).format('M/DD/YY') ,Father: data[i].Father, Mother: data[i].Mother,
+                                KidID: data[i].Kids[k].KidID, Sex: data[i].Kids[k].Sex,BirthWeight: data[i].Kids[k].BirthWeight, 
+                                             SecondDate:  moment(data[i].Kids[k].SecondDate).format('M/DD/YY'), SecondWeight: data[i].Kids[k].SecondWeight, 
+                                             FinalDate:  moment(data[i].Kids[k].FinalDate).format('M/DD/YY'), 
+                                             FinalWeight: data[i].Kids[k].FinalWeight, CurrentWeight: currentWeight, 
+                                             WeightDate: currentWeightDate
+                                }
+                               
+                            ])
+                            recid = recid +1;
+                            
+
+                        }
+                        
+                            
+
+                    }
+                    w2ui.tabs.click('tab4')
+                         
+                })
+
+                
+            }
+            else {
+                try {
+                     w2ui.grid.destroy();
+                     w2ui.taskgrid.destroy();
+                     w2ui.rabbitlayout.destroy()
+                     w2ui.rabbitInfolayout.destroy()
+                    // rabbitsidebar.destroy()
+                    
+                    
+                } catch (error) {
+
+                }
+               console.log(event)
+               rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
+               selectedRabbit = event.node.text
+               selectedRabbitID = event.node.id
+                $('#rabbitlayout').w2layout(config.rabbitlayout)
+                w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
+                w2ui.rabbitlayout.content('main', tabsHTML);
+                $('#rabbitTitle').html(`<h4>` + event.node.text + `</h4>`)
+                $('#sideBarPic').html(`<img src="images/bunny1.jpg"   width="100" height="100" style="float:right" alt="..."/>`);
+                    w2ui.rabbitsidebar.click('Info');
+                    $('.tab').hide();
+                $('#tab1').show();
+                
+                $("#grid").w2grid(config.grid);
+                $("#tasksGrid").w2grid(config.tasksGrid);
+                //$('#tabs').w2tabs(config.tabs);
+                
+                $.getJSON('/database/getRabbitLitters/'+event.node.text, function(data) {
+                    
+                     
+                    for (var i = 0; i < data.length; i++) {
+                        //console.log(data[i])
+                        rabbitsidebar.insert('Litters', null, [
+                            {id: data[i]._id,text: data[i].LitterID, datatype:'litter', icon: 'fa fa-star'}
+                        ])
+                        
+                           
+                    }
+                })
+                
+                
+                
+                
+
+            }
+            
+        }
+    })
+    rabbitsidebar.on('*', function(event) {
+    
+        if(event.type == 'click'){
+            console.log(event)
+            console.log(event.node.datatype)
+            w2ui.tabs.click('tab1')
+    
+        }
+            try {
+                
+                let recNum = 0;
+               
+                //w2ui.grid.refresh('grid')
+                if (event.node.datatype == 'litter') {
+                    
+                    console.log(event.target)
+                    w2ui.rabbitInfolayout.destroy()
+                    $.getJSON('/database/getRabbitLitter/'+event.target, function(data) {
+                        console.log(data)
+                        
+                    $('#litterInfo').html(`<h3>Born: ` +moment(data.Born).format('MMMM Do YYYY') + `    Sire: ` +data.Father + `</h3>`)
+                    w2ui['grid'].clear();
+                    let kidNoteCards = "";
+                    for (i = 0; i < data.Kids.length; i++) {
+                        
+                        recNum = recNum + 1
+                        w2ui['grid'].add([{
+                            recid: i,
+                            KidID: data.Kids[i].KidID,
+                            Sex: data.Kids[i].Sex,
+                            BirthWeight: data.Kids[i].BirthWeight,
+                            SecondDate: moment(data.Kids[i].SecondDate).format('MM-DD-YYYY'),
+                            SecondWeight: data.Kids[i].SecondWeight,
+                            rabbitID: data.Kids[i]._id,
+                            itemID: data._id,
+                            Growing: data.Kids[i].Growing,
+                            FinalDate:moment(data.Kids[i].FinalDate).format('MM-DD-YYYY'),
+                            FinalWeight: data.Kids[i].FinalWeight
+                             
+                        }, 
+                    ])
+                    }
+                    })
+    
+                    w2ui.tabs.click('tab3')
+                    w2ui.grid.refresh('grid')
+                    w2ui.grid.on('save', function(event) {
+                        console.log(event)
+                            //let changes = $(JSON.stringify(grid.getChanges()))
+                            let changes = w2ui.grid.getChanges()
+                            let rowChanges
+                            for(i=0;i<changes.length;i++){
+                                var record = w2ui.grid.get(changes[i].recid);
+                                console.log(record);
+                                let row = changes[i]
+                                $.ajax({
+                                    type: 'POST',
+                                    data: JSON.stringify(record),
+                                    contentType: "application/json",
+                                    url: '/database/updateRabbitKids/',
+                                    success: function(e) {
+                                        
+                
+                                    }
+                                }); 
+                                const keys = Object.keys(row);
+                                let changesFull = []
+                                rowChanges = {litterID: record.itemID, rabbitID: record.rabbitID }
+                                keys.forEach(key => {
+                                    const value = row[key];
+                                    rowChanges[key] = value
+                                    console.log(`Key: ${key}, Value: ${value}, ItemID: ${record.itemID}`);
+                                });
+                                changesFull.push(rowChanges) 
+                            }
+                            
+                        
+                
+                    })
+                }
+               
+                if (event.node.datatype == 'info') {
+                    w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
+                    $('#tab1').w2layout(config.rabbitInfolayout);
+                    console.log(selectedRabbit);
+                    let taskToolBar = `<nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                         <button class="btn btn-primary" type="new" onclick="newNote(1,1,'Rabbit')">Add Note</button>
+                    </div>
+                    </nav>`
+                    $('#rabbitInfoMain').html(taskToolBar)
+                    $.getJSON('/database/getRabbit/'+ selectedRabbit, function(data) {
+                       console.log(data)
+                      
+                        $('#rabbitInfoTop').html(` 
+                            <ul class="list-group" id='rabbitInfoUL'>
+                                <li class="list-group-item">Born: `+moment(data[0].Date_Born).format('MM-DD-YY') +`</li>
+                            <li class="list-group-item">Sex: `+data[0].Sex+`</li>
+                            <li class="list-group-item">Mother: `+data[0].Mother+`</li>
+                            <li class="list-group-item">Father: `+data[0].Father+`</li>
+                                </ul>
+                            `)
+        
+                            console.log(data)
+                            let Notes = ""
+                            
+                            data[0].Notes = data[0].Notes.reverse()
+                            for(i=0;i<data[0].Notes.length;i++){
+                              
+                                Notes+=`<div class="col"><div class="card noteCard" style="width: 20rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">`+moment(data[0].Notes[i].Date).format('MM/DD/YYYY')+`</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary">` + data[0].Notes[i].Title  + `</h6>
+                                    <h6 class="card-text">` + data[0].Notes[i].Note + `</h6>
+                                </div>
+                                </div>
+                                </div>`
+                                
+                            
+                            }
+                        $('#rabbitInfoMain').append( `
+                            <div class="container text-center">
+                                <div class="row row-cols-2">`
+                                   + Notes +
+                                `</div>
+                                </div>
+                            
+                            `)
+    
+                    })
+                    
+                   
+                    
+                    w2ui.tabs.click('tab1')
+                    
+                    
+                    
+                    
+                }
+                if (event.object.datatype == 'tasks') {
+                    // //console.log(event.target);
+                    w2ui.tabs.click('tab2')
+                    //w2ui.rabbitInfolayout.destroy()
+                    
+                    
+                    
+                    
+                    
+                    getTaskItems()
+
+
+                    w2ui.tabs.click('tab2')
+                    
+                }
+            } catch (error) {
+                //console.log(error)
+            }
+        })
+
+    window.openPopup = function() {
+        try {
+            w2ui.form.destroy()
+        } catch (error) {
+        }
+
+        w2popup.open({
+            title: 'New Rabbit Form',
+            width: 900,
+            height: 600,
+            showMax: true,
+            body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+            actions: {
+                Ok(event) {
+                    // do something
+                    w2popup.close()
+                    w2ui.form.destroy()
+                }
+            }
+        })
+        $('#mainForm').w2form(config.form)
+    }
+    window.openPopup2 = function() {
+        try {
+            w2ui.form2.destroy()
+        } catch (error) {
+        }
+        w2popup.open({
+            title: 'New Litter Form',
+            width: 1200,
+            height: 600,
+            showMax: true,
+            body: '<div id="litterlayout" style="width: 900px; height: 800px;"></div>',
+            actions: {
+                Ok(event) {
+                    // do something
+                    w2popup.close()
+                    w2ui.form2.destroy()
+                }
+            }
+        })
+        $('#litterlayout').w2layout(config.litterLayout)
+        let kids = []
+        let litterForm = $('#litterForm').w2form(config.litterform)
+        gridKits = $('#mainForm2').w2grid(config.litterGrid)
+        w2ui.litterGrid.refresh()
+        w2ui.litterGrid.on('save', async function(event) {
+            //console.log(event.changes);
+            let formData = w2ui.litterform.record;
+            //console.log(formData)
+            let newLitter = {
+                LitterID: formData.LitterID,
+                Father: formData.Father,
+                Mother: formData.Mother,
+                Bred: formData.Bred,
+                Born: formData.Born,
+                Kids: []
+            }
+            event.changes.forEach(item => {
+                //console.log(item)
+                newLitter.Kids.push(item)
+            })
+
+            newLitter = JSON.stringify(newLitter)
+            $.ajax({
+                type: 'POST',
+                data: newLitter,
+                url: '/database/newLitter/',
+                contentType: "application/json",
+                success: function(e) {
+                    w2ui.litterform.clear()
+                }
+            });
+            //console.log(newLitter)
+        });
+        
+    }
+
+
+    window.addWeight= function(selectedLitterID,selectedKidID){
+        console.log(selectedLitterID)
+        console.log(selectedKidID)
+        w2popup.open({
+            title: 'Add Weight to Kid',
+            width: 600,
+            height: 400,
+            showMax: true,
+            body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+            actions: {
+                Ok(event) {
+                    // do something
+                    w2popup.close()
+                    w2ui.weightform.destroy()
+                }
+            }
+        })
+        
+        let noteForm = $('#mainForm').w2form(config.weightform)
+        w2ui.weightform.record['Rabbit'] = selectedKidID;
+        w2ui.weightform.record['Date'] = moment().format('MM/DD/YYYY');
+        w2ui.weightform.record['Litter'] = selectedLitterID;
+        w2ui.weightform.record['Type'] = 'Kid';
+        w2ui.weightform.refresh()
+    }
+    window.newNote = function(selectedLitterID,selectedKidID, type){
+        console.log(type)
+        console.log(selectedLitterID)
+        console.log(selectedKidID)
+        if(type=='Kid'){
+            console.log("NewNote Kid")
+            w2popup.open({
+                title: 'New Note Form',
+                width: 600,
+                height: 400,
+                showMax: true,
+                body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+                actions: {
+                    Ok(event) {
+                        // do something
+                        w2popup.close()
+                        w2ui.form.destroy()
+                    }
+                }
+            })
+            let noteForm = $('#mainForm').w2form(config.noteform)
+    
+      
+            w2ui.noteform.record['KidID'] = selectedKidID;
+            w2ui.noteform.record['Date'] =moment().format('MM/DD/YYYY');
+            w2ui.noteform.record['litterID'] = selectedLitterID;
+            w2ui.noteform.record['Type'] = 'Kid';
+            w2ui.noteform.refresh()
+          
+
+        }
+        else{
+        console.log("NewNote")
+        w2popup.open({
+            title: 'New Note Form',
+            width: 600,
+            height: 400,
+            showMax: true,
+            body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
+            actions: {
+                Ok(event) {
+                    // do something
+                    w2popup.close()
+                    w2ui.form.destroy()
+                }
+            }
+        })
+        let noteForm = $('#mainForm').w2form(config.noteform)
+
+  
+        w2ui.noteform.record['Rabbit'] = selectedRabbit;
+        w2ui.noteform.record['Date'] = moment().format('MM/DD/YYYY');
+        w2ui.noteform.record['ID'] = selectedRabbitID;
+        w2ui.noteform.record['Type'] = 'rabbit';
+        w2ui.noteform.refresh()
+      };
+    }
+     
 })

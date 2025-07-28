@@ -1,6 +1,5 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 5px;
 }
 
 a {
@@ -28,7 +27,8 @@ height: 50px;
 text-align: center;
 
 }
-.mainRabbits{
+.mainRabbi
+ts{
 
 width: 1400px;;
 
@@ -45,6 +45,11 @@ width: 1400px;;
   border-width: 6px;
   border-radius: 20px;
   border-color: pink;
+}
+.kidCard{
+  border-color: black;
+  border-width: medium;
+
 }
 .card{
 
@@ -72,4 +77,30 @@ width: 1400px;;
 #rabbitInfoTop{
 
   height:100%;
+}
+#kidGrowingGridInfo{
+
+  height:500px;
+}
+#notetoolbar{
+  height: 50px; 
+}
+#kidNotes{
+
+  height:500px;
+  
+}
+#kidWeightCards{
+  height:250px;
+  overflow: scroll;
+}
+#tasksGrid{
+  height:500px;
+
+
+}
+.noteCard{
+  height: 100px;
+overflow: scroll;
+overflow-x: hidden;
 }
