@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const fileUpload = require('express-fileupload');
+var Rabbits = require('./schema/rabbits');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,9 +13,17 @@ var app = express();
 const mongoose = require('mongoose');
 var Rabbits = require('./schema/rabbits');
 
+const cors = require('cors');
+const { setInterval } = require('timers/promises');
+const corsOptions = {
+  origin: 'http://192.168.0.156:3005', // Replace with your frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: false, // Allow sending cookies/authentication headers
+  exposedHeaders: ['Content-Length', 'X-Foo'], // Expose custom headers to client
+};
 
-
-
+app.use(cors(corsOptions)); 
+app.use(fileUpload());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -35,6 +45,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
@@ -42,5 +53,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

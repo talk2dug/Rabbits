@@ -1047,34 +1047,6 @@ var config = {
 
             },
             {
-                field: 'SecondWeight',
-                caption: '2nd',
-                size: '40px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },            {
-                field: 'SecondDate',
-                caption: 'Date',
-                size: '55px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },
-
-            {
-                field: 'FinalWeight',
-                caption: 'Final',
-                size: '40px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },            {
-                field: 'FinalDate',
-                caption: 'Date',
-                size: '55px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },
-
-            {
                 field: 'CurrentWeight',
                 caption: 'Current',
                 size: '60px',
@@ -1637,7 +1609,7 @@ $(function() {
     getRabbits()
 
      let rabbit
-     ;
+
 
     sidebar.on('*', function(event) {
         if (event.type == "click") {
@@ -1647,16 +1619,19 @@ $(function() {
                 try {
                     tasksMainGrid.destroy();
                     tasksMainGridToday.destroy();
-                    //w2ui.grid.destroy();
-                    //w2ui.taskgrid.destroy();
-                    //w2ui.rabbitlayout.destroy()
-                    rabbitsidebar.destroy()
                     
+                    w2ui.taskgrid.destroy();
+                    w2ui.rabbitInfolayout.destroy()
+                    w2ui.rabbitsidebar.destroy()
+                    w2ui.rabbitlayout.destroy('left')
                 } catch (error) {
                     console.log(error)
                 }
-               
-                //w2ui.rabbitlayout.content('main', mainHTML);
+                //rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
+                
+                 $('#rabbitlayout').w2layout(config.rabbitlayout)
+                 w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
+                w2ui.rabbitlayout.content('main', mainHTML);
                 $("#tasksMainGrid").w2grid(config.tasksMainGrid);
                 $("#tasksMainGridToday").w2grid(config.tasksMainGridToday);
                 getTasksMain()
@@ -1670,7 +1645,7 @@ $(function() {
                     w2ui.taskgrid.destroy();
                     w2ui.rabbitlayout.destroy()
                     w2ui.rabbitInfolayout.destroy()
-                    
+                    w2ui.rabbitsidebar.destroy()
                 } catch (error) {
 
                 }
@@ -1706,10 +1681,9 @@ $(function() {
                             
                             w2ui['kidGrowingGridInfo'].add([{ recid: recid, Litter: data[i].LitterID, Born: moment(data[i].Born).format('M/DD/YY'),
                                 Bred: moment(data[i].Bred).format('M/DD/YY') ,Father: data[i].Father, Mother: data[i].Mother,
-                                KidID: data[i].Kids[k].KidID, Sex: data[i].Kids[k].Sex,BirthWeight: data[i].Kids[k].BirthWeight, 
-                                             SecondDate:  moment(data[i].Kids[k].SecondDate).format('M/DD/YY'), SecondWeight: data[i].Kids[k].SecondWeight, 
-                                             FinalDate:  moment(data[i].Kids[k].FinalDate).format('M/DD/YY'), 
-                                             FinalWeight: data[i].Kids[k].FinalWeight, CurrentWeight: currentWeight, 
+                                KidID: data[i].Kids[k].KidID, Sex: data[i].Kids[k].Sex,BirthWeight: data[i].Kids[k].BirthWeight,  
+                                              
+                                             CurrentWeight: currentWeight, 
                                              WeightDate: currentWeightDate
                                 }
                                
@@ -1734,12 +1708,13 @@ $(function() {
                      w2ui.taskgrid.destroy();
                      w2ui.rabbitlayout.destroy()
                      w2ui.rabbitInfolayout.destroy()
-                    // rabbitsidebar.destroy()
+                    w2ui.rabbitsidebar.destrpy()
                     
                     
                 } catch (error) {
-
+                    console.log(error)
                 }
+                
                console.log(event)
                rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
                selectedRabbit = event.node.text
@@ -1755,19 +1730,24 @@ $(function() {
                 
                 $("#grid").w2grid(config.grid);
                 $("#tasksGrid").w2grid(config.tasksGrid);
-                //$('#tabs').w2tabs(config.tabs);
+
                 
+                        for(i=0;i< w2ui.rabbitsidebar.nodes[1].nodes.length;i++){
+                            w2ui.rabbitsidebar.remove(w2ui.rabbitsidebar.nodes[1].nodes[i].id)
+
+                        }
                 $.getJSON('/database/getRabbitLitters/'+event.node.text, function(data) {
                     
                      
                     for (var i = 0; i < data.length; i++) {
-                        //console.log(data[i])
-                        rabbitsidebar.insert('Litters', null, [
+                        console.log(data[i])
+                        w2ui.rabbitsidebar.insert('Litters', null, [
                             {id: data[i]._id,text: data[i].LitterID, datatype:'litter', icon: 'fa fa-star'}
                         ])
                         
                            
                     }
+                    console.log( w2ui.rabbitsidebar.nodes[1].nodes)
                 })
                 
                 
@@ -1886,7 +1866,7 @@ $(function() {
                             
                             data[0].Notes = data[0].Notes.reverse()
                             for(i=0;i<data[0].Notes.length;i++){
-                              
+                                let noteDate = 
                                 Notes+=`<div class="col"><div class="card noteCard" style="width: 20rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">`+moment(data[0].Notes[i].Date).format('MM/DD/YYYY')+`</h5>

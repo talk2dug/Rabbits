@@ -1,17 +1,28 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://192.168.0.66:27017/Rabbits');
-
+var moment = require('moment')
 
 var schema = mongoose.Schema({
     
-    Name: String,
-    Breed: String,
-    Father: String,
-    Mother: String,
-    Date_Born: Date,
-    Sex: String,
-    Bought: Boolean,
-    Breeder: String,
+    Name: {type: String, default:'-'},
+    Pic: String,
+    Breed:  { type: String, default: '' },
+    Father: { type: String, default: '' },
+    Mother: { type: String, default: '' },
+    Date_Born: { type: Date, default: '01/03/1975' },
+    Sex: { type: String, default: 'Not Sexed' },
+    Bought:  { type: Boolean, default: false },
+    Breeder:  { type: String, default: '' },
+    DateReadyToBreed: Date ,
+    ReadyToBreed:{type: Boolean, default: false},
+    Cage: { type: String, default: 'UnAssigned' },
+    Files:[],
+    Mated:[{
+        Buck: String,
+        Date: Date,
+        Note: String
+
+    }],
     CurrentWeight:[{
         Weight: { type: Number, default: 0 },
         Date: Date
@@ -22,13 +33,7 @@ var schema = mongoose.Schema({
         Title: String,
         Note: String
     }],
-    Tasks:[{
-        Title: String,
-        Due: Date,
-        Date_Completed: Date,
-        Completed: Boolean,
-        Note: String
-    }]
+
 
 })
     schema.set('toJSON', {
