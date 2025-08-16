@@ -1,26 +1,25 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var Rabbits = require('../schema/rabbits');
-var Breeders = require('../schema/breeders')
-var Litters = require('../schema/litters');
-var Tasks = require('../schema/tasks');
-var moment = require('moment')
+var Rabbits = require("../schema/rabbits");
+var Breeders = require("../schema/breeders");
+var Litters = require("../schema/litters");
+var Tasks = require("../schema/tasks");
+var moment = require("moment");
 
-const fs = require('fs');
-const path = require('path');
-const breeders = require('../schema/breeders');
+const fs = require("fs");
+const path = require("path");
+const breeders = require("../schema/breeders");
 /* GET users listing. */
 
 async function main() {
-
   const doc = new Rabbits();
 
-  doc.Name = 'Dip Shit';
-  doc.Breed = 'Mixed Cat';
-  doc.Father = 'Frerd';
-  doc.Mother = 'Willma';
+  doc.Name = "Dip Shit";
+  doc.Breed = "Mixed Cat";
+  doc.Father = "Frerd";
+  doc.Mother = "Willma";
   doc.Date_Born = "10/10/25";
-  doc.Sex = 'Male';
+  doc.Sex = "Male";
   // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
   // to MongoDB.
   await doc.save();
@@ -28,105 +27,92 @@ async function main() {
   const rabbit = await Rabbits.find();
   //// console.log(rabbit);
 }
-router.get('/', async function (req, res, next) {
-
-
+router.get("/", async function (req, res, next) {
   res.send();
 });
-router.get('/getRabbits/', async function (req, res, next) {
+router.get("/getRabbits/", async function (req, res, next) {
   // main();
 
   const rabbit = await Rabbits.find({
     Name: {
-      $ne: null
-    }
+      $ne: null,
+    },
   });
   //// console.log(rabbit);
 
   res.send(rabbit);
 });
-router.get('/getBreeders/', async function (req, res, next) {
+router.get("/getBreeders/", async function (req, res, next) {
   // main();
 
-  const breeders = await Breeders.find({
-    
-  });
+  const breeders = await Breeders.find({});
 
   breeders.map((breeder) => {
     Rabbits.find({
-    Breeder: breeder.Name
-  }).then(items => {
-    
-    breeders.Purchases = items
+      Breeder: breeder.Name,
+    }).then((items) => {
+      breeders.Purchases = items;
+    });
   });
-
-
-  })
- console.log(breeders);
 
   res.send(breeders);
 });
-router.get('/getBunnies/', async function (req, res, next) {
+router.get("/getBunnies/", async function (req, res, next) {
   // main();
   Rabbits.find({
     Name: {
-      $ne: null
-    }
-  }).then(items => {
+      $ne: null,
+    },
+  }).then((items) => {
     //console.log(items)
     res.send(items);
   });
-
 });
-router.get('/getGrowing', async function (req, res, next) {
+router.get("/getGrowing", async function (req, res, next) {
   // main();
-  let sendKids = []
-  let bornDate
+  let sendKids = [];
+  let bornDate;
   const Litter = await Litters.find({
-    'Kids.Growing': 'true'
+    "Kids.Growing": "true",
   });
-  Litter.map(litter => {
-    bornDate = litter.Born
+  Litter.map((litter) => {
+    bornDate = litter.Born;
     // console.log(litter)
-    litter.Kids.map(kidsItem => {
-      if (kidsItem.Status === 'Growing') {
-
+    litter.Kids.map((kidsItem) => {
+      if (kidsItem.Status === "Growing") {
         let sendItems = {
-          Born: bornDate
-        }
+          Born: bornDate,
+        };
 
-        sendItems.CurrentWeight = kidsItem.CurrentWeight
-        sendItems.KidItemID = kidsItem.id
-        sendItems.LitterIDDB = litter.id
-        sendItems.LitterID = litter.LitterID
-        sendItems.FinalDate = kidsItem.FinalDate
-        sendItems.FinalWeight = kidsItem.FinalWeight
-        sendItems.Growing = kidsItem.Growing
-        sendItems.KidID = kidsItem.KidID
-        sendItems.Notes = kidsItem.Notes
-        sendItems.SecondDate = kidsItem.SecondDate
-        sendItems.SecondWeight = kidsItem.SecondWeight
-        sendItems.Sex = kidsItem.Sex
-        sendItems.Status = kidsItem.Status
-        sendItems.Tasks = kidsItem.Tasks
-        sendKids.push(sendItems)
-
+        sendItems.CurrentWeight = kidsItem.CurrentWeight;
+        sendItems.KidItemID = kidsItem.id;
+        sendItems.LitterIDDB = litter.id;
+        sendItems.LitterID = litter.LitterID;
+        sendItems.FinalDate = kidsItem.FinalDate;
+        sendItems.FinalWeight = kidsItem.FinalWeight;
+        sendItems.Growing = kidsItem.Growing;
+        sendItems.KidID = kidsItem.KidID;
+        sendItems.Notes = kidsItem.Notes;
+        sendItems.SecondDate = kidsItem.SecondDate;
+        sendItems.SecondWeight = kidsItem.SecondWeight;
+        sendItems.Sex = kidsItem.Sex;
+        sendItems.Status = kidsItem.Status;
+        sendItems.Tasks = kidsItem.Tasks;
+        sendKids.push(sendItems);
       }
-    })
-    
-  })
-  res.send(sendKids)
-})
-router.get('/getRabbit/:rabbit', async function (req, res, next) {
+    });
+  });
+  res.send(sendKids);
+});
+router.get("/getRabbit/:rabbit", async function (req, res, next) {
   // main();
-  var rabbit = req.params.rabbit
+  var rabbit = req.params.rabbit;
   const rabbitInfo = await Rabbits.find({
-    Name: rabbit
+    Name: rabbit,
   });
   res.send(rabbitInfo);
   //// console.log(rabbitInfo);
   // try {
-
 
   //  // console.log(rabbitInfo[0].Files[0])
   //   fs.stat('/home/jack/rabbits/' + rabbitInfo[0].Files[0], (err, stats) => {
@@ -142,88 +128,74 @@ router.get('/getRabbit/:rabbit', async function (req, res, next) {
   //    // console.log('Is Directory:', stats.isDirectory());
   //    // console.log('Is File:', stats.isFile());
   //    // console.log('Last Modified Date:', stats.mtime);
-  //     
+  //
   //     // Many other properties are available in the 'stats' object
   //   });
   // } catch (error) {
 
   // }
-
 });
-router.get('/getMotherLitter/:rabbit', function (req, res) {
+router.get("/getMotherLitter/:rabbit", function (req, res) {
   var rabbit = req.params.rabbit;
   let litters = Litters.find({
-    'Mother': rabbit
+    Mother: rabbit,
   });
-  Litters.find({}).then(items => {
+  Litters.find({}).then((items) => {
     //// console.log(items)
     res.send(items);
   });
-
-
-
-
-
-
-})
-router.get('/getRabbitLitters', function (req, res) {
-
-  Litters.find().then(items => {
+});
+router.get("/getRabbitLitters", function (req, res) {
+  Litters.find().then((items) => {
     res.send(items);
   });
-})
-router.get('/getRabbitLitters/:rabbit', function (req, res) {
+});
+router.get("/getRabbitLitters/:rabbit", function (req, res) {
   var rabbit = req.params.rabbit;
   let litters = Litters.find({
-    'Mother': rabbit
+    Mother: rabbit,
   });
   Litters.find({
-    $or: [{
-        Mother: rabbit
+    $or: [
+      {
+        Mother: rabbit,
       }, // Condition 1
       {
-        Father: rabbit
-      } // Condition 2
-    ]
-  }).then(items => {
-    console.log(items)
+        Father: rabbit,
+      }, // Condition 2
+    ],
+  }).then((items) => {
     res.send(items);
   });
-})
-router.get('/getRabbitLitter/:id', function (req, res) {
+});
+router.get("/getRabbitLitter/:id", function (req, res) {
   var id = req.params.id;
-  Litters.findById(id).then(item => {
-    console.log(item)
+  Litters.findById(id).then((item) => {
     res.send(item);
   });
-})
-router.get('/delALL', async function (req, res, next) {
+});
+router.get("/delALL", async function (req, res, next) {
   // main();
-  const query = {
-
-  };
+  const query = {};
   const result = await Rabbits.deleteMany(query);
   const result2 = await Litters.deleteMany(query);
   const result3 = await Tasks.deleteMany(query);
   const result4 = await Breeders.deleteMany(query);
- 
+
   let sendData = {
-    'Rabbits':result,
-    'Litters': result2,
-    'Tasks': result3,
-    'breeders': result4
-  }
+    Rabbits: result,
+    Litters: result2,
+    Tasks: result3,
+    breeders: result4,
+  };
   //// console.log(rabbit);
 
   res.send(sendData);
 });
 
-
-
-router.get('/getLitterKidNotes/:LitterID/:KidID', function (req, res) {
-
-  let litterID = req.params.LitterID
-  let rabbitID = req.params.KidID
+router.get("/getLitterKidNotes/:LitterID/:KidID", function (req, res) {
+  let litterID = req.params.LitterID;
+  let rabbitID = req.params.KidID;
   async function findKidById(litterID, rabbitID) {
     try {
       const litter = await Litters.findById(litterID);
@@ -244,68 +216,65 @@ router.get('/getLitterKidNotes/:LitterID/:KidID', function (req, res) {
         return null;
       }
     } catch (error) {
-      console.error('Error finding address:', error);
+      console.error("Error finding address:", error);
       return null;
     }
   }
-  findKidById(litterID, rabbitID)
-})
-router.post('/addPurchase/:breederID', function (req, res) {
-  var requested = req.body
+  findKidById(litterID, rabbitID);
+});
+router.post("/addPurchase/:breederID", function (req, res) {
+  var requested = req.body;
   var breederID = req.params.breederID;
 
+  let Purchased = moment(requested.PurchaseInputs["RaPurchasedbbit"]).local();
+  let Rabbit = requested.PurchaseInputs["Rabbit"];
+  let Cost = requested.PurchaseInputs["Cost"];
 
-    let Purchased = moment(requested.PurchaseInputs['RaPurchasedbbit']).local()
-    let Rabbit = requested.PurchaseInputs['Rabbit']
-    let Cost = requested.PurchaseInputs['Cost']
-    console.log(requested)
-
-    Breeders.findById(breederID).then(item => {
-      // console.log(item)
-      item.Purchases.push({
-        'Rabbit': Rabbit,
-        'Purchased': Purchased,
-        'Cost': Cost
-      })
-      item.save()
-
-      res.status(200).end()
+  Breeders.findById(breederID).then((item) => {
+    // console.log(item)
+    item.Purchases.push({
+      Rabbit: Rabbit,
+      Purchased: Purchased,
+      Cost: Cost,
     });
- 
-})
-router.post('/newnote/:itemType', function (req, res) {
-  var requested = req.body
+    item.save();
+
+    res.status(200).end();
+  });
+});
+router.post("/newnote/:itemType", function (req, res) {
+  var requested = req.body;
   var itemType = req.params.itemType;
   // console.log("requested")
   // console.log(requested)
-  if (itemType == 'rabbit') {
-    let rabbitID = requested['id']
-    let rabbit = requested['Rabbit']
-    let date = moment().local()
-    let title = requested['Title']
-    let note = requested['Note']
+  if (itemType == "rabbit") {
+    let rabbitID = requested["id"];
+    let rabbit = requested["Rabbit"];
+    let date = moment().local();
+    let title = requested["Title"];
+    let note = requested["Note"];
     // console.log(requested)
 
-    Rabbits.findById(rabbitID).then(item => {
+    Rabbits.findById(rabbitID).then((item) => {
       // console.log(item)
       item.Notes.push({
-        'Note': note,
-        'Title': title,
-        'Date': date
-      })
-      item.save()
+        Note: note,
+        Title: title,
+        Date: date,
+      });
+      item.save();
 
-      res.status(200).end()
+      res.status(200).end();
     });
   }
-  if (itemType == 'Kid') {
-    let litterID = requested['LitterID']
-    let rabbitID = requested['KidID']
+  if (itemType == "Kid") {
+    let litterID = requested["LitterID"];
+    let rabbitID = requested["KidID"];
     //// console.log(litterID)
     //// console.log(rabbitID)
-    let date = requested['Date']
-    let title = requested['Title']
-    let note = requested['Note']
+    let date = requested["Date"];
+    let title = requested["Title"];
+    let note = requested["Note"];
     //// console.log(requested)
     async function findKidById(litterID, rabbitID) {
       try {
@@ -320,14 +289,13 @@ router.post('/newnote/:itemType', function (req, res) {
           // console.log('Found Litter:', litter);
 
           kid.Notes.push({
-            'Note': note,
-            'Title': title,
-            'Date': date
-          })
-          litter.save()
+            Note: note,
+            Title: title,
+            Date: date,
+          });
+          litter.save();
 
-
-          res.status(200).end()
+          res.status(200).end();
           // console.log('Found Kid:', kid);
           return kid;
         } else {
@@ -335,353 +303,316 @@ router.post('/newnote/:itemType', function (req, res) {
           return null;
         }
       } catch (error) {
-        console.error('Error finding address:', error);
+        console.error("Error finding address:", error);
         return null;
       }
     }
-    findKidById(litterID, rabbitID)
-
+    findKidById(litterID, rabbitID);
   }
-
-})
-router.post('/addRabbitWeight', async function(req,res){
-  let data = req.body
-  console.log(data)
-  let id = data.id
-    Rabbits.findById(id).then(item => {
-     console.log(item)
-      item.CurrentWeight.push({
-        'Weight': data.Weight,
-        'Date': moment().format('MM/DD/YY')
-      })
-      item.save()
-
-      res.status(200).end()
+});
+router.post("/addRabbitWeight", async function (req, res) {
+  let data = req.body;
+  console.log(data);
+  let id = data.id;
+  Rabbits.findById(id).then((item) => {
+    console.log(item);
+    item.CurrentWeight.push({
+      Weight: data.Weight,
+      Date: moment().format("MM/DD/YY"),
     });
+    item.save();
 
-
-})
-router.post('/uploadFile', async function (req, res) {
+    res.status(200).end();
+  });
+});
+router.post("/uploadFile", async function (req, res) {
   // console.log(req.files);
-  var requested = req.body
+  var requested = req.body;
   // console.log(requested)
   let sampleFile;
   let uploadPath;
 
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
+    return res.status(400).send("No files were uploaded.");
   }
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   sampleFile = req.files.file;
-  uploadPath = '/home/jack/rabbits/public/Files/' + sampleFile.name;
+  uploadPath = "/home/jack/rabbits/public/Files/" + sampleFile.name;
   // console.log(uploadPath)
   // Use the mv() method to place the file somewhere on your server
   sampleFile.mv(uploadPath, function (err) {
     if (err)
       // console.log(err)
       return res.status(500).send(err);
-  })
+  });
   const rabbit = await Rabbits.findById(requested.rabbit);
-  rabbit.Files.push('public/Files/' + sampleFile.name)
-  rabbit.save()
-  res.send('File uploaded!');
-
+  rabbit.Files.push("public/Files/" + sampleFile.name);
+  rabbit.save();
+  res.send("File uploaded!");
 });
-router.post('/updateRabbit', function (req, res) {
+router.post("/updateRabbit", function (req, res) {
   let sampleFile;
   let uploadPath;
-  var requested = req.body
-  let id = requested['id']
+  var requested = req.body;
+  let id = requested["id"];
   // console.log(requested)
   if (req.files) {
     sampleFile = req.files.file;
-    uploadPath = '/home/jack/rabbits/public/pics/' + sampleFile.name;
-    requested.Pic = 'http://192.168.0.156:3000/pics/' + sampleFile.name;
+    uploadPath = "/home/jack/rabbits/public/pics/" + sampleFile.name;
+    requested.Pic = "http://192.168.0.156:3000/pics/" + sampleFile.name;
 
     // console.log(requested)
     // Use the mv() method to place the file somewhere on your server
     sampleFile.mv(uploadPath, function (err) {
-      if (err)
-        console.log(err)
+      if (err) console.log(err);
       return res.status(500).send(err);
-    })
+    });
   }
-  let set = requested
-  Rabbits.findOneAndUpdate({
-        _id: id
-      }, {
-        $set: set
-      }, {
-        upsert: true
-      }, {
-        new: true
-      } // Return the updated document
-    )
+  let set = requested;
+  Rabbits.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $set: set,
+    },
+    {
+      upsert: true,
+    },
+    {
+      new: true,
+    } // Return the updated document
+  )
     .then((rabbit) => {
       // console.log("UPDATED")
       // console.log(rabbit)
-      res.status(200).end()
+      res.status(200).end();
     })
     .catch((e) => {
       // console.log(e)
     });
-
-
-
-})
-router.post('/updateRabbitKids/:litterID/:rabbitID', function (req, res) {
-  var requested = req.body
+});
+router.post("/updateRabbitKids/:litterID/:rabbitID", function (req, res) {
+  var requested = req.body;
   var litterID = req.params.litterID;
   let rabbitID = req.params.rabbitID;
-  console.log(requested)
+  console.log(requested);
   // console.log(rabbitID)
-  let set = {}
+  let set = {};
 
-  let updateItems = ""
+  let updateItems = "";
 
-  console.log(updateItems)
+  console.log(updateItems);
   async function findKidById(litterID, rabbitID) {
     try {
       const litter = await Litters.findById(litterID);
       if (!litter) {
-        console.log('User not found.');
+        console.log("User not found.");
         return null;
       }
 
       const kid = litter.Kids.id(rabbitID);
       if (kid) {
-        console.log('Found Litter:');
-        console.log('Found KID:');
+        console.log("Found Litter:");
+        console.log("Found KID:");
         for (var field in requested) {
-
-
-          kid[field] = requested[field]
-          if (field == 'DateProcessed') {
-            kid['Status'] = 'Processed'
-            kid['Processed'] = true
-            kid['Growing'] = false
+          kid[field] = requested[field];
+          if (field == "DateProcessed") {
+            kid["Status"] = "Processed";
+            kid["Processed"] = true;
+            kid["Growing"] = false;
           }
-          console.log(kid.Status)
-          if (kid.Status == 'Growing') {
-            
-            kid['Processed'] = false
-            kid['Growing'] = true
+          console.log(kid.Status);
+          if (kid.Status == "Growing") {
+            kid["Processed"] = false;
+            kid["Growing"] = true;
           }
-
-
-
         }
 
-        litter.save()
+        litter.save();
         // console.log('Found Kid:', kid);
-        res.status(200).end()
+        res.status(200).end();
         return kid;
-
       } else {
-        console.log('Address not found within user.');
-        res.status(500).end()
+        console.log("Address not found within user.");
+        res.status(500).end();
         return null;
       }
     } catch (error) {
-      console.error('Error finding address:', error);
+      console.error("Error finding address:", error);
       return null;
     }
   }
-  findKidById(litterID, rabbitID)
-
-
-
-})
-router.post('/updateRabbitMate', function (req, res) {
-  var requested = req.body
-  let doe = requested['Doe']
-  let Buck = requested['Buck']
-  let date = requested['Date']
-  let note = requested['Note']
+  findKidById(litterID, rabbitID);
+});
+router.post("/updateRabbitMate", function (req, res) {
+  var requested = req.body;
+  let doe = requested["Doe"];
+  let Buck = requested["Buck"];
+  let date = requested["Date"];
+  let note = requested["Note"];
 
   let set = {
     Buck: Buck,
     Date: date,
-    Note: note
-  }
-  console.log(set)
-  Rabbits.findOne({'Name':doe}).then(item => {
-      // console.log(item)
-      item.Mated.push(set)
-      item.ReadyToBreed = false
-      
-      item.DateReadyToBreed = moment(date).add(83, 'days')
-      item.save()
-      const doc = new Tasks();
+    Note: note,
+  };
+  console.log(set);
+  Rabbits.findOne({ Name: doe }).then((item) => {
+    // console.log(item)
+    item.Mated.push(set);
+    item.ReadyToBreed = false;
 
-      doc.Title = "Add Nesting Box"
-      doc.Note = "Need to add a nesting box to " + doe + " cage"
-      doc.Due = moment(date).add(27, 'days')
-      doc.Rabbit = doe
-      //// console.log(doc)
-      // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
-      // to MongoDB.
-      doc.save();
+    item.DateReadyToBreed = moment(date).add(83, "days");
+    item.save();
+    const doc = new Tasks();
 
-      const doc2 = new Tasks();
+    doc.Title = "Add Nesting Box";
+    doc.Note = "Need to add a nesting box to " + doe + " cage";
+    doc.Due = moment(date).add(27, "days");
+    doc.Rabbit = doe;
+    //// console.log(doc)
+    // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
+    // to MongoDB.
+    doc.save();
 
-      doc2.Title = "Palpate Doe"
-      doc2.Note = "Palpate " + doe 
-      doc2.Due = moment(date).add(14, 'days')
-      doc2.Rabbit = doe
-      //// console.log(doc)
-      // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
-      // to MongoDB.
-      doc2.save()
- 
+    const doc2 = new Tasks();
 
+    doc2.Title = "Palpate Doe";
+    doc2.Note = "Palpate " + doe;
+    doc2.Due = moment(date).add(14, "days");
+    doc2.Rabbit = doe;
+    //// console.log(doc)
+    // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
+    // to MongoDB.
+    doc2.save();
 
-      res.status(200).end()
-    });
-
-
-
-
-
-})
-router.post('/updateTask', function (req, res) {
-  var requested = req.body
-  let id = requested['id']
-  let completed = requested['Completed']
+    res.status(200).end();
+  });
+});
+router.post("/updateTask", function (req, res) {
+  var requested = req.body;
+  let id = requested["id"];
+  let completed = requested["Completed"];
 
   let set = {
     Completed: completed,
-    Date_Completed: moment().local()
-  }
-  Tasks.findOneAndUpdate({
-        _id: id
-      }, {
-        $set: set
-      }, {
-        upsert: true
-      }, {
-        new: true
-      } // Return the updated document
-    )
+    Date_Completed: moment().local(),
+  };
+  Tasks.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $set: set,
+    },
+    {
+      upsert: true,
+    },
+    {
+      new: true,
+    } // Return the updated document
+  )
     .then((user) => {
       // console.log("UPDATED")
       // console.log(user)
-      res.status(200).end()
+      res.status(200).end();
     })
     .catch((e) => {
       // console.log(e)
     });
-
-
-
-})
-router.get('/getTasks/', function (req, res) {
+});
+router.get("/getTasks/", function (req, res) {
   var rabbit = req.params.rabbit;
-  Tasks.find().then(items => {
-    items.forEach(obj => {
+  Tasks.find().then((items) => {
+    items.forEach((obj) => {
       if (obj.Due) {
         if (!moment(obj.Due).isBefore(moment(), "day")) {
-          console.log('AFTER')
-          console.log(obj.Due)
-
         }
         if (moment(obj.Due).isBefore(moment(), "day")) {
-          console.log('PAST')
-          console.log(obj.Due)
-
         }
       }
-
     });
-
-
-
 
     //console.log(items)
     res.send(items);
   });
-})
-router.get('/getTasks/:rabbit', function (req, res) {
+});
+router.get("/getTasks/:rabbit", function (req, res) {
   var rabbit = req.params.rabbit;
   Tasks.find({
-    Rabbit: rabbit
-  }).then(items => {
+    Rabbit: rabbit,
+  }).then((items) => {
     //// console.log(items)
     res.send(items);
   });
-})
-router.get('/getTasksDue/', function (req, res) {
+});
+router.get("/getTasksDue/", function (req, res) {
   async function findUnavailableProducts() {
     try {
       const notDoneTasks = await Tasks.find({
-        Completed: false
+        Completed: false,
       });
       // console.log(' not done :', notDoneTasks);
       res.send(notDoneTasks);
     } catch (error) {
-      console.error('Error finding products:', error);
+      console.error("Error finding products:", error);
     }
   }
 
   findUnavailableProducts();
-
-})
-router.post('/newweight', function (req, res) {
+});
+router.post("/newweight", function (req, res) {
   // console.log(req.body)
-  let requested = req.body
+  let requested = req.body;
+  console.log(requested);
+  let litterID = requested["Litter"];
+  let rabbitID = requested["Rabbit"];
+  console.log(litterID);
+  console.log(rabbitID);
+  let date = requested["Date"];
+  let weight = requested["Weight"].toString();
 
-
-  let litterID = requested['Litter']
-  let rabbitID = requested['Rabbit']
-  console.log(litterID)
-  console.log(rabbitID)
-  let date = requested['Date']
-  let weight =requested['Weight'].toString()
-  console.log(requested)
   async function findKidById(litterID, rabbitID) {
     try {
       const litter = await Litters.findById(litterID);
       if (!litter) {
-        // console.log('User not found.');
+        console.log("User not found.");
         return null;
       }
 
       const kid = litter.Kids.id(rabbitID);
       if (kid) {
-        //console.log('Found Litter:',litter);
-        //// console.log('Found KID:',kid);
+        console.log("Found Litter:", litter);
+        console.log("Found KID:", kid);
         kid.CurrentWeight.push({
-          'Weight': parseFloat(weight),
-          'Date': date
-        })
-        litter.save()
-        // console.log('Found Kid:', kid);
+          Weight: parseFloat(weight),
+          Date: date,
+        });
+        litter.save();
+        console.log("Found Kid:", kid);
         return kid;
       } else {
-        // console.log('Address not found within user.');
+        console.log("Address not found within user.");
         return null;
       }
     } catch (error) {
-      console.error('Error finding address:', error);
+      console.error("Error finding address:", error);
       return null;
     }
   }
-  findKidById(litterID, rabbitID)
+  findKidById(litterID, rabbitID);
 
-  res.status(200).end()
+  res.status(200).end();
 });
-router.post('/newbirthweight', function (req, res) {
+router.post("/newbirthweight", function (req, res) {
   // console.log(req.body)
-  let requested = req.body
+  let requested = req.body;
 
-
-  let litterID = requested['Litter']
-  let rabbitID = requested['Rabbit']
-  console.log(litterID)
-  console.log(rabbitID)
-  let weight =requested['BirthWeight'].toString()
-  console.log(requested)
+  let litterID = requested["Litter"];
+  let rabbitID = requested["Rabbit"];
+  let weight = requested["BirthWeight"].toString();
   async function findKidById(litterID, rabbitID) {
     try {
       const litter = await Litters.findById(litterID);
@@ -695,8 +626,8 @@ router.post('/newbirthweight', function (req, res) {
         //console.log('Found Litter:',litter);
         //// console.log('Found KID:',kid);
         kid.BirthWeight = parseFloat(weight);
-          
-        litter.save()
+
+        litter.save();
         // console.log('Found Kid:', kid);
         return kid;
       } else {
@@ -704,32 +635,31 @@ router.post('/newbirthweight', function (req, res) {
         return null;
       }
     } catch (error) {
-      console.error('Error finding address:', error);
+      console.error("Error finding address:", error);
       return null;
     }
   }
-  findKidById(litterID, rabbitID)
+  findKidById(litterID, rabbitID);
 
-  res.status(200).end()
+  res.status(200).end();
 });
-router.post('/newtask', function (req, res) {
+router.post("/newtask", function (req, res) {
   //// console.log(req.body)
   const doc = new Tasks();
 
-  doc.Title = req.body.Title
-  doc.Date_Completed = req.body.Date_Completed
-  doc.Note = req.body.Note
-  doc.Completed = req.body.Completed
-  doc.Due = moment(req.body.Due).set({hour:18, minute:59})
-  doc.Rabbit = req.body.Rabbit
+  doc.Title = req.body.Title;
+  doc.Date_Completed = req.body.Date_Completed;
+  doc.Note = req.body.Note;
+  doc.Completed = req.body.Completed;
+  doc.Due = moment(req.body.Due).set({ hour: 18, minute: 59 });
+  doc.Rabbit = req.body.Rabbit;
   //// console.log(doc)
   // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
   // to MongoDB.
   doc.save();
-  console.log(doc)
-  res.status(200).end()
+  res.status(200).end();
 });
-router.post('/newRabbit', function (req, res) {
+router.post("/newRabbit", function (req, res) {
   // console.log(req.body)
   const doc = new Rabbits();
 
@@ -744,77 +674,82 @@ router.post('/newRabbit', function (req, res) {
   // to MongoDB.
   doc.save();
 
-  res.status(200).end()
+  res.status(200).end();
 });
-router.post('/editLitter', function (req, res) {
-   var requested = req.body
-  let id = requested['id']
-  console.log(requested)
+router.post("/editLitter", function (req, res) {
+  var requested = req.body;
+  let id = requested["id"];
 
   let set = {
-    LitterID:requested.litterinputs['LitterID'],
-    Father:requested.litterinputs['Father'],
-    Mother:requested.litterinputs['Mother'],
-    Bred:requested.litterinputs['Bred'],
-    Born:requested.litterinputs['Born']
-  }
-  Litters.findOneAndUpdate({
-        _id: id
-      }, {
-        $set: set
-      }, {
-        upsert: true
-      }, {
-        new: true
-      } // Return the updated document
-    )
+    LitterID: requested.litterinputs["LitterID"],
+    Father: requested.litterinputs["Father"],
+    Mother: requested.litterinputs["Mother"],
+    Bred: requested.litterinputs["Bred"],
+    Born: requested.litterinputs["Born"],
+  };
+  Litters.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $set: set,
+    },
+    {
+      upsert: true,
+    },
+    {
+      new: true,
+    } // Return the updated document
+  )
     .then((user) => {
       // console.log("UPDATED")
       // console.log(user)
-      res.status(200).end()
+      res.status(200).end();
     })
     .catch((e) => {
       // console.log(e)
     });
 });
-router.post('/editbreeder', function (req, res) {
-   var requested = req.body
-  let breeder = requested.breederinputs['Breeder']
-  console.log(requested)
+router.post("/editbreeder", function (req, res) {
+  var requested = req.body;
+  let breeder = requested.breederinputs["Breeder"];
 
   let set = {
-    Address: requested.breederinputs['Address'],
-    Name: requested.breederinputs['Name'],
-    Farm: requested.breederinputs['Farm'],
-    City: requested.breederinputs['City'],
-    State: requested.breederinputs['State'],
-    Zip: requested.breederinputs['Zip'],
-    Phone: requested.breederinputs['Phone'],
-    Note: requested.breederinputs['Note'],
-    Email: requested.breederinputs['Email'],
-    
-  }
-  Breeders.findOneAndUpdate({
-        Name: breeder
-      }, {
-        $set: set
-      }, {
-        upsert: true
-      }, {
-        new: true
-      } // Return the updated document
-    )
+    Address: requested.breederinputs["Address"],
+    Name: requested.breederinputs["Name"],
+    Farm: requested.breederinputs["Farm"],
+    City: requested.breederinputs["City"],
+    State: requested.breederinputs["State"],
+    Zip: requested.breederinputs["Zip"],
+    Phone: requested.breederinputs["Phone"],
+    Note: requested.breederinputs["Note"],
+    Email: requested.breederinputs["Email"],
+  };
+  Breeders.findOneAndUpdate(
+    {
+      Name: breeder,
+    },
+    {
+      $set: set,
+    },
+    {
+      upsert: true,
+    },
+    {
+      new: true,
+    } // Return the updated document
+  )
     .then((user) => {
       // console.log("UPDATED")
       // console.log(user)
-      res.status(200).end()
+      res.status(200).end();
     })
     .catch((e) => {
-      console.log(e)
+      console.log(e);
     });
 });
-router.post('/newLitter', function (req, res) {
-  let literData = req.body
+router.post("/newLitter", function (req, res) {
+  let literData = req.body;
   //console.log(typeof(literData))
   // console.log(literData)
   //// console.log(literData.Father)
@@ -825,197 +760,208 @@ router.post('/newLitter', function (req, res) {
   doc.Mother = literData.litterinputs.Mother;
   doc.Born = literData.litterinputs.Born;
   doc.Bred = literData.litterinputs.Bred;
-  doc.Kids = literData.Kids
+  doc.Kids = literData.Kids;
 
   // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
   // to MongoDB.
   doc.save();
-      const doc2 = new Tasks();
+  const doc2 = new Tasks();
 
-      doc2.Title = "Wean Babbies"
-      doc2.Note = "Wean babbies for litter " + literData.litterinputs.LitterID 
-      doc2.Due = moment(literData.litterinputs.Born).add(42, 'days')
-      doc2.Rabbit = literData.litterinputs.Mother
-      //// console.log(doc)
-      // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
-      // to MongoDB.
-      doc2.save()
-  Rabbits.findOneAndUpdate({
-        'Name': literData.litterinputs.Mother
-      }, {
-        $set: {'DateReadyToBreed': moment(literData.litterinputs.Born).add(56, 'days')}
-      }, {
-        upsert: true
-      }, {
-        new: true
-      } // Return the updated document
-    )
+  doc2.Title = "Wean Babbies";
+  doc2.Note = "Wean babbies for litter " + literData.litterinputs.LitterID;
+  doc2.Due = moment(literData.litterinputs.Born).add(42, "days");
+  doc2.Rabbit = literData.litterinputs.Mother;
+  //// console.log(doc)
+  // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
+  // to MongoDB.
+  doc2.save();
+  Rabbits.findOneAndUpdate(
+    {
+      Name: literData.litterinputs.Mother,
+    },
+    {
+      $set: {
+        DateReadyToBreed: moment(literData.litterinputs.Born).add(56, "days"),
+      },
+    },
+    {
+      upsert: true,
+    },
+    {
+      new: true,
+    } // Return the updated document
+  )
     .then((user) => {
       // console.log("UPDATED")
       // console.log(user)
-      res.status(200).end()
+      res.status(200).end();
     })
     .catch((e) => {
       // console.log(e)
     });
-
-
 });
-router.post('/newBreeder', function (req, res) {
-  let breederData = req.body
+router.post("/newBreeder", function (req, res) {
+  let breederData = req.body;
   //console.log(typeof(literData))
   // console.log(literData)
   //// console.log(literData.Father)
   const doc = new Breeders();
-  doc.Address = breederData.breederinputs.Address
-    doc.Name = breederData.breederinputs.Name
-    doc.Farm = breederData.breederinputs.Farm
-    doc.City= breederData.breederinputs.City
-    doc.State= breederData.breederinputs.State
-    doc.Zip= breederData.breederinputs.Zip
-    doc.Phone= breederData.breederinputs.Phone
-    doc.Note= breederData.breederinputs.Note
-    doc.Email= breederData.breederinputs.Email
+  doc.Address = breederData.breederinputs.Address;
+  doc.Name = breederData.breederinputs.Name;
+  doc.Farm = breederData.breederinputs.Farm;
+  doc.City = breederData.breederinputs.City;
+  doc.State = breederData.breederinputs.State;
+  doc.Zip = breederData.breederinputs.Zip;
+  doc.Phone = breederData.breederinputs.Phone;
+  doc.Note = breederData.breederinputs.Note;
+  doc.Email = breederData.breederinputs.Email;
 
   // Mongoose sends an `updateOne({ _id: doc._id }, { $set: { name: 'foo' } })`
   // to MongoDB.
   doc.save();
 
-  res.status(200).end()
+  res.status(200).end();
 });
-router.post('/addKidToLitter', function (req, res) {
-  let kidData = req.body
-  let litterID = kidData.LitterID
-  let KidID = kidData.KidID.toString()
-  console.log(kidData.KidID)
+router.post("/addKidToLitter", function (req, res) {
+  let kidData = req.body;
+  let litterID = kidData.LitterID;
+  let KidID = kidData.KidID.toString();
   async function findLitterById(litterID) {
-
-try {
-  const litter = await Litters.findById(litterID);
+    try {
+      const litter = await Litters.findById(litterID);
       if (!litter) {
         // console.log('User not found.');
         return null;
       }
       litter.Kids.push({
-          'KidID': KidID,
-          'Sex': kidData.Sex
-        })
-      litter.save()
-  console.log(litter)
-} catch (error) {
-  console.log(error)
-}
-
-
-
+        KidID: KidID,
+        Sex: kidData.Sex,
+      });
+      litter.save();
+    } catch (error) {
+      console.log(error);
+    }
   }
-  findLitterById(litterID)
+  findLitterById(litterID);
 
-  res.status(200).end()
+  res.status(200).end();
 });
-let ReadyToBreed = []
-router.get('/getReadyToBreed/', async function (req, res, next) {
+let ReadyToBreed = [];
+router.get("/getReadyToBreed/", async function (req, res, next) {
   // main();
-res.send(ReadyToBreed).end()
-
+  res.send(ReadyToBreed).end();
 });
 setInterval(() => {
-    Rabbits.find().then(items => {
+  Rabbits.find().then((items) => {
     items.map((rabbit) => {
-      if(rabbit.Sex==='Doe'){
+      if (rabbit.Sex === "Doe") {
         let dateBorn = rabbit.Date_Born;
-        let today = moment().local()
-        let age = today.diff(dateBorn, 'days')
-        console.log("AGE: " + age)
-          if(rabbit.Mated.length == 0 && age > 60){
-            console.log('SHES READY')
-            ReadyToBreed.push({
-              'Doe': rabbit.Name,
-              "ReadyToBreed": true,
-              "CanBreed": moment().local()
-            })
+        let today = moment().local();
+        let age = today.diff(dateBorn, "days");
+        if (rabbit.Mated.length == 0 && age > 60) {
+          ReadyToBreed.push({
+            Doe: rabbit.Name,
+            ReadyToBreed: true,
+            CanBreed: moment().local(),
+          });
 
-            Rabbits.findOneAndUpdate({
-              'Name': rabbit.Name,
-        
-                  }, {
-              $set: {'ReadyToBreed': true,'DateReadyToBreed': rabbit.DateReadyToBreed}
-              }, {
-                upsert: true
-                }, {
-                new: true
-              }) .then((rabbit) => {
-                // console.log("UPDATED")
-                // console.log(rabbit)
-                res.status(200).end()
-              })
-              .catch((e) => {
-                // console.log(e)
-              })
-          }
-          const date1 = moment(rabbit.DateReadyToBreed).local()
-          const date2 = moment()
-          const diff = date1.diff(date2, 'days')   
-          console.log("diff: ", diff);
-          if(diff > 0){
-
-            ReadyToBreed.push({
-              'Doe': rabbit.Name,
-              "ReadyToBreed": false,
-              "CanBreed": diff
+          Rabbits.findOneAndUpdate(
+            {
+              Name: rabbit.Name,
+            },
+            {
+              $set: {
+                ReadyToBreed: true,
+                DateReadyToBreed: rabbit.DateReadyToBreed,
+              },
+            },
+            {
+              upsert: true,
+            },
+            {
+              new: true,
+            }
+          )
+            .then((rabbit) => {
+              // console.log("UPDATED")
+              // console.log(rabbit)
+              res.status(200).end();
             })
-            Rabbits.findOneAndUpdate({
-        'Name': rabbit.Name,
-        
-      }, {
-        $set: {'ReadyToBreed': false,'DateReadyToBreed': rabbit.DateReadyToBreed}
-      }, {
-        upsert: true
-      }, {
-        new: true
-      }) .then((rabbit) => {
-      // console.log("UPDATED")
-      // console.log(rabbit)
-      res.status(200).end()
-    })
-    .catch((e) => {
-      // console.log(e)
-    }) // Return the updated document
-    
-          console.log("Ready to Breed in " + diff + " days")
-          }
-          if(diff === 0){
-            ReadyToBreed.push({
-              'Doe': rabbit.Name,
-              "ReadyToBreed": true,
-              "CanBreed": moment().local()
-            })
-            Rabbits.findOneAndUpdate({
-        'Name': rabbit.Name,
-        
-      }, {
-        $set: {'ReadyToBreed': true,'DateReadyToBreed': rabbit.DateReadyToBreed}
-      }, {
-        upsert: true
-      }, {
-        new: true
-      }) .then((rabbit) => {
-      // console.log("UPDATED")
-      // console.log(rabbit)
-      res.status(200).end()
-    })
-    .catch((e) => {
-      // console.log(e)
-    })
-      
-      // Return the updated document
-    
-          console.log("Ready to Breed Today ")
-          }
+            .catch((e) => {
+              // console.log(e)
+            });
         }
+        const date1 = moment(rabbit.DateReadyToBreed).local();
+        const date2 = moment();
+        const diff = date1.diff(date2, "days");
+        if (diff > 0) {
+          ReadyToBreed.push({
+            Doe: rabbit.Name,
+            ReadyToBreed: false,
+            CanBreed: diff,
+          });
+          Rabbits.findOneAndUpdate(
+            {
+              Name: rabbit.Name,
+            },
+            {
+              $set: {
+                ReadyToBreed: false,
+                DateReadyToBreed: rabbit.DateReadyToBreed,
+              },
+            },
+            {
+              upsert: true,
+            },
+            {
+              new: true,
+            }
+          )
+            .then((rabbit) => {
+              // console.log("UPDATED")
+              // console.log(rabbit)
+              res.status(200).end();
+            })
+            .catch((e) => {
+              // console.log(e)
+            }); // Return the updated document
+        }
+        if (diff === 0) {
+          ReadyToBreed.push({
+            Doe: rabbit.Name,
+            ReadyToBreed: true,
+            CanBreed: moment().local(),
+          });
+          Rabbits.findOneAndUpdate(
+            {
+              Name: rabbit.Name,
+            },
+            {
+              $set: {
+                ReadyToBreed: true,
+                DateReadyToBreed: rabbit.DateReadyToBreed,
+              },
+            },
+            {
+              upsert: true,
+            },
+            {
+              new: true,
+            }
+          )
+            .then((rabbit) => {
+              // console.log("UPDATED")
+              // console.log(rabbit)
+              res.status(200).end();
+            })
+            .catch((e) => {
+              // console.log(e)
+            });
 
-    })
-    
+          // Return the updated document
+        }
+      }
+    });
   });
 }, 10000);
 module.exports = router;
