@@ -1,58 +1,60 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const fileUpload = require('express-fileupload');
-var Rabbits = require('./schema/rabbits');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var database = require('./routes/database');
+var createError = require("http-errors");
+var express = require("express");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
+const fileUpload = require("express-fileupload");
+var Rabbits = require("./schema/rabbits");
+const io = require("socket.io")();
+const socketapi = {
+  io: io,
+};
+var indexRouter = require("./routes/index");
+var usersRouter = require("./routes/users");
+var database = require("./routes/database");
 var app = express();
-const mongoose = require('mongoose');
-var Rabbits = require('./schema/rabbits');
+const mongoose = require("mongoose");
+var Rabbits = require("./schema/rabbits");
 
-const cors = require('cors');
-const { setInterval } = require('timers/promises');
+const cors = require("cors");
+const { setInterval } = require("timers/promises");
 const corsOptions = {
-  origin: 'http://192.168.0.156:3005', // Replace with your frontend origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: "http://192.168.196.4:3005", // Replace with your frontend origin
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: false, // Allow sending cookies/authentication headers
-  exposedHeaders: ['Content-Length', 'X-Foo'], // Expose custom headers to client
+  exposedHeaders: ["Content-Length", "X-Foo"], // Expose custom headers to client
 };
 
-app.use(cors(corsOptions)); 
+app.use(cors(corsOptions));
 app.use(fileUpload());
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/database', database);
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/database", database);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
 
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
-
 
 module.exports = app;

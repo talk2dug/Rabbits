@@ -1,2082 +1,1153 @@
+var Server = io("//192.168.196.4:3000");
+let liItems = "";
+let matedArray = "";
+let notesHTML = "";
+let taskssHTML = "";
+let litterListViewHTML = "";
+let tasksPastHTML = "";
+let tasksFutureHTML = "";
+let newLitterForm = "";
+let growingsHTML = "";
+let licageItems = "";
+let weightsArray = [];
+let growingRabbitData = [];
+let SelectedRabbit = {};
+let litterData = [];
+let RabbitData = [];
+let Bucks = [];
+let Does = [];
+let Rabbits = [];
+let rabbitCageItems = {};
 
-let pstyle = 'border: 1px solid #efefef; padding: 5px'
+let listview = `<ul data-role="listview" data-inset="true" data-divider-theme="a">
+<li data-role="list-divider">Rabbits</li>
+<li><a href="#two">Litters</a></li>
+<li><a href="#">Growing</a></li>
+<li><a href="#">Rabbits</a></li>
+<li data-role="list-divider">Actions</li>
+<li><a href="#">Tasks</a></li>
+<li><a href="#" id='addTask'>Add Task</a></li>
+<li><a href="#">Weights</a></li>
+</ul>`;
+let page1 = `
 
-let w2uiHTML = `<div id="layout" style="width: auto; height: 1024px;"></div>`
-let does = []
-let bucks = []
-let litters = []
-let buckList = []
-let doeList = []
-let gridKits
-     let selectedRabbit =""
-     let selectedRabbitID = ""
+	<div data-role="header">
+		<h1>Page Title</h1>
+	</div><!-- /header -->
+	<div role="main" class="ui-content" id='MainContent'>
+		<p>Page content goes here.</p>
+	</div><!-- /content -->
+    
 
-     function getTaskItems(){
-        w2ui['taskgrid'].clear();
-        $.getJSON('/database/getTasks/'+ selectedRabbit, function(data) {
-            console.log(data)
-            for (i = 0; i < data.length; i++) {
+	<div data-role="footer">
+  
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+  `;
+
+let rabbitTable = `<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">
+<thead>
+<tr>
+<th data-priority="2">Rank</th>
+<th>Movie Title</th>
+<th data-priority="3">Year</th>
+<th data-priority="1"><abbr title="Rotten Tomato Rating">Rating</abbr></th>
+<th data-priority="5">Reviews</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>1</th>
+<td><a href="https://en.wikipedia.org/wiki/Citizen_Kane" data-rel="external">Citizen Kane</a></td>
+<td>1941</td>
+<td>100%</td>
+<td>74</td>
+</tr>
+<tr>
+<th>2</th>
+<td><a href="https://en.wikipedia.org/wiki/Casablanca_(film)" data-rel="external">Casablanca</a></td>
+<td>1942</td>
+<td>97%</td>
+<td>64</td>
+</tr>
+<tr>
+<th>3</th>
+<td><a href="https://en.wikipedia.org/wiki/The_Godfather" data-rel="external">The Godfather</a></td>
+<td>1972</td>
+<td>97%</td>
+<td>87</td>
+</tr>
+<tr>
+<th>4</th>
+<td><a href="https://en.wikipedia.org/wiki/Gone_with_the_Wind_(film)" data-rel="external">Gone with the Wind</a></td>
+<td>1939</td>
+<td>96%</td>
+<td>87</td>
+</tr>
+<tr>
+<th>5</th>
+<td><a href="https://en.wikipedia.org/wiki/Lawrence_of_Arabia_(film)" data-rel="external">Lawrence of Arabia</a></td>
+<td>1962</td>
+<td>94%</td>
+<td>87</td>
+</tr>
+<tr>
+<th>6</th>
+<td><a href="https://en.wikipedia.org/wiki/Dr._Strangelove" data-rel="external">Dr. Strangelove Or How I Learned to Stop Worrying and Love the Bomb</a></td>
+<td>1964</td>
+<td>92%</td>
+<td>74</td>
+</tr>
+<tr>
+<th>7</th>
+<td><a href="https://en.wikipedia.org/wiki/The_Graduate" data-rel="external">The Graduate</a></td>
+<td>1967</td>
+<td>91%</td>
+<td>122</td>
+</tr>
+<tr>
+<th>8</th>
+<td><a href="https://en.wikipedia.org/wiki/The_Wizard_of_Oz_(1939_film)" data-rel="external">The Wizard of Oz</a></td>
+<td>1939</td>
+<td>90%</td>
+<td>72</td>
+</tr>
+
+</tbody>
+</table>
+`;
+
+function getTasks() {
+  $.getJSON("/database/getTasks/", function (tasks) {
+    tasks.sort((a, b) => moment(a.Due).valueOf() - moment(b.Due).valueOf());
+    console.log(tasks);
+    taskssHTML = "";
+    $.map(tasks, function (task) {
+      try {
+        let momentObj = moment(task.Due);
+        let duePast = momentObj.isBefore(moment(), "day");
+        let dueFuture = momentObj.isAfter(moment(), "day");
+        let today = moment(momentObj).isSame(moment(), "day");
+        let title = task.Title;
+
+        today;
+        if (today) {
+          taskssHTML +=
+            `<tr>
+            <th>` +
+            title +
+            `</th>
+            <td>` +
+            task.Rabbit +
+            `</td>
+            <td>` +
+            moment(task.Due).format("MM/DD/YY") +
+            `</td>
+            <td>` +
+            task.Note +
+            `</td>
+          <td><a href="#" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all">No text</a></td>
             
-               
-                w2ui.taskgrid.add([{
-                    Title : data[i].Title,
-                    Date_Completed :  moment(data[i].Date_Completed).format('MM-DD-YYYY'),
-                    Note : data[i].Note,
-                    Completed : data[i].Completed,
-                    Due : moment(data[i].Due).format('MM-DD-YYYY'),
-                    Rabbit : data[i].Rabbit,
-                    recid: i,                                
-                     
-                }, 
-            ])
-            }
-    
-        })
-        w2ui.grid.refresh('taskgrid')
-    
-    
-    
-    
+          </tr>`;
+        }
+        if (dueFuture) {
+          tasksFutureHTML +=
+            `<tr>
+                    <th>` +
+            title +
+            `</th>
+                    <td>` +
+            task.Rabbit +
+            `</td>
+                    <td>` +
+            moment(task.Due).format("MM/DD/YY") +
+            `</td>
+                    <td>` +
+            task.Note +
+            `</td>
+                  <td><a href="#" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all">No text</a></td>
+                    
+                  </tr>`;
+        }
+        if (duePast) {
+          tasksPastHTML +=
+            `<tr>
+                    <th>` +
+            title +
+            `</th>
+                    <td>` +
+            task.Rabbit +
+            `</td>
+                    <td>` +
+            moment(task.Due).format("MM/DD/YY") +
+            `</td>
+                    <td>` +
+            task.Note +
+            `</td>
+                  <td><a href="#" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all">No text</a></td>
+                    
+                  </tr>`;
+        }
+      } catch (error) {}
+    });
+    $("#TasksContentPast").html(
+      `
+      <table data-role="table" id="table-column-toggle"  class="tasksTable ui-responsive table-stroke">
+        <thead>
+          <tr>
+            <th >Title</th>
+            <th>Rabbit</th>
+            <th >Due</th>
+            <th style="width:40%">Note</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          ` +
+        tasksPastHTML +
+        `
+        </tbody>
+      </table>
+      `
+    );
+    $("#TasksContentFuture").html(
+      `
+      <table data-role="table" id="table-column-toggle"  class="tasksTable ui-responsive table-stroke">
+        <thead>
+          <tr>
+            <th >Title</th>
+            <th>Rabbit</th>
+            <th >Due</th>
+            <th style="width:40%">Note</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          ` +
+        tasksFutureHTML +
+        `
+        </tbody>
+      </table>
+      `
+    );
+    $("#TasksContentToday").html(
+      `
+      <table data-role="table" id="table-column-toggle"  class="tasksTable ui-responsive table-stroke">
+        <thead>
+          <tr>
+            <th >Title</th>
+            <th>Rabbit</th>
+            <th >Due</th>
+            <th style="width:40%">Note</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          ` +
+        taskssHTML +
+        `
+        </tbody>
+      </table>
+      `
+    );
+    // $("#tasksHeader").html(`<h1> Tasks </h1>
+    //   <a href="#home" class='ui-btn ui-shadow ui-corner-all'>Home</a>
+    //   <div id='taskButtons' data-role="navbar" data-iconpos="bottom">
+
+    //   <ul class="ui-grid-b">
+    //       <li class="ui-block-a"><a id='openPopupButton' data-icon="plus"  data-rel="popup" data-position-to="window"  data-transition="pop" class="ui-button  ui-link ui-btn ui-icon-plus ui-btn-icon-bottom">Add Task</a></li>
+    //       <li class="ui-block-b"><a href="#" data-icon="plus" class="ui-button ui-link ui-btn ui-icon-plus ui-btn-icon-bottom">Two</a></li>
+    //       <li class="ui-block-c"><a href="#" data-icon="plus" class="ui-button ui-link ui-btn ui-icon-plus ui-btn-icon-bottom">Three</a></li>
+    //     </ul>
+    //       </div>`);
+  });
+}
+let getRbbitDetails = function (id) {
+  $.getJSON("/database/getRabbitbtid/" + id, function (data) {
+    $("#AddWeightContent").html();
+    matedArray = "";
+    notesHTML = "";
+    $.map(data[0].Mated, function (mated) {
+      matedArray +=
+        `<li>
+      <h2>Mated with: ` +
+        mated.Buck +
+        `</h2>
+      <p>` +
+        mated.Note +
+        `</p>
+      <p class="ui-li-aside"><strong>` +
+        moment(mated.Date).format("MM/DD/YY") +
+        `</strong>
+        </p>
+      </li>`;
+    });
+    $.map(data[0].Notes, function (values) {
+      notesHTML +=
+        `<li>
+      <h2>` +
+        values.Title +
+        `</h2>
+      <p>` +
+        values.Note +
+        `</p>
+      <p class="ui-li-aside"><strong>` +
+        moment(values.Date).format("MM/DD") +
+        `</strong>
+        </p>
+      </li>`;
+    });
+    let latestWeight;
+    let latestWeightDate;
+    SelectedRabbit = data[0];
+    let detailedRabbitInfo = data[0];
+    console.log(detailedRabbitInfo);
+    console.log(detailedRabbitInfo.CurrentWeight.length);
+    let numberOfWeights = detailedRabbitInfo.CurrentWeight.length;
+    console.log(detailedRabbitInfo.CurrentWeight[0].Weight);
+    console.log(detailedRabbitInfo.CurrentWeight[numberOfWeights - 1].Weight);
+    if (detailedRabbitInfo.CurrentWeight.length == 1) {
+      latestWeight = detailedRabbitInfo.CurrentWeight[0].Weight;
+      latestWeightDate = moment(
+        detailedRabbitInfo.CurrentWeight[0].Date
+      ).format("MM/DD");
     }
-let tabsHTML = `<div id="tabs" style="width: 100%; height:0px">
-                </div>
-            <div id="tab1" class='tab' style="width: 100%; height:100%">
-                tab1
-            </div>   
-            <div id="tab2" class='tab' style="padding: 10px 0px">
-                <div id='tasksGrid'></div>
-            </div> 
-            <div id="tab3" class='tab' style="padding: 10px 0px">
-            <div id="litterInfo" style="width: 100%; height: 50px;"></div>
-               <div id="grid" style="width: 100%; height: 350px;"></div>
-               <br>
-                <div id='kidNotes'></div>
-            </div> 
-            <div id="tab4" class='tab' style="padding: 10px 0px">
-                <div class="row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <h5 class="card-title">Tasks Today</h5>
-                        <div class="card" id='tasksMainGridToday'>
-                            
-                        </div>
+    if (detailedRabbitInfo.CurrentWeight.length == 0) {
+      latestWeight = 0;
+    }
+    if (detailedRabbitInfo.CurrentWeight.length > 1) {
+      latestWeight =
+        detailedRabbitInfo.CurrentWeight[numberOfWeights - 1].Weight;
 
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <h5 class="card-title">Nothing</h5>
-                        <div class="card" id='s'>
-                            
-                        </div>
+      latestWeightDate = moment(
+        detailedRabbitInfo.CurrentWeight[numberOfWeights - 1].Date
+      ).format("MM/DD");
+    }
 
-                    </div>
-                </div>
-        <div class="row">
-        <div class="col-sm-6">
-        <h5 class="card-title">Tasks</h5>
-            <div class="card" id='tasksMainGrid'>
-            
-            </div>
-        </div>
+    rabbitCageItems =
+      `<div class="ui-grid-c ui-responsive">
+<div class="ui-block-a"><a href="#" id="addMatted" class="ui-btn ui-shadow ui-corner-all">Matted</a></div>
+<div class="ui-block-b"><a href="#" class="ui-btn ui-shadow ui-corner-all" id="addRabbitWeight">Add Weight</a></div>
+<div class="ui-block-c"><a href="#" class="ui-btn ui-shadow ui-corner-all" id="addRabbitNote">Add Note</a></div>
+<div class="ui-block-c"><a href="#" class="ui-btn ui-shadow ui-corner-all" id="edditRabbits">Edit Rabbit</a></div>
+
 </div>
-            </div>
-            `
-var config = {
-    toolBar: {
-        name: 'toolBar',
-        items: [{
-                type: 'button',
-                id: 'item1',
-                text: 'New Rabbit',
-                icon: 'w2ui-icon-colors'
-            },
-            {
-                type: 'break'
-            },
-            {
-                type: 'button',
-                id: 'item2',
-                text: 'New Litter',
-                icon: 'w2ui-icon-colors'
-            },
-            {
-                type: 'break'
-            },
-        ],
-        onClick(event) {
-            //.log('Target: '+ event.target, event)
-            if (event.target == "item1") {
-                openPopup()
-            }
-            if (event.target == "item2") {
-                openPopup2()
-            }
-        }
-    },
-    layout: {
-        name: 'layout',
-        panels: [{
-                type: 'top',
-                size: 50,
-                content: `<div id="toolbarTop"></div>`
-            },
-            {
-                type: 'left',
-                size: 150,
-                style: pstyle,
-                content: `<div id="sideBarPic"></div><div id="sideBar"></div>`
-            },
-            {
-                type: 'main',
-                style: pstyle,
-                content: `<div id="rabbitlayout" style="width: 100%; height: 1024px;"></div>`
-            }
-        ]
-    },
-    litterLayout: {
-        name: 'litterLayout',
-        panels: [{
-                type: 'top',
-                size: '35%',
-                content: `<div id="litterForm"></div>`
-            },
-            {
-                type: 'main',
-                style: pstyle,
-                content: '<div id="mainForm2" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>'
-            }
-        ]
-    },
-    rabbitlayout: {
-        name: 'rabbitlayout',
-        panels: [{
-                type: 'top',
-                size: 50,
-                content: `<div id="rabbitTitle"></div>`
-            },
-            {
-                type: 'left',
-                size: 125,
-                style: pstyle,
-                html: 'left'
-            },
-            {
-                type: 'main',
-                style: pstyle,
-                html: ''
-            }
-        ]
-    },
-    rabbitInfolayout: {
-        name: 'rabbitInfolayout',
-        panels: [{
-                type: 'top',
-                size: 200,
-                content: `<div id="rabbitInfoTop" style="width: 100%; height: 100%"></div>`
-            },
-
-            {
-                type: 'main',
-                style: pstyle,
-                content: '<div id="rabbitInfoMain" style="width: 100%; height: 100%;"></div>'
-            }
-        ]
-    },
-    sidebar: {
-        name: 'sidebar',
-        levelPadding: 1,
-        nodes: [
-            {
-                id: 'Main',
-                text: 'Main',
-                datatype: 'main',
-                icon: 'fa fa-star-o',
-            },{
-                id: 'Does',
-                text: 'Does',
-                expanded: true,
-                group: true,
-                nodes: []
-            },
-            {
-                id: 'Bucks',
-                text: 'Bucks',
-                expanded: true,
-                group: true,
-                nodes: []
-            },
-            {
-                id: 'Babbies',
-                text: 'Babbies',
-                expanded: true,
-                group: true,
-                nodes: [{
-                        id: 'Growing',
-                        text: 'Growing',
-                        datatype: 'babbies',
-                        icon: 'fa fa-star-o',
-                     
-                    },
-                    {
-                        id: 'nesting',
-                        text: 'Nesting',
-                        datatype: 'babbies',
-                        icon: 'fa fa-star-o',
-                      
-                    },
-                ]
-            }
-        ]
-    },
-    rabbitsidebar: {
-        name: 'rabbitsidebar',
-        nodes: [{
-                id: 'Info',
-                text: 'Info',
-                icon: 'fa fa-star-o',
-                datatype: 'info'
-            },
-            {
-                id: 'Litters',
-                text: 'Litters',
-                icon: 'fa fa-star',
-                datatype: 'litters',
-                nodes: []
-            },
-            {
-                id: 'Tasks',
-                text: 'Tasks',
-                icon: 'fa fa-star-o',
-                datatype: 'tasks',
-            }
-        ]
-    },
-    tabs: {
-        name: 'tabs',
-        active: 'tab1',
-        tabs: [{
-                id: 'tab1',
-                text: 'Tab 1'
-            },
-            {
-                id: 'tab2',
-                text: 'Tab 2'
-            },
-            {
-                id: 'tab3',
-                text: 'Tab 3'
-            },
-            {
-                id: 'tab4',
-                text: 'Tab 4'
-            }
-        ],
-        onClick(event) {
-            $('.tab').hide();
-            $('#' + event.target).show();
-        }
-    },
-    tasksMainGridToday: {
-        name: 'taskmaingridtoday',
-        show: {
-            toolbar: true,
-            footer: true,
-            toolbarSave: true
-        },
-       
-        columns: [{
-            field: 'recid',
-            caption: '#',
-            size: '10px',
-            hidden: true
-        },
-        {
-            field: 'Completed',
-            caption: 'Completed',
-            size: '60px',
-            editable: {
-                type: 'checkbox'
-            }
-        },{
-            field: 'Title', 
-            caption: 'Title', 
-            size: '100px', 
-            style: 'text-align: center',
-            editable: { type: 'text', style: 'text-align: center' }
-            },
-
-
-            
-            {
-                field: 'Rabbit',
-                caption: 'Rabbit',
-                size: '100px',
-                
-            },
-            {
-                field: 'Note',
-                caption: 'Note',
-                size: '200px',
-                editable: {
-                    type: 'text'
-                }
-            },
-           
-            
-        ],
-        onClick: function(event) {
-          
-                
-        },
-        toolbar: {
-            items: [
-                {
-                    type: 'button',
-                    id: 'add',
-                    text: 'Add Task'
-                }
-            ],
-            onClick(event) {
-                if (event.target == 'add') {
-                    w2popup.open({
-                        title: 'New Task Form',
-                        width: 600,
-                        height: 400,
-                        showMax: true,
-                        body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-                        actions: {
-                            Ok(event) {
-                                // do something
-                                w2popup.close()
-                                w2ui.form.destroy()
-                            }
-                        }
-                    })
-                    let noteForm = $('#mainForm').w2form(config.taskform)
-                }
-            }
-        },
-
-    },
-    tasksMainGrid: {
-        name: 'taskmaingrid',
-        show: {
-            toolbar: true,
-            footer: true,
-            toolbarSave: true
-        },
-       
-        columns: [{
-            field: 'recid',
-            caption: '#',
-            size: '10px',
-            hidden: true
-        },{
-            field: 'Title', 
-            caption: 'Title', 
-            size: '100px', 
-            style: 'text-align: center',
-            editable: { type: 'text', style: 'text-align: center' }
-            },
-            
-            {
-                field: 'Due',
-                caption: 'Due',
-                size: '80px',
-                editable: {
-                    type: 'date'
-                }
-            },
-            {
-                field: 'Completed',
-                caption: 'Completed',
-                size: '60px',
-                editable: {
-                    type: 'checkbox'
-                }
-            },
-            
-            {
-                field: 'Rabbit',
-                caption: 'Rabbit',
-                size: '110px',
-                
-            },
-            {
-                field: 'Note',
-                caption: 'Note',
-                size: '200px',
-                editable: {
-                    type: 'text'
-                }
-            },
-           
-            
-        ],
-        onClick: function(event) {
-          
-                
-        },
-        toolbar: {
-            items: [
-                {
-                    type: 'button',
-                    id: 'add',
-                    text: 'Add Task'
-                }
-            ],
-            onClick(event) {
-                if (event.target == 'add') {
-                    w2popup.open({
-                        title: 'New Task Form',
-                        width: 600,
-                        height: 400,
-                        showMax: true,
-                        body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-                        actions: {
-                            Ok(event) {
-                                // do something
-                                w2popup.close()
-                                w2ui.form.destroy()
-                            }
-                        }
-                    })
-                    let noteForm = $('#mainForm').w2form(config.taskform)
-                }
-            }
-        },
-
-    },
-    tasksGrid: {
-        name: 'taskgrid',
-        show: {
-            toolbar: true,
-            footer: true,
-            toolbarSave: true
-        },
-       
-        columns: [{
-            field: 'recid',
-            caption: '#',
-            size: '10px',
-            hidden: true
-        },{
-            field: 'Title', 
-            caption: 'Title', 
-            size: '100px', 
-            style: 'text-align: center',
-            editable: { type: 'text', style: 'text-align: center' }
-            },
-            
-            {
-                field: 'Due',
-                caption: 'Due',
-                size: '80px',
-                editable: {
-                    type: 'date'
-                }
-            },
-            {
-                field: 'Date_Completed',
-                caption: 'Date_Completed',
-                size: '80px',
-                editable: {
-                    type: 'date',
-                    
-                }
-            },
-            {
-                field: 'Completed',
-                caption: 'Completed',
-                size: '60px',
-                editable: {
-                    type: 'checkbox'
-                }
-            },
-            
-            {
-                field: 'Rabbit',
-                caption: 'Rabbit',
-                size: '110px',
-                
-            },
-            {
-                field: 'Note',
-                caption: 'Note',
-                size: '200px',
-                editable: {
-                    type: 'text'
-                }
-            },
-           
-            
-        ],
-        onClick: function(event) {
-          
-                
-        },
-        toolbar: {
-            items: [
-                {
-                    type: 'button',
-                    id: 'add',
-                    text: 'Add Task'
-                }
-            ],
-            onClick(event) {
-                if (event.target == 'add') {
-                    w2popup.open({
-                        title: 'New Task Form',
-                        width: 600,
-                        height: 400,
-                        showMax: true,
-                        body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-                        actions: {
-                            Ok(event) {
-                                // do something
-                                w2popup.close()
-                                w2ui.form.destroy()
-                            }
-                        }
-                    })
-                    let noteForm = $('#mainForm').w2form(config.taskform)
-                }
-            }
-        },
-
-    },
-    grid: {
-        name: 'grid',
-        show: {
-            toolbar: true,
-            footer: true,
-            toolbarSave: true
-        },
-        columnGroups: [
-            { caption: 'General Information', span: 4 },
-            { caption: 'Weights',span: 5 },
-        ],
-        columns: [{
-            field: 'Growing', 
-            caption: 'Growing', 
-            size: '60px', 
-            style: 'text-align: center',
-            editable: { type: 'checkbox', style: 'text-align: center' }
-            },
-            {
-                field: 'recid',
-                caption: '#',
-                size: '10px',
-                hidden: true
-            },
-            {
-                field: 'KidID',
-                caption: 'kid ID',
-                size: '50px',
-                editable: {
-                    type: 'text'
-                }
-            },
-            {
-                field: 'Sex',
-                caption: 'Sex',
-                size: '40px',
-                editable: {
-                    type: 'select',
-                    items: ['Doe', 'Buck']
-                }
-            },
-            {
-                field: 'BirthWeight',
-                caption: 'Birth',
-                size: '60px',
-                editable: {
-                    type: 'Number'
-                }
-            },
-            {
-                field: 'FinalWeight',
-                caption: 'Final',
-                size: '50px',
-                editable: {
-                    type: 'Number'
-                }
-            },
-            {
-                field: 'FinalDate',
-                caption: 'Final Date',
-                size: '80px',
-                editable: {
-                    type: 'Date'
-                }
-            },
-            
-            {
-                field: 'itemID',
-                caption: 'itemID',
-                size: '80px',
-                editable: {
-                    type: 'False'
-                },
-                hidden: true
-            },
-            {
-                field: 'rabbitID',
-                caption: 'rabbitID',
-                size: '80px',
-                editable: {
-                    type: 'False'
-                },
-                hidden: true
-            },
-            {
-                field: 'addNote',
-                text: 'Actions',
-                size: '100px',
-                render: function (record, index, col_index) {
-                    // Return the HTML for a button
-                    return `<button class="w2ui-btn" onclick="newNote('` + record.itemID + `','`+ record.rabbitID+`', 'Kid')">Add Note</button>`;
-                }
-            },
-            {
-                field: 'addWeight',
-                text: 'Actions',
-                size: '100px',
-                render: function (record, index, col_index) {
-                    // Return the HTML for a button
-                    return `<button class="w2ui-btn" onclick="addWeight('` + record.itemID + `','`+ record.rabbitID+`', 'Kid')">Add Weight</button>`;
-                }
-            }
-        ],
-        onClick: function(event) {
-            let kidNoteCards = ""
-            let weightCardsArray = ""
-            console.log(event.recid);
-            var record = w2ui['grid'].get(event.recid);
-                console.log(record.rabbitID);
-                $.getJSON(`/database/getLitterKidNotes/`+ record.itemID+`/`+ record.rabbitID, function(data) {
-                    console.log(data)
-                        if(data.Notes.length>0){
-                            data.Notes = data.Notes.reverse()
-                            for(n=0;n<data.Notes.length;n++){
-                                
-                                let noteDate = moment(data.Notes[n].Date).format('MM/DD/YY')
-                                kidNoteCards+=`<div class="col"><div class="card noteCard" style="width: 30rem;">
-
-                                <div class="card-body">
-                                    <h5 class="card-title">`+noteDate+`</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary">` + data.Notes[n].Title  + `</h6>
-                                    <h6 class="card-text">` + data.Notes[n].Note + `</h6>
-                                </div>
-                                </div>
-                                </div>`
-    
-                                
-                            }
-                       
-                        
-                        console.log(kidNoteCards)
-                            $('#kidNotes').html(`<h5 class="card-title">Kid: `+data.KidID+`</h5>
-                            <div class="container text-center">
-                                <div class="row row-cols-2">
-                                <div class="col">
-                                    <div class="card" style="width: 15rem;" id='kidWeightCards'>
-                                    <h5 class="card-title">Weights</h5>
-                                        <ul class="list-group list-group-flush" id='weightsLIs'>
-                                            
-                                        </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                    `+ kidNoteCards +`
-                                    </div>
-                                   
-                                </div>
-                                </div>
-                            
-                            `)
-                           
-                        }   
-                        else{$('#kidNotes').html(`<h5 class="card-title">Kid: `+data.KidID+`</h5>
-                            <div class="container text-center">
-                                <div class="row row-cols-2">
-                                <div class="col">
-                                    <div class="card" style="width: 15rem;" id='kidWeightCards'>
-                                    <h5 class="card-title">Weights</h5>
-                                        <ul class="list-group list-group-flush" id='weightsLIs'>
-                                            
-                                        </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                    
-                                    </div>
-                                   
-                                </div>
-                                </div>
-                            
-                            `)}   
-                            if(data.CurrentWeight.length>0){
-                                data.CurrentWeight = data.CurrentWeight.reverse()
-                                for(n=0;n<data.CurrentWeight.length;n++){
-                                   $('#weightsLIs').append(`
-                                    <h6 class="list-group-item">
-                                    Date: `+moment(data.CurrentWeight[n].Date).format('MM/DD') +` <br> Weight: `+ data.CurrentWeight[n].Weight+
-                                    `</h6>`)
-  
-                                    
-                                   
-
-                                }
-                        }
-                        else{
-
-                            $('#weightsLIs').html("")
-                        }
-                       
-
-                
-            })
-                
-        },
-        toolbar: {
-            items: [
-                {
-                    type: 'button',
-                    id: 'showChanges',
-                    text: 'Show Changes'
-                }
-            ],
-            onClick(event) {
-                if (event.target == 'add') {
-                    let recid = gridKits.records.length + 1
-                    this.owner.add({
-                        recid
-                    });
-                    this.owner.scrollIntoView(recid);
-                    this.owner.editField(recid, 1)
-                }
-                if (event.target == 'showChanges') {
-                    //let changes = $(JSON.stringify(grid.getChanges()))
-                    let changes = w2ui.grid.getChanges()
-                    let rowChanges
-                    for(i=0;i<changes.length;i++){
-                        var record = w2ui.grid.get(changes[i].recid);
-                        console.log(record);
-                        let row = changes[i]
-                        $.ajax({
-                            type: 'POST',
-                            data: JSON.stringify(record),
-                            contentType: "application/json",
-                            url: '/database/updateRabbitKids/',
-                            success: function(e) {
-                                
-        
-                            }
-                        }); 
-                        const keys = Object.keys(row);
-                        let changesFull = []
-                        rowChanges = {litterID: record.itemID, rabbitID: record.rabbitID }
-                        keys.forEach(key => {
-                            const value = row[key];
-                            rowChanges[key] = value
-                            console.log(`Key: ${key}, Value: ${value}, ItemID: ${record.itemID}`);
-                        });
-                        changesFull.push(rowChanges) 
-                    }
-                    console.log(changesFull)
-                          
-                }
-            }
-        },
-
-    },
-    litterGrid: {
-        name: 'litterGrid',
-        show: {
-            toolbar: true,
-            footer: true,
-            toolbarSave: true
-        },
-        columns: [{ field: 'Growing', 
-            field: 'Growing', 
-            size: '60px', 
-            style: 'text-align: center',
-            editable: { type: 'checkbox', style: 'text-align: center' }
-            },
-            {
-                field: 'KidID',
-                caption: 'kid ID',
-                size: '30px',
-                editable: {
-                    type: 'text'
-                }
-            },
-            {
-                field: 'Sex',
-                caption: 'Sex',
-                size: '40px',
-                editable: {
-                    type: 'select',
-                    items: ['Doe', 'Buck']
-                }
-            },
-            {
-                field: 'BirthWeight',
-                caption: 'Birth Weight',
-                size: '80px',
-                editable: {
-                    type: 'Number'
-                }
-            },
-            {
-                field: 'SecondDate',
-                caption: '2nd Weight Date',
-                size: '100px',
-                editable: {
-                    type: 'Date'
-                }
-            },
-            {
-                field: 'SecondWeight',
-                caption: '2nd Weight',
-                size: '80px',
-                editable: {
-                    type: 'Number'
-                }
-            },
-            {
-                field: 'FinalDate',
-                caption: 'Final Weight Date',
-                size: '100px',
-                editable: {
-                    type: 'Date'
-                }
-            },
-            {
-                field: 'FinalWeight',
-                caption: 'Final Weight',
-                size: '80px',
-                editable: {
-                    type: 'Number'
-                }
-            },
-            {
-                field: 'actions',
-                text: 'Actions',
-                size: '100px',
-                render: function (record, index, col_index) {
-                    // Return the HTML for a button
-                    return '<button class="w2ui-btn" onclick="newNote(' + record.id + ')">Click</button>';
-                }
-            }
-        ],
-        toolbar: {
-            items: [{
-                    id: 'add',
-                    type: 'button',
-                    text: 'Add Record',
-                    icon: 'w2ui-icon-plus'
-                },
-                {
-                    type: 'break'
-                },
-                {
-                    type: 'button',
-                    id: 'showChanges',
-                    text: 'Show Changes'
-                }
-            ],
-            onClick(event) {
-                if (event.target == 'add') {
-                    let recid = gridKits.records.length + 1
-                    this.owner.add({
-                        recid
-                    });
-                    this.owner.scrollIntoView(recid);
-                    this.owner.editField(recid, 1)
-                }
-                if (event.target == 'showChanges') {
-                    showChanged()
-                }
-            }
-        },
-
-    },
-    // growingGRid: {
-    //     name: 'grid1',
-    //     show: {
-    //         header: true
-    //     },
-    //     columns: [{
-    //             field: 'recid',
-    //             text: 'ID',
-    //             size: '50px',
-    //             sortable: true,
-    //             attr: 'align=center'
-    //         },
-    //         {
-    //             field: 'mother',
-    //             text: 'Mother',
-    //             size: '30%',
-    //             sortable: true
-    //         },
-    //         {
-    //             field: 'father',
-    //             text: 'Father',
-    //             size: '30%',
-    //             sortable: true
-    //         },
-    //         {
-    //             field: 'dateAdded',
-    //             text: 'Date Added',
-    //             size: '40%'
-    //         },
-    //         {
-    //             field: 'Weight',
-    //             text: 'Weight',
-    //             size: '120px'
-    //         }
-    //     ],
-    //     records: [{
-    //             recid: 1,
-    //             mother: 'John',
-    //             father: 'Doe',
-    //             Weight: 6,
-    //             dateAdded: '4/3/2012'
-    //         },
-    //         {
-    //             recid: 2,
-    //             mother: 'Stuart',
-    //             father: 'Motzart',
-    //             Weight: 6,
-    //             dateAdded: '4/3/2012'
-    //         },
-    //         {
-    //             recid: 3,
-    //             mother: 'Jin',
-    //             father: 'Franson',
-    //             Weight: 8,
-    //             dateAdded: '4/3/2012'
-    //         },
-    //         {
-    //             recid: 4,
-    //             mother: 'Susan',
-    //             father: 'Ottie',
-    //             Weight: 7,
-    //             dateAdded: '4/3/2012'
-    //         },
-    //         {
-    //             recid: 5,
-    //             mother: 'Kelly',
-    //             father: 'Silver',
-    //             Weight: 5,
-    //             dateAdded: '4/3/2012'
-    //         },
-    //         {
-    //             recid: 6,
-    //             mother: 'Francis',
-    //             father: 'Gatos',
-    //             Weight: 7,
-    //             dateAdded: '4/3/2012'
-    //         }
-    //     ],
-    //     onClick(event) {
-    //         let record = this.get(event.detail.recid)
-    //         grid2.clear()
-    //         grid2.add([{
-    //                 recid: 0,
-    //                 name: 'ID:',
-    //                 value: record.recid
-    //             },
-    //             {
-    //                 recid: 1,
-    //                 name: 'First Name:',
-    //                 value: record.mother
-    //             },
-    //             {
-    //                 recid: 2,
-    //                 name: 'Last Name:',
-    //                 value: record.father
-    //             },
-    //             {
-    //                 recid: 3,
-    //                 name: 'Email:',
-    //                 value: record.Weight
-    //             },
-    //             {
-    //                 recid: 4,
-    //                 name: 'Date:',
-    //                 value: record.dateAdded
-    //             }
-    //         ])
-    //     }
-    // },
-    kidGrowingGridInfo: {
-        name: 'kidGrowingGridInfo',
-        show: {
-            toolbar: true,
-            footer: true,
-            toolbarSave: true
-        },
-        columnGroups: [
-            
-            { caption: 'Kids', span: 2 },
-            { caption: 'Weights',span: 7 },
-            { caption: '', span: 1 },
-            { caption: 'Litter', span: 5 },
-        ],
-        columns: [
-            {
-                field: 'KidID',
-                caption: 'ID',
-                size: '30px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },
-            {
-                field: 'Sex',
-                caption: 'Sex',
-                size: '40px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },
-            {
-                field: 'BirthWeight',
-                caption: 'Birth',
-                size: '50px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },
-            {
-                field: 'CurrentWeight',
-                caption: 'Current',
-                size: '60px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },        
-            {
-                field: 'WeightDate',
-                caption: ' Date',
-                size: '55px',
-                style: "background-color: rgb(224, 241, 147)"
-
-            },
-            {
-                field: 'Processed',
-                caption: 'Processes',
-                size: '55px',
-                
-                editable: { type: 'checkbox', style: 'text-align: center' }
-
-            },
-            {
-                field: 'Litter',
-                caption: 'Litter',
-                size: '50px',
-                style: "background-color: #C2F5B4"
-            },
-            {
-                field: 'Born',
-                caption: 'Born',
-                size: '55px',
-                style: "background-color: #C2F5B4",
-
-            },
-            {
-                field: 'Bred',
-                caption: 'Bred',
-                size: '55px',
-                style: "background-color: #C2F5B4"
-
-            },
-            {
-                field: 'Father',
-                caption: 'Father',
-                size: '80px',
-                style: "background-color: #C2F5B4"
-
-            },
-            {
-                field: 'Mother',
-                caption: 'Mother',
-                size: '80px',
-                style: "background-color: #C2F5B4"
-
-            },        
-        ],
-
-
-    },
-    taskform: {
-        name: 'taskform',
-        style: 'border: 1px solid #efefef',
-        record: {
-            Completed: false,
-            
-        },
-        fields: [{ 
-            field: 'Title', 
-            type: 'text',
-           
-        },
-            { 
-            field: 'Note', type: 'textarea',
-            html: { label: 'Text Area', attr: 'style="width: 400px; height: 60px; resize: none"' }
-        },
-        { 
-            field: 'Due', 
-            type: 'date',
-           
-            
-        },
-        { 
-            field: 'Date_Completed', 
-            type: 'date',
-            
-            
-        },
-        { 
-            field: 'Completed', 
-            type: 'checkbox',
-
-            
-        },
-        
-       
-        ],
-        actions: {
-            Reset() {
-                this.clear()
-            },
-            Save() {
-                console.log(this.record)
-                let Doc = {}
-                Doc.Title = this.record.Title
-                Doc.Date_Completed = this.record.Date_Completed
-                Doc.Note = this.record.Note
-                Doc.Completed = this.record.Completed
-                Doc.Due = this.record.Due
-                Doc.Rabbit = selectedRabbit
-                Doc = JSON.stringify(Doc)
-                console.log(Doc)
-
-                $.ajax({
-                    type: 'POST',
-                    contentType: "application/json",
-                    data: Doc,
-                    url: '/database/newtask',
-                    success: function(e) {
-                        w2ui.taskform.clear()
-                        w2popup.close();
-                        getTaskItems()
-                        w2ui.tabs.click('tab2')
-                    }
-                });
-                
-               
-            }
-        }
-    },
-    weightform:{
-        name: 'weightform',
-        style: 'border: 1px solid #efefef',
-        fields: [{ 
-            field: 'Weight', 
-            type: 'number',
-           
-        },{ 
-            field: 'Date', 
-            type: 'date',
-            disabled: true
-           
-        },{ 
-            field: 'Rabbit', 
-            type: 'text',
-            disabled: true
-           
-        },{ 
-            field: 'Litter', 
-            type: 'text',
-            disabled: true
-           
-        }],
-        actions: {
-            Reset() {
-                this.clear()
-            },
-            Save() {
-                console.log(this.record)
-                let Doc = {}
-                Doc.Weight = this.record.Weight
-                Doc.Date = this.record.Date
-                Doc.Rabbit = this.record.Rabbit
-                Doc.Litter = this.record.Litter
-                Doc = JSON.stringify(Doc)
-                console.log(Doc)
-
-                $.ajax({
-                    type: 'POST',
-                    contentType: "application/json",
-                    data: Doc,
-                    url: '/database/newweight/',
-                    success: function(e) {
-                        w2ui.form.clear()
-
-                    }
-                });
-               
-            }
-        }
-    },
-    noteform: {
-        name: 'noteform',
-        style: 'border: 1px solid #efefef',
-        fields: [{ 
-            field: 'Title', 
-            type: 'text',
-           
-        },
-            { 
-            field: 'Note', type: 'textarea',
-            html: { label: 'Text Area', attr: 'style="width: 400px; height: 60px; resize: none"' }
-        },
-        { 
-            field: 'Rabbit', 
-            type: 'text',
-            disabled: true,
-            
-        },
-        { 
-            field: 'Date', 
-            type: 'date',
-            disabled: true,
-            
-        },
-        { 
-            field: 'ID', 
-            type: 'string',
-            disabled: true,
-            
-        },
-        
-        { 
-            field: 'KidID', 
-            type: 'string',
-            disabled: true,
-            
-        },
-        { 
-            field: 'litterID', 
-            type: 'string',
-            disabled: true,
-            
-        },
-        { 
-            field: 'Type', 
-            type: 'string',
-            disabled: true,
-            
-        },
-        ],
-        actions: {
-            Reset() {
-                this.clear()
-            },
-            Save() {
-                console.log(this.record)
-                let Doc = {}
-                Doc.Title = this.record.Title
-                Doc.Date = this.record.Date
-                Doc.Note = this.record.Note
-                Doc.Rabbit = this.record.Rabbit
-                Doc.ID = this.record.ID
-                Doc.LitterID = this.record.litterID
-                Doc.KidID = this.record.KidID
-                Doc.Type = this.record.Type
-                Doc = JSON.stringify(Doc)
-                console.log(Doc)
-
-                $.ajax({
-                    type: 'POST',
-                    contentType: "application/json",
-                    data: Doc,
-                    url: '/database/newnote/'+this.record.Type,
-                    success: function(e) {
-                        w2ui.form.clear()
-
-                    }
-                });
-               
-            }
-        }
-    },
-    form: {
-        name: 'form',
-        style: 'border: 1px solid #efefef',
-        fields: [{
-                field: 'recid',
-                type: 'text',
-                html: {
-                    label: 'ID',
-                    attr: 'size="10" readonly'
-                }
-            },
-            {
-                field: 'Name',
-                type: 'text',
-                required: true,
-                html: {
-                    label: 'Name',
-                    attr: 'size="40" maxlength="40"'
-                }
-            },
-            {
-                field: 'Breed',
-                type: 'text',
-                required: true,
-                html: {
-                    label: 'Breed',
-                    attr: 'size="40" maxlength="40"'
-                }
-            },
-            {
-                field: 'Father',
-                type: 'select',
-                required: false,
-                html: {
-                    label: 'Father',
-                    text: ' <-- choose Dad'
-                },
-                options: {
-                    items: buckList
-                }
-            },
-            {
-                field: 'Mother',
-                type: 'select',
-                required: false,
-                html: {
-                    label: 'Father',
-                    text: ' <-- choose Dad'
-                },
-                options: {
-                    items: doeList
-                }
-            },
-            {
-                field: 'Date_Born',
-                type: 'date',
-                html: {
-                    label: 'Date_Born',
-                    attr: 'size="10"'
-                }
-            },
-            {
-                field: 'Sex',
-                type: 'select',
-                required: false,
-                html: {
-                    label: 'Sex',
-                    text: ' <-- choose sex'
-                },
-                options: {
-                    items: ['Doe', 'Buck']
-                }
-            },
-        ],
-        actions: {
-            Reset() {
-                this.clear()
-            },
-            Save() {
-                //console.log(this.record)
-                // doc.Name= requested.Name;
-                // doc.Breed= requested.Breed;
-                // doc.Father= requested.Father;
-                // doc.Mother= requested.Mother;
-                // doc.Date_Born= requested.Date_Born;
-                // doc.Sex= requested.Sex;
-                $.ajax({
-                    type: 'POST',
-                    data: this.record,
-                    url: '/database/newRabbit/',
-                    success: function(e) {
-                        w2ui.form.clear()
-
-                    }
-                });
-                let errors = this.validate()
-                if (errors.length > 0) return
-                if (this.recid == 0) {
-                    grid.add(w2utils.extend({
-                        recid: grid.records.length + 1
-                    }, this.record))
-                    grid.selectNone()
-                    this.clear()
-                } else {
-                    grid.set(this.recid, this.record)
-                    grid.selectNone()
-                    this.clear()
-                }
-            }
-        }
-    },
-    litterform: {
-        name: 'litterform',
-        style: 'border: 1px solid #efefef',
-        fields: [{
-                field: 'recid',
-                type: 'text',
-                html: {
-                    label: 'ID',
-                    attr: 'size="10" readonly'
-                }
-            },
-            {
-                field: 'LitterID',
-                type: 'text',
-                required: true,
-                html: {
-                    label: 'Litter ID',
-                    attr: 'size="40" maxlength="40"'
-                }
-            },
-            {
-                field: 'Father',
-                type: 'select',
-                required: false,
-                html: {
-                    label: 'Father',
-                    text: ' <-- choose Dad'
-                },
-                options: {
-                    items: buckList
-                }
-            },
-            {
-                field: 'Mother',
-                type: 'select',
-                required: false,
-                html: {
-                    label: 'Father',
-                    text: ' <-- choose Dad'
-                },
-                options: {
-                    items: doeList
-                }
-            },
-            {
-                field: 'Born',
-                type: 'date',
-                html: {
-                    label: 'Date_Born',
-                    attr: 'size="10"'
-                }
-            },
-            {
-                field: 'Bred',
-                type: 'date',
-                html: {
-                    label: 'Date_Bred',
-                    attr: 'size="10"'
-                }
-            },
-
-        ],
-        actions: {
-            Reset() {
-                this.clear()
-            }
-
-        }
-    },
-}
-let sidebar;
-let rabbitsidebar
-async function getRabbits(){
-    await $.getJSON('/database/getRabbits', function(data) {
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].Sex == "Doe") {
-                let doe = {
-                    name: data[i].Name,
-                    info: data[i]
-                }
-                //console.log(doe)
-                does.push(doe)
-                doeList.push(data[i].Name)
-                sidebar.insert('Does', null, [
-                    {id: data[i]._id,text: data[i].Name,icon: 'fa fa-star'}
-                ])
-            }
-            if (data[i].Sex === "Buck") {
-                let buck = {
-                    name: data[i].Name,
-                    info: data[i]
-                }
-                //console.log(buck)
-                bucks.push(buck)
-                buckList.push(data[i].Name)
-                sidebar.insert('Bucks', null, [
-                    {id: data[i]._id,text: data[i].Name,icon: 'fa fa-star'}
-                ])
-            }
-        }
-
-    })
-
-
-
-
-}
-
-async function getLitter(litterID){
-    await $.getJSON('/database/getLitter/'+litterID, function(data) {
-        //console.log(data)
-
-    })
-}
-async function getTasksMain(){
-    await $.getJSON('/database/getTasksDue/', function(data) {
-        console.log(data)
-        let recNum = 0
-        for(i=0;i<data.length;i++){
-            var CurrentDate = moment();
-            console.log()
-            if(moment(data[i].Due).isSameOrBefore(CurrentDate, 'day') == true){
-            recNum = recNum + 1
-                        w2ui['taskmaingridtoday'].add([{
-                            recid: i,
-                            Title: data[i].Title,
-                            Note: data[i].Note,
-                            Rabbit: data[i].Rabbit,
-                            Due:moment(data[i].Due).format('MM-DD-YYYY'),
-                           
-                             
-                        }]) 
-                    }
-        }
-
-    })
-
-
-
-}
-let mainHTML = `<div class="row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <h5 class="card-title">Tasks Today</h5>
-                        <div class="card" id='tasksMainGridToday'>
-                            
-                        </div>
-
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <h5 class="card-title">Nothing</h5>
-                        <div class="card" id='s'>
-                            
-                        </div>
-
-                    </div>
-                </div>
-        <div class="row">
-        <div class="col-sm-6">
-        <h5 class="card-title">Tasks</h5>
-            <div class="card" id='tasksMainGrid'>
-            
-            </div>
-        </div>
-</div>`
-let tasksMainGrid
-let tasksMainGridToday
-async function startMainPage(){
-    $('#mainDIV').html(w2uiHTML)
-    $('#layout').w2layout(config.layout)
-    $('#toolbarTop').w2toolbar(config.toolBar)
-    $('#rabbitlayout').w2layout(config.rabbitlayout)
-     sidebar = $('#sideBar').w2sidebar(config.sidebar);
-     rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
-    $('#tabs').w2tabs(config.tabs);
-    //$('.tab').hide();
-    
-    $('#tab4').show();
-    w2ui.rabbitlayout.content('main', mainHTML);
-    tasksMainGrid = $("#tasksMainGrid").w2grid(config.tasksMainGrid);
-    tasksMainGridToday = $("#tasksMainGridToday").w2grid(config.tasksMainGridToday);
-
-
-}
-$(function() {
-    startMainPage()
-
-    getRabbits()
-
-     let rabbit
-
-
-    sidebar.on('*', function(event) {
-        if (event.type == "click") {
-            console.log(event.node.id)
-           
-            if (event.node.id == "Main"){
-                try {
-                    tasksMainGrid.destroy();
-                    tasksMainGridToday.destroy();
-                    
-                    w2ui.taskgrid.destroy();
-                    w2ui.rabbitInfolayout.destroy()
-                    w2ui.rabbitsidebar.destroy()
-                    w2ui.rabbitlayout.destroy('left')
-                } catch (error) {
-                    console.log(error)
-                }
-                //rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
-                
-                 $('#rabbitlayout').w2layout(config.rabbitlayout)
-                 w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
-                w2ui.rabbitlayout.content('main', mainHTML);
-                $("#tasksMainGrid").w2grid(config.tasksMainGrid);
-                $("#tasksMainGridToday").w2grid(config.tasksMainGridToday);
-                getTasksMain()
-                w2ui.tabs.click('tab4')
-
-            }
-            else if (event.node.id == "Growing") { 
-                try {
-                    w2ui.kidGrowingGridInfo.destroy();
-                    w2ui.grid.destroy();
-                    w2ui.taskgrid.destroy();
-                    w2ui.rabbitlayout.destroy()
-                    w2ui.rabbitInfolayout.destroy()
-                    w2ui.rabbitsidebar.destroy()
-                } catch (error) {
-
-                }
-                
-
-                $('#rabbitlayout').w2layout(config.rabbitlayout)
-                w2ui.rabbitlayout.content('main', tabsHTML);
-                w2ui.rabbitlayout.destroy('left')
-                $('#rabbitlayout').html(`<div id="kidGrowingGridInfo"></div>`)
-                $("#kidGrowingGridInfo").w2grid(config.kidGrowingGridInfo);
-
-                $.getJSON('/database/getGrowing/', function(data) {  
-                    console.log(data)
-                     let currentWeight
-                     let currentWeightDate
-                     let recid = 0
-                    for(i=0; i<data.length;i++){
-                        let childrenItems = [];
-                        
-                        //w2ui['kidGrowingGridInfo'+i].refresh();
-                       
-                        for(k=0;k<data[i].Kids.length;k++){
-                            try {
-                                const lastItem = data[i].Kids[k].CurrentWeight[data[i].Kids[k].CurrentWeight.length - 1];
-                                currentWeight = lastItem.Weight
-                                currentWeightDate = moment(lastItem.Date).format('M/DD/YY')
-                                
-                            } catch (error) {
-                                currentWeight = data[i].Kids[k].FinalWeight
-                                currentWeightDate =  moment(data[i].Kids[k].FinalDate).format('M/DD/YY')
-                            }
-                            
-                            
-                            w2ui['kidGrowingGridInfo'].add([{ recid: recid, Litter: data[i].LitterID, Born: moment(data[i].Born).format('M/DD/YY'),
-                                Bred: moment(data[i].Bred).format('M/DD/YY') ,Father: data[i].Father, Mother: data[i].Mother,
-                                KidID: data[i].Kids[k].KidID, Sex: data[i].Kids[k].Sex,BirthWeight: data[i].Kids[k].BirthWeight,  
-                                              
-                                             CurrentWeight: currentWeight, 
-                                             WeightDate: currentWeightDate
-                                }
-                               
-                            ])
-                            recid = recid +1;
-                            
-
-                        }
-                        
-                            
-
-                    }
-                    w2ui.tabs.click('tab4')
-                         
-                })
-
-                
-            }
-            else {
-                try {
-                     w2ui.grid.destroy();
-                     w2ui.taskgrid.destroy();
-                     w2ui.rabbitlayout.destroy()
-                     w2ui.rabbitInfolayout.destroy()
-                    w2ui.rabbitsidebar.destrpy()
-                    
-                    
-                } catch (error) {
-                    console.log(error)
-                }
-                
-               console.log(event)
-               rabbitsidebar = $().w2sidebar(config.rabbitsidebar)
-               selectedRabbit = event.node.text
-               selectedRabbitID = event.node.id
-                $('#rabbitlayout').w2layout(config.rabbitlayout)
-                w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
-                w2ui.rabbitlayout.content('main', tabsHTML);
-                $('#rabbitTitle').html(`<h4>` + event.node.text + `</h4>`)
-                $('#sideBarPic').html(`<img src="images/bunny1.jpg"   width="100" height="100" style="float:right" alt="..."/>`);
-                    w2ui.rabbitsidebar.click('Info');
-                    $('.tab').hide();
-                $('#tab1').show();
-                
-                $("#grid").w2grid(config.grid);
-                $("#tasksGrid").w2grid(config.tasksGrid);
-
-                
-                        for(i=0;i< w2ui.rabbitsidebar.nodes[1].nodes.length;i++){
-                            w2ui.rabbitsidebar.remove(w2ui.rabbitsidebar.nodes[1].nodes[i].id)
-
-                        }
-                $.getJSON('/database/getRabbitLitters/'+event.node.text, function(data) {
-                    
-                     
-                    for (var i = 0; i < data.length; i++) {
-                        console.log(data[i])
-                        w2ui.rabbitsidebar.insert('Litters', null, [
-                            {id: data[i]._id,text: data[i].LitterID, datatype:'litter', icon: 'fa fa-star'}
-                        ])
-                        
-                           
-                    }
-                    console.log( w2ui.rabbitsidebar.nodes[1].nodes)
-                })
-                
-                
-                
-                
-
-            }
-            
-        }
-    })
-    rabbitsidebar.on('*', function(event) {
-    
-        if(event.type == 'click'){
-            console.log(event)
-            console.log(event.node.datatype)
-            w2ui.tabs.click('tab1')
-    
-        }
-            try {
-                
-                let recNum = 0;
-               
-                //w2ui.grid.refresh('grid')
-                if (event.node.datatype == 'litter') {
-                    
-                    console.log(event.target)
-                    w2ui.rabbitInfolayout.destroy()
-                    $.getJSON('/database/getRabbitLitter/'+event.target, function(data) {
-                        console.log(data)
-                        
-                    $('#litterInfo').html(`<h3>Born: ` +moment(data.Born).format('MMMM Do YYYY') + `    Sire: ` +data.Father + `</h3>`)
-                    w2ui['grid'].clear();
-                    let kidNoteCards = "";
-                    for (i = 0; i < data.Kids.length; i++) {
-                        
-                        recNum = recNum + 1
-                        w2ui['grid'].add([{
-                            recid: i,
-                            KidID: data.Kids[i].KidID,
-                            Sex: data.Kids[i].Sex,
-                            BirthWeight: data.Kids[i].BirthWeight,
-                            SecondDate: moment(data.Kids[i].SecondDate).format('MM-DD-YYYY'),
-                            SecondWeight: data.Kids[i].SecondWeight,
-                            rabbitID: data.Kids[i]._id,
-                            itemID: data._id,
-                            Growing: data.Kids[i].Growing,
-                            FinalDate:moment(data.Kids[i].FinalDate).format('MM-DD-YYYY'),
-                            FinalWeight: data.Kids[i].FinalWeight
-                             
-                        }, 
-                    ])
-                    }
-                    })
-    
-                    w2ui.tabs.click('tab3')
-                    w2ui.grid.refresh('grid')
-                    w2ui.grid.on('save', function(event) {
-                        console.log(event)
-                            //let changes = $(JSON.stringify(grid.getChanges()))
-                            let changes = w2ui.grid.getChanges()
-                            let rowChanges
-                            for(i=0;i<changes.length;i++){
-                                var record = w2ui.grid.get(changes[i].recid);
-                                console.log(record);
-                                let row = changes[i]
-                                $.ajax({
-                                    type: 'POST',
-                                    data: JSON.stringify(record),
-                                    contentType: "application/json",
-                                    url: '/database/updateRabbitKids/',
-                                    success: function(e) {
-                                        
-                
-                                    }
-                                }); 
-                                const keys = Object.keys(row);
-                                let changesFull = []
-                                rowChanges = {litterID: record.itemID, rabbitID: record.rabbitID }
-                                keys.forEach(key => {
-                                    const value = row[key];
-                                    rowChanges[key] = value
-                                    console.log(`Key: ${key}, Value: ${value}, ItemID: ${record.itemID}`);
-                                });
-                                changesFull.push(rowChanges) 
-                            }
-                            
-                        
-                
-                    })
-                }
-               
-                if (event.node.datatype == 'info') {
-                    w2ui.rabbitlayout.content('left', w2ui.rabbitsidebar);
-                    $('#tab1').w2layout(config.rabbitInfolayout);
-                    console.log(selectedRabbit);
-                    let taskToolBar = `<nav class="navbar navbar-expand-lg bg-body-tertiary">
-                    <div class="container-fluid">
-                         <button class="btn btn-primary" type="new" onclick="newNote(1,1,'Rabbit')">Add Note</button>
-                    </div>
-                    </nav>`
-                    $('#rabbitInfoMain').html(taskToolBar)
-                    $.getJSON('/database/getRabbit/'+ selectedRabbit, function(data) {
-                       console.log(data)
-                      
-                        $('#rabbitInfoTop').html(` 
-                            <ul class="list-group" id='rabbitInfoUL'>
-                                <li class="list-group-item">Born: `+moment(data[0].Date_Born).format('MM-DD-YY') +`</li>
-                            <li class="list-group-item">Sex: `+data[0].Sex+`</li>
-                            <li class="list-group-item">Mother: `+data[0].Mother+`</li>
-                            <li class="list-group-item">Father: `+data[0].Father+`</li>
-                                </ul>
-                            `)
-        
-                            console.log(data)
-                            let Notes = ""
-                            
-                            data[0].Notes = data[0].Notes.reverse()
-                            for(i=0;i<data[0].Notes.length;i++){
-                                let noteDate = 
-                                Notes+=`<div class="col"><div class="card noteCard" style="width: 20rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title">`+moment(data[0].Notes[i].Date).format('MM/DD/YYYY')+`</h5>
-                                    <h6 class="card-subtitle mb-2 text-body-secondary">` + data[0].Notes[i].Title  + `</h6>
-                                    <h6 class="card-text">` + data[0].Notes[i].Note + `</h6>
-                                </div>
-                                </div>
-                                </div>`
-                                
-                            
-                            }
-                        $('#rabbitInfoMain').append( `
-                            <div class="container text-center">
-                                <div class="row row-cols-2">`
-                                   + Notes +
-                                `</div>
-                                </div>
-                            
-                            `)
-    
-                    })
-                    
-                   
-                    
-                    w2ui.tabs.click('tab1')
-                    
-                    
-                    
-                    
-                }
-                if (event.object.datatype == 'tasks') {
-                    // //console.log(event.target);
-                    w2ui.tabs.click('tab2')
-                    //w2ui.rabbitInfolayout.destroy()
-                    
-                    
-                    
-                    
-                    
-                    getTaskItems()
-
-
-                    w2ui.tabs.click('tab2')
-                    
-                }
-            } catch (error) {
-                //console.log(error)
-            }
-        })
-
-    window.openPopup = function() {
-        try {
-            w2ui.form.destroy()
-        } catch (error) {
-        }
-
-        w2popup.open({
-            title: 'New Rabbit Form',
-            width: 900,
-            height: 600,
-            showMax: true,
-            body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-            actions: {
-                Ok(event) {
-                    // do something
-                    w2popup.close()
-                    w2ui.form.destroy()
-                }
-            }
-        })
-        $('#mainForm').w2form(config.form)
-    }
-    window.openPopup2 = function() {
-        try {
-            w2ui.form2.destroy()
-        } catch (error) {
-        }
-        w2popup.open({
-            title: 'New Litter Form',
-            width: 1200,
-            height: 600,
-            showMax: true,
-            body: '<div id="litterlayout" style="width: 900px; height: 800px;"></div>',
-            actions: {
-                Ok(event) {
-                    // do something
-                    w2popup.close()
-                    w2ui.form2.destroy()
-                }
-            }
-        })
-        $('#litterlayout').w2layout(config.litterLayout)
-        let kids = []
-        let litterForm = $('#litterForm').w2form(config.litterform)
-        gridKits = $('#mainForm2').w2grid(config.litterGrid)
-        w2ui.litterGrid.refresh()
-        w2ui.litterGrid.on('save', async function(event) {
-            //console.log(event.changes);
-            let formData = w2ui.litterform.record;
-            //console.log(formData)
-            let newLitter = {
-                LitterID: formData.LitterID,
-                Father: formData.Father,
-                Mother: formData.Mother,
-                Bred: formData.Bred,
-                Born: formData.Born,
-                Kids: []
-            }
-            event.changes.forEach(item => {
-                //console.log(item)
-                newLitter.Kids.push(item)
-            })
-
-            newLitter = JSON.stringify(newLitter)
-            $.ajax({
-                type: 'POST',
-                data: newLitter,
-                url: '/database/newLitter/',
-                contentType: "application/json",
-                success: function(e) {
-                    w2ui.litterform.clear()
-                }
-            });
-            //console.log(newLitter)
-        });
-        
-    }
-
-
-    window.addWeight= function(selectedLitterID,selectedKidID){
-        console.log(selectedLitterID)
-        console.log(selectedKidID)
-        w2popup.open({
-            title: 'Add Weight to Kid',
-            width: 600,
-            height: 400,
-            showMax: true,
-            body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-            actions: {
-                Ok(event) {
-                    // do something
-                    w2popup.close()
-                    w2ui.weightform.destroy()
-                }
-            }
-        })
-        
-        let noteForm = $('#mainForm').w2form(config.weightform)
-        w2ui.weightform.record['Rabbit'] = selectedKidID;
-        w2ui.weightform.record['Date'] = moment().format('MM/DD/YYYY');
-        w2ui.weightform.record['Litter'] = selectedLitterID;
-        w2ui.weightform.record['Type'] = 'Kid';
-        w2ui.weightform.refresh()
-    }
-    window.newNote = function(selectedLitterID,selectedKidID, type){
-        console.log(type)
-        console.log(selectedLitterID)
-        console.log(selectedKidID)
-        if(type=='Kid'){
-            console.log("NewNote Kid")
-            w2popup.open({
-                title: 'New Note Form',
-                width: 600,
-                height: 400,
-                showMax: true,
-                body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-                actions: {
-                    Ok(event) {
-                        // do something
-                        w2popup.close()
-                        w2ui.form.destroy()
-                    }
-                }
-            })
-            let noteForm = $('#mainForm').w2form(config.noteform)
-    
       
-            w2ui.noteform.record['KidID'] = selectedKidID;
-            w2ui.noteform.record['Date'] =moment().format('MM/DD/YYYY');
-            w2ui.noteform.record['litterID'] = selectedLitterID;
-            w2ui.noteform.record['Type'] = 'Kid';
-            w2ui.noteform.refresh()
-          
+      
+      <div class="ui-grid-a">
+      <div class="ui-block-a">
+        <div class="ui-bar ui-bar-b" >
+          <ul id='listview' data-role='listview' data-inset='true'>
+            <li ">Name: ` +
+      detailedRabbitInfo.Name +
+      `</li>
+                        <li >Sex: ` +
+      detailedRabbitInfo.Sex +
+      `</li>
+                      <li >Date_Born: ` +
+      moment(detailedRabbitInfo.Date_Born).format("MM/DD") +
+      `</li>
+                        <li >ReadyToBreed: ` +
+      detailedRabbitInfo.ReadyToBreed +
+      `</li>
+                        <li >DateReadyToBreed: ` +
+      moment(detailedRabbitInfo.DateReadyToBreed).format("MM/DD") +
+      `</li>
+              <li>Last Weight: ` +
+      latestWeight +
+      `</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ui-block-b">
+        <div class="ui-bar ui-bar-b" >
+        
+          <ul id='listview' data-role='listview' data-inset='true'>
+              <li >Mother: ` +
+      detailedRabbitInfo.Mother +
+      `</li>
+                          <li >Father: ` +
+      detailedRabbitInfo.Father +
+      `</li> 
+                          <li >Bought: ` +
+      detailedRabbitInfo.Bought +
+      `</li> 
+                          <li >Breeder: ` +
+      detailedRabbitInfo.Breeder +
+      `</li>
+                          <li >Breed: ` +
+      detailedRabbitInfo.Breed +
+      `</li>
+                    <li>Weight Date: ` +
+      latestWeightDate +
+      `</li>
 
-        }
-        else{
-        console.log("NewNote")
-        w2popup.open({
-            title: 'New Note Form',
-            width: 600,
-            height: 400,
-            showMax: true,
-            body: '<div id="mainForm" style="position: absolute; left: 2px; right: 2px; top: 0px; bottom: 3px;"></div>',
-            actions: {
-                Ok(event) {
-                    // do something
-                    w2popup.close()
-                    w2ui.form.destroy()
-                }
-            }
-        })
-        let noteForm = $('#mainForm').w2form(config.noteform)
+          </ul> 
+        </div>
+      </div>
+    </div>
+
+    
+        <br/>
+       <div class="ui-body ui-body-b ui-corner-all" id='scrollingMatedNotes'>    
+      <div class="ui-body ui-body-b ui-corner-all" id='Mated'>
+        <div class="ui-bar ui-bar-b">
+          <h3>Mated History</h3>
+        </div><ul data-role="listview" data-inset="true">
+        
+` +
+      matedArray +
+      `</ul></div>
+          
+      <div class="ui-body ui-body-b ui-corner-all" id='Notes'>
+        <div class="ui-bar ui-bar-b">
+          <h3>Notes</h3>
+        </div><ul data-role="listview" data-inset="true">` +
+      notesHTML +
+      `</ul></div>
+      </div>`;
+
+    $("#RabbitInfo").html(rabbitCageItems);
+    $("#RabbitInfo").enhanceWithin();
+    $("#popup-outside-page").popup("open");
+    return rabbitCageItems;
+  });
+};
+function getGrowingRabbits() {
+  $.getJSON("/database/getGrowing/", function (data) {
+    growingRabbitData = data;
+  });
+}
+function getGrowingRabbitsPage() {
+  $("#GrowingRabbits").html("");
+  $("#LitterInfo").html("");
+  let GrowingGridHTML = "";
+  let growingRabbits;
+  let growingDataSorted = [];
+  console.log(growingRabbitData);
+  $.map(growingRabbitData, function (data) {
+    let litterID = data.LitterID;
+    console.log(litterID);
+
+    console.log(growingDataSorted.length);
+    if (growingDataSorted.length === 0) {
+      growingDataSorted.push({ ID: litterID, Rabbits: [data] });
+      console.log(growingDataSorted);
+    }
+    const index = growingDataSorted.findIndex((obj) => obj.ID === litterID);
+    console.log(index);
+    if (index === -1) {
+      console.log("Not in array");
+      growingDataSorted.push({ ID: litterID, Rabbits: [data] });
+      console.log(growingDataSorted);
+    } else {
+      console.log("its in array");
+      growingDataSorted[index]["Rabbits"].push(data);
+      console.log(growingDataSorted);
+    }
+  });
+  let lis = "";
+  let lis2 = "";
+  let itemLIHEader;
+  let itemLIHEader2;
+  $.map(growingDataSorted, function (data, index) {
+    console.log(data.Rabbits.length);
+
+    $.map(data.Rabbits, function (rabbit) {
+      itemLI =
+        `<li>
+              <h2>Kid: ` +
+        rabbit.KidID +
+        `</h2>
+              <p>
+              <strong>
+              Born: ` +
+        moment(rabbit.Born).format("MM/DD") +
+        `
+              </strong>
+              
+              <p>Last Weight: ` +
+        rabbit.CurrentWeight[rabbit.CurrentWeight.length - 1].Weight +
+        ` Pounds</p>
+        <p>Weighed Last: ` +
+        moment(
+          rabbit.CurrentWeight[rabbit.CurrentWeight.length - 1].Date
+        ).format("MM/DD") +
+        `</p>
+              <p class="ui-li-aside">
+                <strong>Sex: ` +
+        rabbit.Sex +
+        `</strong>
+                
+              </p>
+            </li>`;
+
+      if (index % 2 === 0 || index === 0) {
+        // This is an even-indexed element
+        itemLIHEader =
+          `<li data-role="list-divider" data-theme="c"><strong>Litter ` +
+          data.ID +
+          ` </span>
+              <span class="ui-li-count">` +
+          data.Rabbits.length +
+          `</span>
+            </li>`;
+        lis += itemLI;
+      } else {
+        // This is an odd-indexed element
+        itemLIHEader2 =
+          `<li data-role="list-divider" data-theme="c"><strong>Litter ` +
+          data.ID +
+          ` </span>
+              <span class="ui-li-count">` +
+          data.Rabbits.length +
+          `</span>
+            </li>`;
+        lis2 += itemLI;
+      }
+    });
+
+    if (index % 2 !== 0 || index !== 0) {
+      GrowingGridHTML +=
+        `
+   <div class="ui-grid-a" data-theme="c">
+    <div class="ui-block-a" data-theme="c">
+      <div class="ui-bar ui-bar-c gridGrowing" >
+        <ul data-role="listview" data-inset="true" data-theme="c">` +
+        itemLIHEader +
+        lis +
+        `</ul>
+      </div>
+    </div>
+    <div class="ui-block-b " style="width:50%">
+      <div class="ui-bar ui-bar-c " >
+        <ul data-role="listview" data-inset="true" data-theme="c">` +
+        itemLIHEader2 +
+        lis2 +
+        `</ul>
+      </div>
+    </div>
+</div>`;
+      lis = "";
+      lis2 = "";
+    }
+  });
+
+  $("#GrowingRabbits").html(GrowingGridHTML);
+  $("#GrowingRabbits").enhanceWithin();
+}
+function getGrowingWeights() {
+  growingsHTML = "";
+  $.map(growingRabbitData, function (data) {
+    growingArray = "";
+    console.log(data);
+
+    let growingName = data.KidID;
+    growingsHTML +=
+      `<label for="number-pattern">` +
+      growingName +
+      ` Weight:</label>
+         
+        <input type="number" name="number"  litterID=` +
+      data.LitterIDDB +
+      ` id=` +
+      data.KidItemID +
+      ` value=""></input>`;
+  });
+
+  //liItems = "";
+
+  $("#AddWeightContent").html(
+    growingsHTML + `<button id="addGrowingWeight">Button</button>`
+  );
+  $("#popupheader").html("Add Weights");
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").enhanceWithin();
+  $("#popup-outside-page").popup("open");
+}
+function getBunnies() {
+  $.getJSON("/database/getBunnies/", function (data) {
+    RabbitData = "";
+    $("#cagesMain").html("");
+    Rabbits.length = 0;
+    licageItems = "";
+    RabbitData = data;
+    $.map(data, function (data) {
+      let readyToBreeb = `<div class="ui-body ui-body-a ui-corner-all ">
+           Can't Breed
+          </div>`;
+      if (data.ReadyToBreed === true) {
+        readyToBreeb = `<div class="ui-body ui-body-a ui-corner-all ">
+            Can Breed
+          </div>`;
+      }
+      licageItems =
+        `<li id="popupRabbitDetailsShow" data-rabbit=` +
+        data.id +
+        `>
+        <a data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow  ui-btn-a" data-transition="pop">
+          <img src=` +
+        data.Pic +
+        ` class="ui-li-thumb">
+          <h2>` +
+        data.Name +
+        `</h2>
+          <p>Ready To Breed: ` +
+        data.ReadyToBreed +
+        `<br/> Can Breed: ` +
+        moment(data.DateReadyToBreed).format("MM/DD") +
+        `</p>
+          <p class="ui-li-aside">Cage: ` +
+        data.Cage +
+        `</p>
+        </a>
+      </li>`;
+      $("#cagesMain").append(licageItems);
+      $("#cagesMain").enhanceWithin();
+
+      Rabbits.push(
+        `<option value=` + data.Name + `>` + data.Name + `</option>`
+      );
+      if (data.Sex === "Doe") {
+        Does.push(`<option value=` + data.Name + `>` + data.Name + `</option>`);
+      }
+      if (data.Sex === "Buck") {
+        Bucks.push(
+          `<option value=` + data.Name + `>` + data.Name + `</option>`
+        );
+      }
+      console.log(data);
+
+      let Breeder = "";
+      notesHTML = "";
+      Breeder = data.Breeder;
+      console.log(Breeder);
+    });
+
+    getTasks();
+    $("#cagesMain").enhanceWithin();
+  });
+}
+function getLitters() {
+  let litterListLIs = "";
+
+  $.getJSON("/database/getRabbitLitters/", function (litters) {
+    litterData = litters;
+    console.log(litters);
+    $.map(litters, function (litter) {
+      try {
+        litterListLIs +=
+          `<li class='litterItem' data-litter=` +
+          litter.LitterID +
+          `><a href="#">
+        <img src=""http://192.168.0.156:3000/images/bunny1.jpg">
+        <h2>` +
+          litter.Mother +
+          ` & ` +
+          litter.Father +
+          `</h2>
+       
+        <p>` +
+          moment(litter.Born).fromNow(true) +
+          ` old<br/>
+        ` +
+          litter.Kids[0].Status +
+          `</br>` +
+          moment(litter.MovedToGrow).format("MM/DD/YY") +
+          `</p>
+        
+        <p class="ui-li-aside">` +
+          litter.LitterID +
+          `</p>
+        <p class="ui-li-aside2">` +
+          litter.Kids.length +
+          ` Kids</p>
+        </a></li>`;
+      } catch (error) {}
+    });
+    litterListViewHTML =
+      `<fieldset class="ui-grid-a">
+<div class="ui-block-a"><button  data-theme="c" id='addLitter' >Add Litter</button></div>
+<div class="ui-block-b"><button data-theme="b">Del Litter</button></div>
+</fieldset>
+
+<div role="main" class="ui-content">
+    <ul data-role="listview" data-inset="true">` +
+      litterListLIs +
+      `</ul>
+    </div>`;
+  });
+}
+function getLitterDetails(litterID) {
+  const LitterById = litterData.find((litter) => litter.LitterID === litterID);
+  console.log(LitterById);
+
+  let kidsListViewItems = "";
+  console.log(LitterById.Kids);
+  $.map(LitterById.Kids, function (kid) {
+    console.log(kid);
+    kidsListViewItems +=
+      `
+    
+      <li data-role="collapsible" data-iconpos="right" data-inset="false">
+        <h2>` +
+      kid.KidID +
+      `</h2>
+        <ul data-role="listview" data-theme="b">
+        
+          <li><a href="#">
+            <h2>` +
+      kid.Status +
+      `</h2>
+              <p><strong>Sex: ` +
+      kid.Sex +
+      `</strong></p>
+              <p></p>
+              <p class="ui-li-aside"><strong>Current Weight: ` +
+      kid.CurrentWeight[0].Weight +
+      `</strong></p>
+          
+          
+          </a></li>
+        </ul>
+      </li>`;
+  });
+
+  let kidsHTML =
+    `
+<div class="ui-corner-all custom-corners">
+  <div class="ui-bar ui-bar-b">
+    <h3>Kids</h3>
+  </div>
+    <div class="ui-body ui-body-b">
+    <ul data-role="listview">` +
+    kidsListViewItems +
+    `</ul>
+    </div>
+    </div>`;
+  let LitterDetailedHTML =
+    `
+<div class="ui-corner-all custom-corners">
+  <div class="ui-bar ui-bar-b">
+    <h3>` +
+    LitterById.LitterID +
+    `</h3>
+  </div>
+    <div class="ui-body ui-body-b">
+
+      <div class="ui-grid-a">
+        <div class="ui-block-a"><button type="submit" data-theme="c">Moved Growing</button></div>
+        <div class="ui-block-b"><button type="submit" data-theme="b">Processed</button></div>
+      </div>
+      <div class="ui-bar ui-bar-b" >
+        <ul id='listview' data-role='listview' data-inset='true'>
+          <li ">Name: ` +
+    LitterById.LitterID +
+    `</li>
+          <li >Cage: ` +
+    LitterById.Cage +
+    `</li>
+          <li >Date_Born: ` +
+    moment(LitterById.Born).format("MM/DD") +
+    `</li>
+          <li >Mother: ` +
+    LitterById.Mother +
+    `</li>
+          <li >Father: ` +
+    LitterById.Father +
+    `</li>
+            
+        </ul>
+      </div>
+    </div>
+</div>` +
+    kidsHTML;
+  $("#LitterInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#RabbitInfo").html("");
+  $("#LitterInfo").html(LitterDetailedHTML);
+  $("#LitterInfo").enhanceWithin();
+
+  $("#popup-outside-page").popup("open");
+}
+
+function createNewLitterForm() {
+  console.log("hhh!");
+  let count = 0;
+  let popUpForm =
+    `<form id='newLitter'>
+    <label for="LitterID">Litter ID:</label>
+    <input type="text" name="LitterID" id="LitterID" placeholder="Text input" value="">
+
+      <label for="textarea-2">Textarea:</label>
+      <textarea cols="40" rows="8" name="Note" id="Note"></textarea>
+      
+      <label for="Father" class="select">Father:</label>
+      <select name="Father" id="Father" data-native-menu="false">
+        <option>Choose</option>` +
+    Bucks +
+    `</select>
+      <label for="Mother" class="select">Mother:</label>
+      <select name="Mother" id="Mother" data-native-menu="false">
+        <option>Choose</option>` +
+    Does +
+    `</select>
+      <label for="Bred">Bred:</label>
+      <input type="date" name="Bred" id="Bred" value="">
+
+      <label for="Born">Born:</label>
+      <input type="date" name="Born" id="Born" value="">
+      
+      <label for="NumOfKids">How Many Kids:</label>
+      <input type="number" name="NumOfKids" id="NumOfKids" value="">
+
+      </form>
+      <button class="ui-btn ui-btn-inline" id='saveLitter' >Button</button>
+
+    `;
+
+  $("#LitterInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#RabbitInfo").html("");
+  $("#LitterInfo").html(popUpForm);
+  $("#LitterInfo").enhanceWithin();
+  $("#popup-outside-page").popup("open");
+}
+$(function () {
+  //Seetting up UI
+  $("#MainPage").html(page1);
+  $("#MainPage").enhanceWithin();
+  $("#MainContent").html(listview);
+  $("#MainContent").enhanceWithin();
+  $("#taskButtons").enhanceWithin();
+  $("#popup-outside-page").enhanceWithin().popup();
+
+  //Gettign required data
+  getBunnies();
+  getGrowingRabbits();
+  getLitters();
+  //Clicks
+  $("button").on("click", function () {
+    // Code to execute when the element is clicked
+    console.log("CLICKED");
+  });
+  $("li#growing").click(function () {
+    console.log("CLICKED");
+    getGrowingRabbitsPage();
+
+    $.mobile.changePage("#Growing", {
+      transition: "slideup",
+      changeHash: false,
+    });
+  });
+  $("li#addWeight").click(function () {
+    console.log("CLICKED");
+    getGrowingWeights();
+  });
+  $("li#litters").click(function () {
+    console.log("CLICKED");
+    $("#LitterItems").html(litterListViewHTML);
+    $("#LitterItems").enhanceWithin();
+    $.mobile.changePage("#Litters", {
+      transition: "slideup",
+      changeHash: false,
+    });
+  });
+  $("li#tasks").click(function () {
+    console.log("CLICKED");
+    $.mobile.changePage("#Tasks", {
+      transition: "slideup",
+      changeHash: false,
+    });
+  });
+  $("li#rabbits").click(function () {
+    console.log("CLICKED");
+    $.mobile.changePage("#Rabbits", {
+      transition: "slideup",
+      changeHash: true,
+    });
+  });
+  //Watching for Socket connection calls
+  Server.on("newTask", function (value) {
+    console.log(value);
+    $("#openNewTaskPopUp").popup("close");
+  });
+});
+//end of $(function () {
+
+//Watching for onClick for Dynamically added elements
+$(document).on("click", "#cages", function () {
+  console.log("CLICKED");
+  $.mobile.changePage("#Cages", {
+    transition: "slideup",
+    changeHash: true,
+  });
+});
+$(document).on("change", ":input", function () {
+  // Code to execute when the input value changes and the field loses focus
+  console.log("Input value changed to: " + $(this).val());
+  var inputValue = $(this).val(); // Get the value of the current input
+  var LitterIDDB = $(this).attr("litterid"); // Get the name attribute
+  var KidID = $(this).attr("id");
+  let date = moment().format("MM/DD/YYYY");
+  weightsArray.push({
+    Litter: LitterIDDB,
+    Rabbit: KidID,
+    Weight: inputValue,
+    Date: date,
+  });
+
+  console.log(inputValue + " " + LitterIDDB + " " + KidID + " " + date);
+});
+$(document).on("click", "#addTask", function () {
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  console.log("zdfgdfgd!");
+  let count = 0;
+  let popUpForm =
+    `<form id='newTask'><label for="Title">Title:</label>
+    <input type="text" name="Title" id="Title" placeholder="Text input" value="">
+
+      <label for="textarea-2">Textarea:</label>
+      <textarea cols="40" rows="8" name="Note" id="Note"></textarea>
+
+      <label for="date">Date:</label>
+      <input type="date" name="Due" id="Due" value="">
+
+      <label for="Rabbit" class="select">Rabbit:</label>
+      <select name="Rabbit" id="select-choice-a" data-native-menu="false">
+        <option>Choose</option>` +
+    Rabbits +
+    `</select>
+      </form>
+      <button class="ui-btn ui-btn-inline" id='saveTask' >Button</button>
+
+    `;
+  $("#LitterInfo").html("");
+  $("#popupAddTask").html(popUpForm);
+  $("#popupAddTask").enhanceWithin();
+  $("#openNewTaskPopUp").popup("open");
+});
+$(document).on("click", ".litterItem", function () {
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+
+  getLitterDetails($(this).attr("data-litter"));
+  $("#popupheader").html("Litter Details");
+  // $("#RabbitInfo").html(rabbitCageItems);
+  // $("#RabbitInfo").enhanceWithin();
+  // $("#popup-outside-page").popup("open");
+});
+$(document).on("click", "#addGrowingWeight", function () {
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  console.log("Dynamically added button clicked!");
+  let count = 0;
+  Server.emit("kidsWeight", weightsArray);
+  getLitters();
+});
+$(document).on("click", "#submitRabbitNote", function (event) {
+  event.preventDefault();
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  console.log("Dynamically added button clicked!");
+  let count = 0;
+  let sendThis = {
+    rabbitID: SelectedRabbit.id,
+    note: $("#rabbitNote").val(),
+    title: $("#rabbitTitle").val(),
+  };
+  console.log(sendThis);
+  Server.emit("rabbitNote", sendThis);
+
+  $.mobile.changePage("#Cages", {
+    transition: "slideup",
+    changeHash: true,
+  });
+  getBunnies();
+});
+$(document).on("click", "#submitRabbitDet", function (event) {
+  event.preventDefault();
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  console.log("Dynamically added button clicked!");
+  let count = 0;
+  let sendThis = {
+    rabbitID: SelectedRabbit.id,
+    weight: $("#rabbitWeight").val(),
+  };
+  console.log(sendThis);
+  Server.emit("rabbitWeight", sendThis);
+
+  getBunnies();
+
+  $.mobile.changePage("#Cages", {
+    transition: "slideup",
+    changeHash: true,
+  });
+});
+$(document).on("click", "#addLitter", function () {
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+  createNewLitterForm();
+  $("#popupheader").html("New Litter");
+  // $("#RabbitInfo").html(rabbitCageItems);
+  // $("#RabbitInfo").enhanceWithin();
+  // $("#popup-outside-page").popup("open");
+  getLitters();
+});
+$(document).on("click", "#popupRabbitDetailsShow", function () {
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+  getRbbitDetails($(this).attr("data-rabbit"));
+  $("#popupheader").html("Rabbit Details");
+  // $("#RabbitInfo").html(rabbitCageItems);
+  // $("#RabbitInfo").enhanceWithin();
+  // $("#popup-outside-page").popup("open");
+});
+$(document).on("click", "#openPopupNewTask", function () {
+  let popUpForm =
+    `<form id='newTask'><label for="Title">Title:</label>
+<input type="text" name="Title" id="Title" placeholder="Text input" value="">
+
+<label for="textarea-2">Textarea:</label>
+<textarea cols="40" rows="8" name="Note" id="Note"></textarea>
+
+<label for="date">Date:</label>
+<input type="date" name="Due" id="Due" value="">
+
+<label for="Rabbit" class="select">Rabbit:</label>
+<select name="Rabbit" id="select-choice-a" data-native-menu="false">
+  <option>Choose</option>` +
+    Rabbits +
+    `</select>
+</form>
+<button class="ui-btn ui-btn-inline" id='saveTask' >Button</button>
+
+`;
+  $("#popupAddTask").html(popUpForm);
+  $("#popupAddTask").enhanceWithin();
+  $("#openNewTaskPopUp").popup("open");
+});
+$(document).on("popupafterclose", "#popup-outside-page", function (event, ui) {
+  // Your code to execute after the popup closes
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+
+  console.log("Popup #myPopup has closed!");
+});
+$(document).on("click", "#addMatted", function () {
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+  let mattingForm =
+    `
+  <h3 class="ui-bar ui-bar-a">Heading</h3>
+    <div class="ui-body">
+    <form>
+    <div class="ui-field-contain">
+
+  <label for="select-choice-a" class="select">Custom select menu:</label>
+    <select name="select-choice-a" id="select-choice-a" data-native-menu="false">
+      <option>` +
+    SelectedRabbit.Name +
+    `</option>` +
+    Rabbits +
+    `
+    </select>
+    </div>
+    <div class="ui-field-contain">
+      <label for="textarea-1">Note:</label>
+      <textarea cols="40" rows="8" name="textarea-1" id="textarea-1">Textarea</textarea>
+    </div>
+    <div class="ui-field-contain">
+      <label for="textarea-1">Date:</label>
+      <input  name="date-1" id="mattedDate-1" type="date"></textarea>
+    </div>  </form>
+</div>
 
   
-        w2ui.noteform.record['Rabbit'] = selectedRabbit;
-        w2ui.noteform.record['Date'] = moment().format('MM/DD/YYYY');
-        w2ui.noteform.record['ID'] = selectedRabbitID;
-        w2ui.noteform.record['Type'] = 'rabbit';
-        w2ui.noteform.refresh()
-      };
-    }
-     
-})
+  `;
+  $("#popupheader").html("New Matting History");
+  $("#RabbitInfo").html(mattingForm);
+  $("#RabbitInfo").enhanceWithin();
+  $("#popup-outside-page").popup("open");
+  getBunnies();
+});
+$(document).on("click", "#addRabbitNote", function () {
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+  let mattingForm = `
+  <h3 class="ui-bar ui-bar-a">New Note</h3>
+<div class="ui-body">
+<form data-history="false">
+   
+<div class="ui-field-contain">
+      <label for="rabbitTitle">Title:</label>
+      <input type="text" name="rabbitTitle" id="rabbitTitle" value="">
+    </div>
+    <div class="ui-field-contain">
+      <label for="rabbitNote">Note:</label>
+      <textarea cols="40" rows="8" name="rabbitNote" id="rabbitNote"></textarea>
+    </div>  
+    <div class="ui-field-contain">
+      
+      <button  name="submit" id="submitRabbitNote" type="button">Submit</button>
+    </div> 
+  </form>
+</div>
+
+  
+  `;
+  $("#popupheader").html(SelectedRabbit.Name);
+  $("#RabbitInfo").html(mattingForm);
+  $("#RabbitInfo").enhanceWithin();
+  $("#popup-outside-page").popup("open");
+  //getBunnies();
+});
+$(document).on("click", "#addRabbitWeight", function () {
+  $("#RabbitInfo").html("");
+  $("#AddWeightContent").html("");
+  $("#LitterInfo").html("");
+  let rabbitWeight = `
+  <h3 class="ui-bar ui-bar-a">New Weight</h3>
+  <div class="ui-body">
+    <form  data-history="false">
+   
+
+    <div class="ui-field-contain">
+      <label for="textarea-1">Weight:</label>
+      <input  name="Weight" id="rabbitWeight" type="number" value=""></input>
+    </div>  
+    <div class="ui-field-contain">
+      <button  name="submit" id="submitRabbitDet" type="button">Submit</button>
+    </div> 
+  </form>
+</div>
+
+  
+  `;
+  $("#popupheader").html(SelectedRabbit.Name);
+  $("#RabbitInfo").html(rabbitWeight);
+  $("#RabbitInfo").enhanceWithin();
+  $("#popup-outside-page").popup("open");
+});
+$(document).on("click", "#saveTask", function () {
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  let count = 0;
+  var formData = $("#newTask").serializeArray();
+  getTasks();
+  Server.emit("newTask", formData);
+});
+$(document).on("click", "#saveLitter", function () {
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  let count = 0;
+  var formData = $("#newLitter").serializeArray();
+  getLitters();
+  Server.emit("newLitter", formData);
+});
+$(document).on("click", "#ClosePopUp", function () {
+  // Code to execute when a dynamically added button with class 'dynamicButton' is clicked
+  $("#popup-outside-page").popup("close");
+});

@@ -1,17 +1,130 @@
 doctype html
 html
   head
-    title= title
-    script(src="/javascripts/jquery.js")
-    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous')
+    link(rel='stylesheet', href='/stylesheets/jquery.mobile-1.4.5.css')
+    link(rel='stylesheet', href='/stylesheets/jquery.jqplot.min.css')
+    link(rel='stylesheet', href='/stylesheets/w2ui-1.5.rc1.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="/socket.io/socket.io.js")
+    script(src='http://code.jquery.com/jquery-1.7.1.min.js')
+    script(src='/javascripts/jquery.jqplot.min.js')
+    script(src='/javascripts/jquery.mobile-1.4.5.min.js')
     script(src="/javascripts/w2ui-1.5.rc1.min.js")
     script(src="/javascripts/moment.js")
-    script(src="/javascripts/main.js")
-    
-    
-    
-    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' integrity='sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z' crossorigin='anonymous')
-    link(rel='stylesheet' href='/stylesheets/w2ui-1.5.rc1.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/main.js')
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1')  
   body
-    block content
+    #popup-outside-page.ui-corner-all(data-theme="b")
+      div(data-role='header' data-theme="b")
+        h1#popupheader 
+        a#ClosePopUp.ui-btn.ui-shadow.ui-corner-all() Close
+      .ui-content(role='main' id='AddWeightContent')
+      div(style="padding:10px 20px;" id="popUpContent")
+        ul#RabbitInfo(data-role="listview")
+        div#LitterInfo
+        form#RabbitEdit      
+
+
+    #home(data-role='page' data-theme="b")
+      div(data-role='header' data-theme="b")
+        h1 Dix Creek Rabbit Farm 
+      // /header
+      .ui-content(role='main') 
+        div.ui-corner-all.custom-corners
+          div.ui-bar.ui-bar-b
+            h3 Animals
+          div.ui-body.ui-body-b  
+            .ui-grid-solo
+              ul(data-role='listview', data-inset='true' data-theme="b")
+                li#cages Rabbits
+                li#litters Litters
+                li#growing Growing
+        div.ui-corner-all.custom-corners
+          div.ui-bar.ui-bar-b
+            h3 Actions
+          div.ui-body.ui-body-b       
+            .ui-grid-solo
+              ul(data-role='listview', data-inset='true' data-theme="b")
+                li#addWeight Add Weight
+                li#addNote Add Note
+                li#openPopupNewTask( data-rel='popup' data-position-to='window' data-transition='pop') Add Task
+        .ui-grid-solo
+          ul(data-role='listview', data-inset='true' data-theme="b")
+                    
+        .ui-grid-solo
+          ul(data-role='listview', data-inset='true' data-theme="b")
+            li#tasks Tasks
+        .ui-grid-solo
+          ul(data-role='listview', data-inset='true' data-theme="b")    
+      div(data-role='footer', data-theme='b')
+        h4 Page Footer
+      div(data-role="popup" id="openNewTaskPopUp" data-theme="b" class="ui-corner-all" )
+        .ui-content(role='main', id='popupAddTask')
+    #AddWeight(data-role='page', data-theme='b')
+      div(data-role='header')
+        h1 Dix Creek Rabbit Farm 
+        form
+          a.ui-btn.ui-shadow.ui-corner-all(href='#home') Home
+      // /header
+      .ui-content(role='main' id='as')
+        .ui-grid-solo
+          .ui-block-a
+      // /content
+      div(data-role='footer')
+        h4
+      // /footer
+    #Tasks(data-role='page', data-theme='b')
+      div(data-role='header')
+        h1 Dix Creek Rabbit Farm 
+        a.ui-btn.ui-shadow.ui-corner-all(href='#home') Home
+      .ui-content(role='main' )
+        div.ui-corner-all.custom-corners
+          div.ui-bar.ui-bar-a
+            h3 Tasks
+          div.ui-body.ui-body-a   
+            div.ui-corner-all.custom-corners
+              div.ui-bar.ui-bar-a
+                h3 Past Due
+              div.ui-body.ui-body-a
+                #TasksContentPast    
+            div.ui-corner-all.custom-corners
+              div.ui-bar.ui-bar-a
+                h3 Today
+              div.ui-body.ui-body-a
+                #TasksContentToday 
+            div.ui-corner-all.custom-corners
+              div.ui-bar.ui-bar-a
+                h3 Future
+              div.ui-body.ui-body-a
+                #TasksContentFuture           
+      div(data-role='footer')
+    #Cages.my-page(data-role='page', data-theme='b' class="my-page")
+      div(data-role='header')
+        h1
+        form
+          a.ui-btn.ui-shadow.ui-corner-all(href='#home') Home
+      .ui-content(role='main' )
+        ul(data-role="listview" data-inset="true" id='cagesMain')
+      div(data-role='footer', data-theme='b')
+        h4 Page Footer
+    #Growing(data-role='page', data-theme='b')
+      div(data-role='header')
+        h1 Growing Rabbits
+        form
+          a.ui-btn.ui-shadow.ui-corner-all(href='#home') Home
+      // /header
+      .ui-content(role='main')
+        .ui-grid-solo
+          #GrowingRabbits.ui-block-a
+    #Litters.my-page(data-role='page', data-theme='b')
+      div(data-role='header')
+        h1
+        form
+          a.ui-btn.ui-shadow.ui-corner-all(href='#home') Home
+      // /header
+      .ui-content(role='main' data-theme="b" )
+        .ui-grid-solo
+          #LitterItems.ui-block-a
+      // /content
+      div(data-role='footer' data-theme="b")
+      // /footer

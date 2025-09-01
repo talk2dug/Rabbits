@@ -1,0 +1,23 @@
+services:
+  backend:
+    restart: always
+    build:
+      context: backend
+      target: development
+    ports:
+      - 192.168.196.4:3000:3000  
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - express-mongo
+      - react-express
+    expose: 
+      - 3000
+
+networks:
+  react-express:
+  express-mongo:
+
+volumes:
+  mongo_data:

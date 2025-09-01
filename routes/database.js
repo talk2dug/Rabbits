@@ -4,6 +4,7 @@ var Rabbits = require("../schema/rabbits");
 var Breeders = require("../schema/breeders");
 var Litters = require("../schema/litters");
 var Tasks = require("../schema/tasks");
+var Cages = require("../schema/cages");
 var moment = require("moment");
 
 const fs = require("fs");
@@ -103,6 +104,15 @@ router.get("/getGrowing", async function (req, res, next) {
     });
   });
   res.send(sendKids);
+});
+router.get("/getRabbitbtid/:rabbitid", async function (req, res, next) {
+  // main();
+  var rabbitID = req.params.rabbitid;
+  const rabbitInfo = await Rabbits.find({
+    _id: rabbitID,
+  });
+  console.log(rabbitInfo);
+  res.send(rabbitInfo);
 });
 router.get("/getRabbit/:rabbit", async function (req, res, next) {
   // main();
@@ -496,32 +506,15 @@ router.post("/updateTask", function (req, res) {
   let id = requested["id"];
   let completed = requested["Completed"];
 
-  let set = {
-    Completed: completed,
-    Date_Completed: moment().local(),
-  };
-  Tasks.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: set,
-    },
-    {
-      upsert: true,
-    },
-    {
-      new: true,
-    } // Return the updated document
-  )
-    .then((user) => {
-      // console.log("UPDATED")
-      // console.log(user)
-      res.status(200).end();
-    })
-    .catch((e) => {
-      // console.log(e)
+  Tasks.findOne({ _id: id }).then((item) => {
+    console.log(item);
+    item.History.push({
+      Note: requested["History"],
+      Date: new Date(),
     });
+    (item.Completed = completed), (item.Date_Completed = moment().local());
+    item.save();
+  });
 });
 router.get("/getTasks/", function (req, res) {
   var rabbit = req.params.rabbit;
@@ -563,18 +556,22 @@ router.get("/getTasksDue/", function (req, res) {
 
   findUnavailableProducts();
 });
+
+router.get("/getLitter/:litter", function (req, res) {
+  var litter = req.params.litter;
+  Litters.find({ LitterID: litter }).then((items) => {
+    //console.log(items)
+    res.send(items);
+  });
+});
 router.post("/newweight", function (req, res) {
   // console.log(req.body)
   let requested = req.body;
-  console.log(requested);
-  let litterID = requested["Litter"];
-  let rabbitID = requested["Rabbit"];
-  console.log(litterID);
-  console.log(rabbitID);
-  let date = requested["Date"];
-  let weight = requested["Weight"].toString();
+  console.log("requestdData");
 
-  async function findKidById(litterID, rabbitID) {
+  console.log(requested);
+
+  async function findKidById(litterID, rabbitID, date, weight) {
     try {
       const litter = await Litters.findById(litterID);
       if (!litter) {
@@ -584,14 +581,19 @@ router.post("/newweight", function (req, res) {
 
       const kid = litter.Kids.id(rabbitID);
       if (kid) {
-        console.log("Found Litter:", litter);
-        console.log("Found KID:", kid);
+        console.log("Found Litter:");
+        console.log("Found KID");
         kid.CurrentWeight.push({
           Weight: parseFloat(weight),
           Date: date,
         });
-        litter.save();
-        console.log("Found Kid:", kid);
+        try {
+          litter.save();
+        } catch (error) {
+          console.log(error);
+        }
+
+        console.log("Found Kid:");
         return kid;
       } else {
         console.log("Address not found within user.");
@@ -602,7 +604,14 @@ router.post("/newweight", function (req, res) {
       return null;
     }
   }
-  findKidById(litterID, rabbitID);
+
+  let litterID = requested["Litter"];
+  let rabbitID = requested["Rabbit"];
+  console.log(litterID);
+  console.log(rabbitID);
+  let date = requested["Date"];
+  let weight = requested["Weight"];
+  findKidById(litterID, rabbitID, date, weight);
 
   res.status(200).end();
 });
@@ -686,6 +695,7 @@ router.post("/editLitter", function (req, res) {
     Mother: requested.litterinputs["Mother"],
     Bred: requested.litterinputs["Bred"],
     Born: requested.litterinputs["Born"],
+    Cage: requested.litterinputs["Cage"],
   };
   Litters.findOneAndUpdate(
     {
